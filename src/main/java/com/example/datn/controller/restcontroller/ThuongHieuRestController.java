@@ -33,6 +33,11 @@ public class ThuongHieuRestController {
         return ResponseEntity.ok(service.getData(page).getContent());
     }
 
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<?> detail(@PathVariable("id") UUID id){
+        return ResponseEntity.ok(service.detail(id));
+    }
+
     @PostMapping("/add")
     public ResponseEntity<?> add(@RequestBody ThuongHieu th){
         return ResponseEntity.ok(service.save(th));
@@ -40,8 +45,11 @@ public class ThuongHieuRestController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") UUID id, @RequestBody ThuongHieu th){
-        th.setId(id);
-        return ResponseEntity.ok(service.save(th));
+        ThuongHieu thCu= service.detail(id);
+        thCu.setMa(th.getMa());
+        thCu.setTen(th.getTen());
+        thCu.setTrangThai(th.getTrangThai());
+        return ResponseEntity.ok(service.save(thCu));
     }
 
     @DeleteMapping("/delete/{id}")

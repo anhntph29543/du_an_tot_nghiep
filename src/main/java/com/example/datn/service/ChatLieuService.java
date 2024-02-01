@@ -11,6 +11,8 @@ public interface ChatLieuService {
 
     Page<ChatLieu> getData(int page);
 
+    ChatLieu detail(UUID id);
+
     Boolean save(ChatLieu th);
 
     void delete(UUID id);

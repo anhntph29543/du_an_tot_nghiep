@@ -12,6 +12,8 @@ public interface MauSacService {
 
     Page<MauSac> getData(int page);
 
+    MauSac detail(UUID id);
+
     Boolean save(MauSac th);
 
     void delete(UUID id);

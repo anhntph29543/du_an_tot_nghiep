@@ -12,6 +12,8 @@ public interface ThuongHieuService {
 
     Page<ThuongHieu> getData(int page);
 
+    ThuongHieu detail(UUID id);
+
     Boolean save(ThuongHieu th);
 
     void delete(UUID id);

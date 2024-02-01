@@ -11,6 +11,8 @@ public interface KichCoService {
 
     Page<KichCo> getData(int page);
 
+    KichCo detail(UUID id);
+
     Boolean save(KichCo th);
 
     void delete(UUID id);

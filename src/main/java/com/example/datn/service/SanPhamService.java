@@ -12,6 +12,8 @@ public interface SanPhamService {
 
     Page<SanPham> getData(int page);
 
+    SanPham detail(UUID id);
+
     Boolean save(SanPham sp);
 
     void delete(UUID id);

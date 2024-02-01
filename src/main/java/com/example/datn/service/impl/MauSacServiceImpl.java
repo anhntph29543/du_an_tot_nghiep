@@ -30,6 +30,11 @@ public class MauSacServiceImpl implements MauSacService {
     }
 
     @Override
+    public MauSac detail(UUID id) {
+        return repository.findById(id).get();
+    }
+
+    @Override
     public Boolean save(MauSac th) {
         if (th.getNgayThem()==null){
             th.setNgayThem(new java.util.Date());

@@ -30,6 +30,11 @@ public class SanPhamServiceImpl implements SanPhamService {
     }
 
     @Override
+    public SanPham detail(UUID id) {
+        return repository.findById(id).get();
+    }
+
+    @Override
     public Boolean save(SanPham sp) {
         if (sp.getNgayThem()==null){
             sp.setNgayThem(new java.util.Date());

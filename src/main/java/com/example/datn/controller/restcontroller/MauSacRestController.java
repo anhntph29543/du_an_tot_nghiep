@@ -33,15 +33,23 @@ public class MauSacRestController {
         return ResponseEntity.ok(service.getData(page).getContent());
     }
 
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<?> detail(@PathVariable("id") UUID id){
+        return ResponseEntity.ok(service.detail(id));
+    }
+
     @PostMapping("/add")
     public ResponseEntity<?> add(@RequestBody MauSac th){
         return ResponseEntity.ok(service.save(th));
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") UUID id, @RequestBody MauSac th){
-        th.setId(id);
-        return ResponseEntity.ok(service.save(th));
+    public ResponseEntity<?> update(@PathVariable("id") UUID id, @RequestBody MauSac ms){
+        MauSac msCu= service.detail(id);
+        msCu.setMa(ms.getMa());
+        msCu.setTen(ms.getTen());
+        msCu.setTrangThai(ms.getTrangThai());
+        return ResponseEntity.ok(service.save(msCu));
     }
 
     @DeleteMapping("/delete/{id}")

@@ -29,6 +29,11 @@ public class KichCoServiceImpl implements KichCoService {
     }
 
     @Override
+    public KichCo detail(UUID id) {
+        return repository.findById(id).get();
+    }
+
+    @Override
     public Boolean save(KichCo th) {
         if (th.getNgayThem()==null){
             th.setNgayThem(new java.util.Date());

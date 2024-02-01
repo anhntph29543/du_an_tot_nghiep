@@ -33,6 +33,11 @@ public class SanPhamRestController {
         return ResponseEntity.ok(service.getData(page).getContent());
     }
 
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<?> detail(@PathVariable("id") UUID id){
+        return ResponseEntity.ok(service.detail(id));
+    }
+
     @PostMapping("/add")
     public ResponseEntity<?> add(@RequestBody SanPham sp){
         return ResponseEntity.ok(service.save(sp));
@@ -40,7 +45,10 @@ public class SanPhamRestController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") UUID id, @RequestBody SanPham sp){
-        sp.setId(id);
+        SanPham spCu= service.detail(id);
+        spCu.setMa(sp.getMa());
+        spCu.setTen(sp.getTen());
+        spCu.setTrangThai(sp.getTrangThai());
         return ResponseEntity.ok(service.save(sp));
     }
 

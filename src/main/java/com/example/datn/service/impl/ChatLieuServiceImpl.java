@@ -29,6 +29,11 @@ public class ChatLieuServiceImpl implements ChatLieuService {
     }
 
     @Override
+    public ChatLieu detail(UUID id) {
+        return repository.findById(id).get();
+    }
+
+    @Override
     public Boolean save(ChatLieu th) {
         if (th.getNgayThem()==null){
             th.setNgayThem(new java.util.Date());

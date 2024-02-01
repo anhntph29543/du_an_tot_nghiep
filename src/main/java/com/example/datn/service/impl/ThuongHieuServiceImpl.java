@@ -30,6 +30,11 @@ public class ThuongHieuServiceImpl implements ThuongHieuService {
     }
 
     @Override
+    public ThuongHieu detail(UUID id) {
+        return repository.findById(id).get();
+    }
+
+    @Override
     public Boolean save(ThuongHieu th) {
         if (th.getNgayThem()==null){
             th.setNgayThem(new java.util.Date());

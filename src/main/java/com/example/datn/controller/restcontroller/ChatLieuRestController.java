@@ -33,15 +33,23 @@ public class ChatLieuRestController {
         return ResponseEntity.ok(service.getData(page).getContent());
     }
 
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<?> detail(@PathVariable("id") UUID id){
+        return ResponseEntity.ok(service.detail(id));
+    }
+
     @PostMapping("/add")
     public ResponseEntity<?> add(@RequestBody ChatLieu th){
         return ResponseEntity.ok(service.save(th));
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") UUID id, @RequestBody ChatLieu th){
-        th.setId(id);
-        return ResponseEntity.ok(service.save(th));
+    public ResponseEntity<?> update(@PathVariable("id") UUID id, @RequestBody ChatLieu cl){
+        ChatLieu clCu= service.detail(id);
+        clCu.setMa(cl.getMa());
+        clCu.setTen(cl.getTen());
+        clCu.setTrangThai(cl.getTrangThai());
+        return ResponseEntity.ok(service.save(clCu));
     }
 
     @DeleteMapping("/delete/{id}")
