@@ -84,6 +84,7 @@ CREATE TABLE [dbo].[Don_Hang](
 	[maDonHang] [varchar](50) NULL,
 	[ID_NhanVien] [uniqueidentifier] NULL,
 	[ID_DiaChi] [uniqueidentifier] NULL,
+	[ID_PhieuGiamGia] [uniqueidentifier] NULL,
 	[loaiDon] nvarchar(50) null,
 	[ngayTao] [datetime] NULL,
 	[ngayThanhToan] [datetime] NULL,
@@ -236,6 +237,25 @@ CREATE TABLE [dbo].[Nhan_Vien](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
+/****** Object:  Table [dbo].[Phieu_Giam_Gia]    Script Date: 03/02/2024 21:30:59 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Phieu_Giam_Gia](
+	[ID_PhieuGiamGia] [uniqueidentifier] DEFAULT newID() NOT NULL,
+	[maPhieuGiamGia] [nvarchar](50) NULL,
+	[giaTri] [int] NULL,
+	[soLuong] [int] NULL,
+	[ngayBatDau] [datetime] NULL,
+	[ngayKetThuc] [datetime] NULL,
+	[trangThai] [bit] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID_PhieuGiamGia] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
 /****** Object:  Table [dbo].[San_Pham]    Script Date: 23/01/2024 3:12:26 CH ******/
 SET ANSI_NULLS ON
 GO
@@ -337,6 +357,11 @@ ALTER TABLE [dbo].[Don_Hang]  WITH CHECK ADD  CONSTRAINT [FK_Don_Hang_Nhan_Vien]
 REFERENCES [dbo].[Nhan_Vien] ([ID_NhanVien])
 GO
 ALTER TABLE [dbo].[Don_Hang] CHECK CONSTRAINT [FK_Don_Hang_Nhan_Vien]
+GO
+ALTER TABLE [dbo].[Don_Hang]  WITH CHECK ADD  CONSTRAINT [FK_Don_Hang_Phieu_Giam_Gia] FOREIGN KEY([ID_PhieuGiamGia])
+REFERENCES [dbo].[Phieu_Giam_Gia] ([ID_PhieuGiamGia])
+GO
+ALTER TABLE [dbo].[Don_Hang] CHECK CONSTRAINT [FK_Don_Hang_Phieu_Giam_Gia]
 GO
 ALTER TABLE [dbo].[Don_Hang_Chi_Tiet]  WITH CHECK ADD  CONSTRAINT [FK_Don_Hang_Chi_Tiet_Don_Hang] FOREIGN KEY([ID_DonHang])
 REFERENCES [dbo].[Don_Hang] ([ID_DonHang])
