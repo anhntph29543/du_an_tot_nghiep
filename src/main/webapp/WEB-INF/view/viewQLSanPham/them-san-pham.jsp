@@ -34,22 +34,29 @@
         <%--                }--%>
         <%--             %>--%>
     </div>
-    <div class="col-10 border">
-        <div>
-            <div>
-                <img src='<c:url value="/getimage/Logo-Home.png"></c:url>' id="profile-pic" />
-                <label for="input-file">Update file</label>
-                <input type="file" accept="image/jpeg,image/png,image/jpg" id="input-file" style="display: none">
+    <div class="col-10 border d-flex justify-content-center">
+        <div class="col-md-6">
+            <h3>Thêm sản phẩm</h3>
+            <div class="mb-3">
+                <label for="tenSP" class="form-label">Tên sản phẩm</label>
+                <input type="text" class="form-control" id="tenSP">
             </div>
+            <div class="mb-3">
+                <label class="form-label">Thương hiệu</label>
+                <select class="form-select">
+                    <option selected>ABC</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+            <label class="form-label">Trạng thái</label>
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" checked id="trangThai">
+                <label class="form-check-label" for="trangThai">Hoạt động</label>
+            </div>
+            <button type="submit" class="btn btn-outline-dark">Thêm</button>
         </div>
-        <script>
-            let profilePic=document.getElementById("profile-pic");
-            let inputFile=document.getElementById("input-file");
-
-            inputFile.onchange= function (){
-                 profilePic.src=URL.createObjectURL(inputFile.files[0]);
-            }
-        </script>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
