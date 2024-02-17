@@ -11,11 +11,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 @Service
 public class KichCoServiceImpl implements KichCoService {
     @Autowired
     private KichCoRepository repository;
+    private String prefix= "KC";
 
     @Override
     public List<KichCo> getAll() {
@@ -34,12 +36,22 @@ public class KichCoServiceImpl implements KichCoService {
     }
 
     @Override
-    public Boolean save(KichCo th) {
-        if (th.getNgayThem()==null){
-            th.setNgayThem(new java.util.Date());
+    public Boolean save(KichCo kc) {
+        if (kc.getMa()==null){
+            kc.setMa(tuTaoMa());
         }
-        repository.save(th);
+        if (kc.getNgayThem()==null){
+            kc.setNgayThem(new java.util.Date());
+        }
+        repository.save(kc);
         return true;
+    }
+
+    @Override
+    public String tuTaoMa() {
+        Stream<String> ma= repository.maKC().stream();
+        Integer max= ma.map(o -> o.replace(prefix, "")).mapToInt(Integer::parseInt).max().orElse(0);
+        return prefix+(String.format("%d", max+1));
     }
 
     @Override

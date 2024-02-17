@@ -46,7 +46,6 @@ public class ChatLieuRestController {
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") UUID id, @RequestBody ChatLieu cl){
         ChatLieu clCu= service.detail(id);
-        clCu.setMa(cl.getMa());
         clCu.setTen(cl.getTen());
         clCu.setTrangThai(cl.getTrangThai());
         return ResponseEntity.ok(service.save(clCu));

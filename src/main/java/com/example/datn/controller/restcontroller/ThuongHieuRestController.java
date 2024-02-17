@@ -46,7 +46,6 @@ public class ThuongHieuRestController {
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") UUID id, @RequestBody ThuongHieu th){
         ThuongHieu thCu= service.detail(id);
-        thCu.setMa(th.getMa());
         thCu.setTen(th.getTen());
         thCu.setTrangThai(th.getTrangThai());
         return ResponseEntity.ok(service.save(thCu));

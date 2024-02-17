@@ -16,6 +16,8 @@ public interface ThuongHieuService {
 
     Boolean save(ThuongHieu th);
 
+    String tuTaoMa();
+
     void delete(UUID id);
 
 }

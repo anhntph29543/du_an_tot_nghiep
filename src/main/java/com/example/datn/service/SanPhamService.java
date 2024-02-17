@@ -16,6 +16,8 @@ public interface SanPhamService {
 
     Boolean save(SanPham sp);
 
+    String tuTaoMa();
+
     void delete(UUID id);
 
 }

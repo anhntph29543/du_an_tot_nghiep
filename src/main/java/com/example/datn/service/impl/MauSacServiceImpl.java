@@ -1,7 +1,6 @@
 package com.example.datn.service.impl;
 
 import com.example.datn.entity.MauSac;
-import com.example.datn.entity.MauSac;
 import com.example.datn.repository.MauSacRepository;
 import com.example.datn.service.MauSacService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +11,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 @Service
 public class MauSacServiceImpl implements MauSacService {
     @Autowired
     private MauSacRepository repository;
+    private String prefix= "MS";
 
     @Override
     public List<MauSac> getAll() {
@@ -35,12 +36,22 @@ public class MauSacServiceImpl implements MauSacService {
     }
 
     @Override
-    public Boolean save(MauSac th) {
-        if (th.getNgayThem()==null){
-            th.setNgayThem(new java.util.Date());
+    public Boolean save(MauSac ms) {
+        if (ms.getMa()==null){
+            ms.setMa(tuTaoMa());
         }
-        repository.save(th);
+        if (ms.getNgayThem()==null){
+            ms.setNgayThem(new java.util.Date());
+        }
+        repository.save(ms);
         return true;
+    }
+
+    @Override
+    public String tuTaoMa() {
+        Stream<String> ma= repository.maMS().stream();
+        Integer max= ma.map(o -> o.replace(prefix, "")).mapToInt(Integer::parseInt).max().orElse(0);
+        return prefix+(String.format("%d", max+1));
     }
 
     @Override

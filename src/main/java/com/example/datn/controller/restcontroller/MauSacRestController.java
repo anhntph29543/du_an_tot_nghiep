@@ -46,7 +46,6 @@ public class MauSacRestController {
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") UUID id, @RequestBody MauSac ms){
         MauSac msCu= service.detail(id);
-        msCu.setMa(ms.getMa());
         msCu.setTen(ms.getTen());
         msCu.setTrangThai(ms.getTrangThai());
         return ResponseEntity.ok(service.save(msCu));

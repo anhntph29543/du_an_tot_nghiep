@@ -15,5 +15,7 @@ public interface KichCoService {
 
     Boolean save(KichCo th);
 
+    String tuTaoMa();
+
     void delete(UUID id);
 }
