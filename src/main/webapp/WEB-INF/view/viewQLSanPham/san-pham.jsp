@@ -65,30 +65,6 @@
                         </select>
                     </div>
                 </div>
-                <div class=" m-5">
-                    <samp>Kích cỡ  </samp>
-                    </br>
-                    <div>
-                        <select class="form-select" >
-                            <option selected>Choose...</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
-                    </div>
-                </div>
-                <div class=" m-5">
-                    <samp>Màu sắc  </samp>
-                    </br>
-                    <div>
-                        <select class="form-select" >
-                            <option selected>Choose...</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
-                    </div>
-                </div>
             </div>
         </div>
 <%--        //Danh sach san pham --%>

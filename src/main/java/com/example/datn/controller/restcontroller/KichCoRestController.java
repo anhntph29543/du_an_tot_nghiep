@@ -47,7 +47,6 @@ public class KichCoRestController {
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") UUID id, @RequestBody KichCo kc){
         KichCo kcCu= service.detail(id);
-        kcCu.setMa(kc.getMa());
         kcCu.setTen(kc.getTen());
         kcCu.setTrangThai(kc.getTrangThai());
         return ResponseEntity.ok(service.save(kcCu));

@@ -15,5 +15,7 @@ public interface ChatLieuService {
 
     Boolean save(ChatLieu th);
 
+    String tuTaoMa();
+
     void delete(UUID id);
 }

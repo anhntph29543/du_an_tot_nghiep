@@ -11,12 +11,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 @Service
 public class ThuongHieuServiceImpl implements ThuongHieuService {
 
     @Autowired
     private ThuongHieuRepository repository;
+    private String prefix= "TH";
 
     @Override
     public List<ThuongHieu> getAll() {
@@ -36,11 +38,21 @@ public class ThuongHieuServiceImpl implements ThuongHieuService {
 
     @Override
     public Boolean save(ThuongHieu th) {
+        if (th.getMa()==null){
+            th.setMa(tuTaoMa());
+        }
         if (th.getNgayThem()==null){
             th.setNgayThem(new java.util.Date());
         }
         repository.save(th);
         return true;
+    }
+
+    @Override
+    public String tuTaoMa() {
+        Stream<String> ma= repository.maTH().stream();
+        Integer max= ma.map(o -> o.replace(prefix, "")).mapToInt(Integer::parseInt).max().orElse(0);
+        return prefix+(String.format("%d", max+1));
     }
 
     @Override

@@ -16,6 +16,8 @@ public interface MauSacService {
 
     Boolean save(MauSac th);
 
+    String tuTaoMa();
+
     void delete(UUID id);
 
 }

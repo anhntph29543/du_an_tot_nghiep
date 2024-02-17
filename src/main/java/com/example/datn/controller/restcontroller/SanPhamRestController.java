@@ -46,7 +46,6 @@ public class SanPhamRestController {
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") UUID id, @RequestBody SanPham sp){
         SanPham spCu= service.detail(id);
-        spCu.setMa(sp.getMa());
         spCu.setTen(sp.getTen());
         spCu.setTrangThai(sp.getTrangThai());
         return ResponseEntity.ok(service.save(sp));

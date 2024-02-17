@@ -42,16 +42,18 @@
         <h4 class="">Quản lý chất liệu</h4>
         <div class="border border-dark rounded  m-3 p-3 ">
             <h5>Thêm chất liệu</h5>
-            <label>
-                Mã chất liệu
-                <input type="text" name="ma">
-            </label>
-            <label class="mx-5 my-2">
-                Tên chất liệu
-                <input type="text" name="ten">
-            </label><br>
+            <div class="col-md-3">
+                <div class="input-group mb-3">
+                    <input type="text" name="ten" class="form-control" placeholder="Tên chất liệu" aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="handlerCreateChatLieu()">Thêm</button>
+                </div>
+            </div>
+<%--            <label class="mx-5 my-2">--%>
+<%--                Tên chất liệu--%>
+<%--                <input type="text" name="ten">--%>
+<%--            </label><br>--%>
 
-            <button class="btn btn-secondary" onclick="handlerCreateChatLieu()">ADD</button>
+<%--            <button class="btn btn-secondary" onclick="handlerCreateChatLieu()">ADD</button>--%>
         </div>
 
         <div class="border border-dark rounded  m-3 p-4 ">
@@ -72,15 +74,14 @@
     </div>
 </div>
 
-<div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog  modal-lg">
+<div class="modal fade " id="chatLieu" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Chi tiết chất liệu </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-
                 <div>
                     <label style="display: none">
                         ID
@@ -88,12 +89,13 @@
                     </label><br>
                     <label>
                         Mã chất liệu :
-                        <input type="text" id="maUD">
+                        <input type="text" id="maUD" disabled>
                     </label>
-                    <label class="mx-3">
-                        Tên chất liệu :
-                        <input type="text" id="tenUD">
-                    </label><br>
+                    <div class="mb-3">
+                        <label class="col-form-label">Tên chất liệu:</label>
+                        <input id="tenUD" type="text" class="form-control"/><br>
+                        <div id="errorTen" class="form-text" style="color: red"></div>
+                    </div>
                     <label class="mt-3">
                         Ngày thêm :
                         <p id="ngayThem"></p>
@@ -104,7 +106,6 @@
                     </label><br>
                     <button class="btn btn-secondary" onclick="handlerUpdateChatLieu()">Update</button>
                 </div>
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -124,20 +125,17 @@
 
     start();
 
+    var errorTen= document.getElementById("errorTen");
+    const clModal= new bootstrap.Modal('#chatLieu');
     function start() {
         getData();
-
     }
 
     function handlerCreateChatLieu() {
         var ten = document.querySelector('input[name="ten"]').value;
-        var ma = document.querySelector('input[name="ma"]').value;
         var thoiGianThem = new Date();
         var trangThai = true;
-
-
         var formData = {
-            ma: ma,
             ten: ten,
             ngayThem: thoiGianThem,
             trangThai: trangThai,
@@ -171,7 +169,10 @@
         var ngayThem = new Date();
         var trangThai = document.querySelector('input[id="trangThai"]').checked;
         console.log(trangThai)
-
+        if (ten.trim()==null || ten.trim()==""){
+            errorTen.innerHTML="Tên trống";
+            return;
+        }
 
         var formData = {
             ma: ma,
@@ -196,13 +197,14 @@
             .then(function (response) {
                 response.json();
                 alert("Update thanh cong");
+                clModal.hide();
                 table.destroy();
                 getData()
             })
     }
 
     function detailData(id) {
-
+        errorTen.innerText=null
         fetch('http://localhost:8080/ChatLieu/api/detail/' + id)
             .then(function (response) {
                 return response.json();
@@ -234,12 +236,18 @@
                             {"data": 'ma'},
                             {"data": 'ten'},
                             {"data": 'ngayThem'},
-                            {"data": 'trangThai'},
+                            {
+                                "data": 'trangThai',
+                                "render": function (data, type, row, meta) {
+                                    trangThai= data==true?"Hoạt động":"Không hoạt động";
+                                    return '<td>'+trangThai+' </td >';
+                                }
+                            },
                             {
                                 "data": 'id',
                                 "render": function (data, type, row, meta) {
 
-                                    return '<button  type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="detailData(`'+data+'`)" >Xem chi tiết </button >';
+                                    return '<button  type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#chatLieu" onclick="detailData(`'+data+'`)" >Xem chi tiết </button >';
                                 }
 
                             }
@@ -247,7 +255,7 @@
 
                         ],
 
-                        "pageLength": 3
+                        "pageLength": 5
                     });
                 });
 

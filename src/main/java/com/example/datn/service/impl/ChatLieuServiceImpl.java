@@ -11,11 +11,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 @Service
 public class ChatLieuServiceImpl implements ChatLieuService {
     @Autowired
     private ChatLieuRepository repository;
+    private String prefix= "CL";
 
     @Override
     public List<ChatLieu> getAll() {
@@ -34,12 +36,22 @@ public class ChatLieuServiceImpl implements ChatLieuService {
     }
 
     @Override
-    public Boolean save(ChatLieu th) {
-        if (th.getNgayThem()==null){
-            th.setNgayThem(new java.util.Date());
+    public Boolean save(ChatLieu cl) {
+        if (cl.getMa()==null){
+            cl.setMa(tuTaoMa());
         }
-        repository.save(th);
+        if (cl.getNgayThem()==null){
+            cl.setNgayThem(new java.util.Date());
+        }
+        repository.save(cl);
         return true;
+    }
+
+    @Override
+    public String tuTaoMa() {
+        Stream<String> ma= repository.maCL().stream();
+        Integer max= ma.map(o -> o.replace(prefix, "")).mapToInt(Integer::parseInt).max().orElse(0);
+        return prefix+(String.format("%d", max+1));
     }
 
     @Override
