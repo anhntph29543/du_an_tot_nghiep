@@ -78,4 +78,19 @@ public class HomeController {
         return "/viewQLSanPham/viewQLChatLieu/chat-lieu";
     }
 
+    @GetMapping("/thuong-hieu")
+    public String thuongHieu(){
+        return "/viewQLSanPham/viewQLThuongHieu/thuong-hieu";
+    }
+
+    @GetMapping("/mau-sac")
+    public String mauSac(){
+        return "/viewQLSanPham/viewQLMauSac/mau-sac";
+    }
+
+    @GetMapping("/kich-co")
+    public String kichCo(){
+        return "/viewQLSanPham/viewQLKichCo/kich-co";
+    }
+
 }
