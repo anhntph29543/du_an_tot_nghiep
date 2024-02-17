@@ -36,12 +36,9 @@
                             </a>
                             <ul class="dropdown-menu  flex-column" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item mt-2" href="san-pham"> &nbsp; &nbsp;Sản phẩm </a></li>
-                                <li><a class="dropdown-item mt-2" href=""> &nbsp; &nbsp;Màu sắc</a></li>
-                                <li><a class="dropdown-item" href="#">&nbsp; &nbsp;Thương hiệu</a></li>
-                                <!-- <li>
-                                    <hr class="dropdown-divider">
-                                </li> -->
-                                <li><a class="dropdown-item mt-2" href="#">&nbsp; &nbsp;Kích cỡ</a></li>
+                                <li><a class="dropdown-item mt-2" href="mau-sac"> &nbsp; &nbsp;Màu sắc</a></li>
+                                <li><a class="dropdown-item" href="thuong-hieu">&nbsp; &nbsp;Thương hiệu</a></li>
+                                <li><a class="dropdown-item mt-2" href="kich-co">&nbsp; &nbsp;Kích cỡ</a></li>
                                 <li><a class="dropdown-item mt-2" href="chat-lieu">&nbsp; &nbsp;Chất liệu</a></li>
 
                             </ul>
