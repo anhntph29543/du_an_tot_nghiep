@@ -39,23 +39,18 @@
 
     </div>
     <div class="col-10 border">
-        <h4 class="">Quản lý chất liệu</h4>
+        <h4 class="">Quản lý kích cỡ  </h4>
         <div class="border border-dark rounded  m-3 p-3 ">
-            <h5>Thêm chất liệu</h5>
+            <h5>Thêm kích cỡ</h5>
             <div class="col-md-3">
                 <div class="input-group mb-3">
-                    <input type="text" name="ten" class="form-control" placeholder="Tên chất liệu" aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <input type="text" name="ten" class="form-control" placeholder="Tên kích cỡ" aria-label="Recipient's username" aria-describedby="button-addon2">
                     <div id="errorTenADD" class="form-text" style="color: red"></div>
 
-                    <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="handlerCreateChatLieu()">Thêm</button>
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="handlerCreateData()">Thêm</button>
                 </div>
             </div>
-<%--            <label class="mx-5 my-2">--%>
-<%--                Tên chất liệu--%>
-<%--                <input type="text" name="ten">--%>
-<%--            </label><br>--%>
 
-<%--            <button class="btn btn-secondary" onclick="handlerCreateChatLieu()">ADD</button>--%>
         </div>
 
         <div class="border border-dark rounded  m-3 p-4 ">
@@ -63,7 +58,7 @@
                 <thead>
                 <tr>
                     <th>Mã</th>
-                    <th>Tên chất liệu</th>
+                    <th>Tên kích cỡ</th>
                     <th>Ngày thêm</th>
                     <th>Trang thái</th>
                     <th>Action</th>
@@ -76,11 +71,11 @@
     </div>
 </div>
 
-<div class="modal fade " id="chatLieu" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade " id="thuongHieu" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Chi tiết chất liệu </h5>
+                <h5 class="modal-title" id="exampleModalLabel">Chi tiết kích cỡ  </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -90,11 +85,11 @@
                         <input type="text" id="id">
                     </label><br>
                     <label>
-                        Mã chất liệu :
+                        Mã kích cỡ :
                         <input type="text" id="maUD" disabled>
                     </label>
                     <div class="mb-3">
-                        <label class="col-form-label">Tên chất liệu:</label>
+                        <label class="col-form-label">Tên kích cỡ:</label>
                         <input id="tenUD" type="text" class="form-control"/><br>
                         <div id="errorTen" class="form-text" style="color: red"></div>
                     </div>
@@ -106,7 +101,7 @@
                         Trạng thái :
                         <input type="checkbox" id="trangThai" > Hoạt động
                     </label><br>
-                    <button class="btn btn-secondary" onclick="handlerUpdateChatLieu()">Update</button>
+                    <button class="btn btn-secondary" onclick="handlerUpdateData()">Update</button>
                 </div>
             </div>
             <div class="modal-footer">
@@ -129,12 +124,12 @@
 
     var errorTen= document.getElementById("errorTen");
     var errorTenADD= document.getElementById("errorTenADD");
-    const clModal= new bootstrap.Modal('#chatLieu');
+    const clModal= new bootstrap.Modal('#thuongHieu');
     function start() {
         getData();
     }
 
-    function handlerCreateChatLieu() {
+    function handlerCreateData() {
         var ten = document.querySelector('input[name="ten"]').value;
         var thoiGianThem = new Date();
         var trangThai = true;
@@ -160,7 +155,7 @@
             },
             body: JSON.stringify(data)
         }
-        fetch('http://localhost:8080/ChatLieu/api/add', options)
+        fetch('http://localhost:8080/KichCo/api/add', options)
             .then(function (response) {
                 response.json();
                 alert("Them thanh cong");
@@ -170,7 +165,7 @@
             })
     }
 
-    function handlerUpdateChatLieu(){
+    function handlerUpdateData(){
         var id = document.querySelector('input[id="id"]').value;
         var ten = document.querySelector('input[id="tenUD"]').value;
         var ma = document.querySelector('input[id="maUD"]').value;
@@ -188,10 +183,10 @@
             ngayThem: ngayThem,
             trangThai: trangThai,
         };
-        udateChatLieu(id,formData);
+        udateData(id,formData);
 
     }
-    function udateChatLieu(id,data){
+    function udateData(id,data){
         let options = {
             method: "PUT",
             dataType: "json",
@@ -201,7 +196,7 @@
             },
             body: JSON.stringify(data)
         }
-        fetch('http://localhost:8080/ChatLieu/api/update/'+id, options)
+        fetch('http://localhost:8080/KichCo/api/update/'+id, options)
             .then(function (response) {
                 response.json();
                 alert("Update thanh cong");
@@ -213,7 +208,7 @@
 
     function detailData(id) {
         errorTen.innerText=null
-        fetch('http://localhost:8080/ChatLieu/api/detail/' + id)
+        fetch('http://localhost:8080/KichCo/api/detail/' + id)
             .then(function (response) {
                 return response.json();
             })
@@ -229,7 +224,7 @@
     }
 
     function getData() {
-        fetch('http://localhost:8080/ChatLieu/api')
+        fetch('http://localhost:8080/KichCo/api')
             .then(function (response) {
                 return response.json();
             })
@@ -255,7 +250,7 @@
                                 "data": 'id',
                                 "render": function (data, type, row, meta) {
 
-                                    return '<button  type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#chatLieu" onclick="detailData(`'+data+'`)" >Xem chi tiết </button >';
+                                    return '<button  type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#thuongHieu" onclick="detailData(`'+data+'`)" >Xem chi tiết </button >';
                                 }
 
                             }
