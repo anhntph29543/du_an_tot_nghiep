@@ -41,6 +41,7 @@ public class HomeController {
     private KichCoService serviceKC;
     @Autowired
     private SanPhamCTService serviceSPCT;
+    @Autowired
     private DonHangService service;
     @Autowired
     private DonHangCTService donHangCTService;
