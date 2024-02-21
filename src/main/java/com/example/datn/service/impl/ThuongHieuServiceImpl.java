@@ -26,6 +26,11 @@ public class ThuongHieuServiceImpl implements ThuongHieuService {
     }
 
     @Override
+    public List<ThuongHieu> getHoatDong() {
+        return repository.getHoatDong();
+    }
+
+    @Override
     public Page<ThuongHieu> getData(int page) {
         Pageable pageable= PageRequest.of(page, 5);
         return repository.findAll(pageable);

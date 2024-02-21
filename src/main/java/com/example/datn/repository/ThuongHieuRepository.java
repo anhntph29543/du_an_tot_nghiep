@@ -14,4 +14,7 @@ public interface ThuongHieuRepository extends JpaRepository<ThuongHieu, UUID> {
     @Query("select th.ma from ThuongHieu th")
     List<String> maTH();
 
+    @Query("select th from ThuongHieu th where th.trangThai = true")
+    List<ThuongHieu> getHoatDong();
+
 }

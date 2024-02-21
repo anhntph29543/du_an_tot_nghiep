@@ -37,14 +37,14 @@
     </div>
     <div class="col-10 border d-flex justify-content-center">
         <div class="col-md-6" style="padding: 100px">
-            <h3 style="text-align: center">Thêm sản phẩm</h3>
-            <form:form method="post" action="/datn/san-pham/add" modelAttribute="sp">
+            <h3 style="text-align: center">Sửa sản phẩm</h3>
+            <form:form method="post" action="/datn/san-pham/update/${sp.id}" modelAttribute="sp">
                 <div class="mb-3">
                     <label class="form-label">Tên sản phẩm</label>
                     <form:input path="ten" type="text" class="form-control"/><br>
                     <form:errors path="ten" cssStyle="color: red"/>
                     <div class="form-text" ${tenError==null?"hidden":""}>
-                        ${tenError}
+                            ${tenError}
                     </div>
                 </div>
                 <div class="mb-3">
@@ -60,7 +60,7 @@
                     <form:checkbox path="trangThai" id="trangThai" class="form-check-input" checked="true"/>
                     <label class="form-check-label" for="trangThai">Hoạt động</label>
                 </div>
-                <form:button type="submit" class="btn btn-outline-dark" onclick="return confirm('Bạn có chắc không?')">Thêm</form:button>
+                <form:button type="submit" class="btn btn-outline-dark" onclick="return confirm('Bạn có chắc không?')">Sửa</form:button>
             </form:form>
         </div>
     </div>
