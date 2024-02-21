@@ -1,6 +1,7 @@
 package com.example.datn.service.impl;
 
 import com.example.datn.entity.SanPham;
+import com.example.datn.entity.ThuongHieu;
 import com.example.datn.repository.SanPhamRepository;
 import com.example.datn.service.SanPhamService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,11 @@ public class SanPhamServiceImpl implements SanPhamService {
     @Override
     public List<SanPham> getAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public List<SanPham> search(String ten, UUID idTH) {
+        return repository.search("%"+ten+"%", idTH);
     }
 
     @Override

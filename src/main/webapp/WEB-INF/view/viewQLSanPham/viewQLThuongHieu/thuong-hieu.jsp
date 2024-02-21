@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
     <script defer src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script defer type="text/javascript" src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
@@ -117,8 +118,8 @@
         integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ"
         crossorigin="anonymous"></script>
 </body>
-<script defer>
 
+<script defer>
 
     start();
 
@@ -250,7 +251,7 @@
                                 "data": 'id',
                                 "render": function (data, type, row, meta) {
 
-                                    return '<button  type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#thuongHieu" onclick="detailData(`'+data+'`)" >Xem chi tiết </button >';
+                                    return '<button  type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#thuongHieu" onclick="detailData(`'+data+'`)" ><i class="bi bi-pencil-square"></i></button >';
                                 }
 
                             }
@@ -268,6 +269,5 @@
                 alert("Lõi");
             });
     }
-
 </script>
 </html>
