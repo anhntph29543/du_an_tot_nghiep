@@ -1,18 +1,42 @@
 package com.example.datn.controller;
 
 
+import com.example.datn.entity.SanPham;
+import com.example.datn.entity.SanPhamCT;
+import com.example.datn.service.ChatLieuService;
+import com.example.datn.service.KichCoService;
+import com.example.datn.service.MauSacService;
+import com.example.datn.service.SanPhamCTService;
+import com.example.datn.service.SanPhamService;
+import com.example.datn.service.ThuongHieuService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/datn")
 public class HomeController {
+
+    @Autowired
+    private ThuongHieuService serviceTH;
+    @Autowired
+    private SanPhamService serviceSP;
+    @Autowired
+    private MauSacService serviceMS;
+    @Autowired
+    private ChatLieuService serviceCL;
+    @Autowired
+    private KichCoService serviceKC;
+    @Autowired
+    private SanPhamCTService serviceSPCT;
 
     List<String> listHD=new ArrayList<>();
 
@@ -44,18 +68,31 @@ public class HomeController {
     }
 
     @GetMapping("/san-pham")
-    public String sanPham(){
+    public String sanPham(Model model){
+        model.addAttribute("listTH", serviceTH.getAll());
+        model.addAttribute("listSP", serviceSP.getAll());
         return "/viewQLSanPham/san-pham";
     }
 
-    @GetMapping("/san-pham-chi-tiet")
-    public  String sanPhamChiTiet(){
+    @GetMapping("/san-pham-chi-tiet/{idSP}")
+    public  String sanPhamChiTiet(@PathVariable("idSP")UUID idSP,Model model){
+        model.addAttribute("sp", serviceSP.detail(idSP));
+        model.addAttribute("listSPCT",serviceSPCT.getSPCT(idSP));
         return "/viewQLSanPham/san-pham-chi-tiet";
     }
 
     @GetMapping("/them-san-pham")
-    public  String themSanPham (){
+    public  String themSanPham (Model model){
+        model.addAttribute("sp", new SanPham());
+        model.addAttribute("listTH", serviceTH.getHoatDong());
         return "/viewQLSanPham/them-san-pham";
+    }
+
+    @GetMapping("/sua-san-pham/{id}")
+    public  String suaSanPham (@PathVariable("id") UUID id, Model model){
+        model.addAttribute("sp", serviceSP.detail(id));
+        model.addAttribute("listTH", serviceTH.getHoatDong());
+        return "/viewQLSanPham/sua-san-pham";
     }
 
     @GetMapping("/giam-gia")
