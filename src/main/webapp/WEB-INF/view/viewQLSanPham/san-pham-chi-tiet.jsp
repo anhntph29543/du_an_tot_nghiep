@@ -19,7 +19,7 @@
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
     <script defer src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script defer type="text/javascript" src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script defer src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
@@ -87,24 +87,28 @@
         </div>
         <%--                    Danh sách --%>
         <div class="mt-3" style="padding: 20px">
-            <div style=" text-align: center">
+            <form action="/datn/san-pham-chi-tiet/them">
+                <input type="text" name="idSP" value="${sp.id}" hidden>
+                <button class="btn btn-outline-dark">Thêm sản phẩm CT</button>
+            </form>
+            <div class="rounded mx-3" style=" text-align: center">
                 <h5>
                     Sản phẩm chi tiết
                 </h5>
             </div>
-            <div class="border border-dark rounded mx-3">
+            <div class="rounded mx-3">
                 <table class="table" id="example">
-                    <thead>
+                    <thead class="table-dark">
                     <tr>
                         <th scope="col">STT</th>
                         <th scope="col">Mã</th>
-                        <th scope="col">Tên</th>
                         <th scope="col">Ảnh</th>
                         <th scope="col">Kích cỡ</th>
                         <th scope="col">Màu sắc</th>
                         <th scope="col">Chất liệu</th>
                         <th scope="col">Đơn giá</th>
                         <th scope="col">Số Lượng</th>
+                        <th scope="col">Mô tả</th>
                         <th scope="col">Chức Năng</th>
                     </tr>
                     </thead>
@@ -113,13 +117,13 @@
                         <tr>
                             <th scope="row">${stt.index+1}</th>
                             <td>${spct.ma}</td>
-                            <td>${spct.ten}</td>
                             <td>ảnh</td>
                             <td>${spct.kc.ten}</td>
                             <td>${spct.ms.ten}</td>
                             <td>${spct.cl.ten}</td>
                             <td>${spct.donGia}</td>
                             <td>${spct.soLuong}</td>
+                            <td>${spct.moTa}</td>
                             <td>
                                 <a class="btn btn-dark border" href="/datn/san-pham-chi-tiet/sua/${spct.id}" role="button">
                                     <i class="bi bi-pencil-square"></i>

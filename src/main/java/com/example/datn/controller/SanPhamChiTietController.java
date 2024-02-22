@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.UUID;
 
@@ -33,8 +34,11 @@ public class SanPhamChiTietController {
     private SanPhamCTService serviceSPCT;
 
     @GetMapping("/datn/san-pham-chi-tiet/them")
-    public  String viewSanPhamCT(Model model){
+    public  String viewSanPhamCT(@RequestParam(value = "idSP", defaultValue = "") String id, Model model){
         SanPhamCT spct = new SanPhamCT();
+        if (!id.trim().isEmpty()){
+            spct.setSp(serviceSP.detail(UUID.fromString(id)));
+        }
         model.addAttribute("listSP",serviceSP.getAll());
         model.addAttribute("listMS",serviceMS.getAll());
         model.addAttribute("listCL",serviceCL.getAll());
@@ -65,7 +69,7 @@ public class SanPhamChiTietController {
             model.addAttribute("listKC",serviceKC.getAll());
             return "/viewQLSanPham/them-san-pham-ct";
         }
-        spct1.setTen(spct1.getTen().replaceAll("\\s\\s+", " ").trim());
+        spct1.setMoTa(spct1.getMoTa().replaceAll("\\s\\s+", " ").trim());
         serviceSPCT.save(spct1);
         return "redirect:/datn/san-pham-chi-tiet/"+spct1.getSp().getId().toString();
     }
@@ -84,10 +88,9 @@ public class SanPhamChiTietController {
             model.addAttribute("listKC",serviceKC.getAll());
             return "/viewQLSanPham/sua-san-pham-ct";
         }
-        spct1.setTen(spct1.getTen().replaceAll("\\s\\s+", " ").trim());
+        spct1.setMoTa(spct1.getMoTa().replaceAll("\\s\\s+", " ").trim());
         serviceSPCT.save(spct1);
         return "redirect:/datn/san-pham-chi-tiet/"+spct1.getSp().getId().toString();
     }
-
 
 }

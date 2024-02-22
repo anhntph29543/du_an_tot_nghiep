@@ -37,7 +37,7 @@ public class SanPhanCTTuan {
     @Column(name = "maSPCT")
     private String ma;
 
-    @Column(name = "tenSPCT")
+    @Column(name = "moTa")
     private String ten;
 
     @ManyToOne

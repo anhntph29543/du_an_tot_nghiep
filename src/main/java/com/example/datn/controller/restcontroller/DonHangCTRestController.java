@@ -57,7 +57,7 @@ public class DonHangCTRestController {
                 donHangCTAnh.setId(donHangCT.getId());
                 donHangCTAnh.setIdSanPham(donHangCT.getSanPhanCT().getId());
                 donHangCTAnh.setMa(donHangCT.getSanPhanCT().getMa());
-                donHangCTAnh.setTenSanPham(donHangCT.getTenSPCT());
+                donHangCTAnh.setTenSanPham(donHangCT.getSanPhanCT().getSanPham().getTen());
                 donHangCTAnh.setMauSac(donHangCT.getSanPhanCT().getMauSac().getTen());
                 donHangCTAnh.setKichCo(donHangCT.getSanPhanCT().getKichCo().getTen());
                 donHangCTAnh.setThuongHieu(donHangCT.getSanPhanCT().getSanPham().getTh().getTen());

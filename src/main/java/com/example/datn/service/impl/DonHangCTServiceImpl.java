@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,6 +40,14 @@ public class DonHangCTServiceImpl implements DonHangCTService {
     @Override
     public Boolean save(DonHangCT donHangCT) {
 
+        List<DonHangCT> list= getAll();
+        for (DonHangCT dhct: list){
+            if(dhct.getSanPhanCT().getId().equals(donHangCT.getSanPhanCT().getId()) && donHangCT.getDonHang().getId().equals(dhct.getDonHang().getId())){
+                dhct.setSoLuong(dhct.getSoLuong()+1);
+                ResponseEntity.ok(donHangCTRepo.save(dhct));
+                return true;
+            }
+        }
         donHangCTRepo.save(donHangCT);
         return true;
     }

@@ -65,14 +65,10 @@ public class HomeController {
 
     @GetMapping("/ban-hang")
     public String banHang(Model model){
-        List<DonHang> donHangs=service.getAll();
-        List<DonHang> donHangChuaTT=new ArrayList<>();
-        for (DonHang donHang:donHangs) {
-            if(donHang.getTrangThaiDonHang()==false){
-                donHangChuaTT.add(donHang);
-            }
+        model.addAttribute("listHD",service.getCTT());
+        if (service.getCTT().size()!=0){
+            model.addAttribute("abc", service.getCTT().get(0).getId());
         }
-        model.addAttribute("listHD",donHangs);
         return "/viewQLBanHang/ban-hang";
     }
 

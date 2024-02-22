@@ -89,7 +89,6 @@
                                         <table class="table" id="table1" style="width: 100%; height: 100% ">
                                             <thead>
                                             <tr>
-                                                <th scope="col">Ảnh</th>
                                                 <th scope="col">Mã</th>
                                                 <th scope="col">Tên</th>
                                                 <th scope="col">Thương hiệu</th>
@@ -118,24 +117,24 @@
                                                                     "data": data,
 
                                                                     "columns": [
-                                                                        {
-                                                                            "data": 'ma',
-                                                                            "render": function (data, type, row, meta) {
-                                                                                var anhABC = '<c:url value="/getimage/"></c:url>';
-                                                                                return '<img src="' + anhABC + data + '"/>';
-                                                                            }
-                                                                        },
-                                                                        {"data": 'sanPhanCTTuan.ma'},
-                                                                        {"data": 'sanPhanCTTuan.ten'},
-                                                                        {"data": 'sanPhanCTTuan.sanPham.th.ten'},
-                                                                        {"data": 'sanPhanCTTuan.kichCo.ten'},
-                                                                        {"data": 'sanPhanCTTuan.mauSac.ten'},
-                                                                        {"data": 'sanPhanCTTuan.chatLieu.ten'},
-                                                                        {"data": 'sanPhanCTTuan.donGia'},
-                                                                        {"data": 'sanPhanCTTuan.soLuong'},
+                                                                        <%--{--%>
+                                                                        <%--    "data": 'ma',--%>
+                                                                        <%--    "render": function (data, type, row, meta) {--%>
+                                                                        <%--        var anhABC = '<c:url value="/getimage/"></c:url>';--%>
+                                                                        <%--        return '<img src="' + anhABC + data + '"/>';--%>
+                                                                        <%--    }--%>
+                                                                        <%--},--%>
+                                                                        {"data": 'ma'},
+                                                                        {"data": 'sanPham.ten'},
+                                                                        {"data": 'sanPham.th.ten'},
+                                                                        {"data": 'kichCo.ten'},
+                                                                        {"data": 'mauSac.ten'},
+                                                                        {"data": 'chatLieu.ten'},
+                                                                        {"data": 'donGia'},
+                                                                        {"data": 'soLuong'},
 
                                                                         {
-                                                                            "data": 'sanPhanCTTuan.id',
+                                                                            "data": 'id',
                                                                             "render": function (data, type, row, meta) {
 
                                                                                 return '<button  type="button" class="btn btn-dark" onclick="themGioHangCT(`' + data + '`)" ><i class="bi bi-plus-circle"></i></button >';
@@ -184,7 +183,7 @@
                         <table class="table" id="table2">
                             <thead>
                             <tr>
-                                <th>Ma</th>
+                                <th>Mã</th>
                                 <th>Ảnh</th>
                                 <th>Tên sản phẩm</th>
                                 <th>Màu sắc</th>
@@ -279,7 +278,8 @@
 
 <script>
 
-    var idDonHang;
+    var idDonHang= '${abc}';
+    detailDataDonHang(idDonHang)
     hienThiSanPhamDonHang(idDonHang)
 
     function thongTinDonHang(id) {
@@ -310,13 +310,16 @@
                     id: idDonHang
                 }
                 if (data.soLuong == 0) {
+                    table.destroy();
+                    getDataAllSPCT();
+                    table2.destroy();
+                    hienThiSanPhamDonHang(idDonHang);
                     alert("Sản phẩm đã hết");
                     return;
                 } else {
                     var formData = {
                         donHang: donHang,
                         sanPhanCT: data,
-                        tenSPCT: data.ten,
                         soLuong: 1,
                         giaSanPham: data.donGia,
                         trangThai: true,
@@ -399,8 +402,8 @@
                             {
                                 "data": 'id',
                                 "render": function (data, type, row, meta) {
-                                    return '<button  class="btn btn-dark" onclick="xoaSPDHCT(`' + data + '`)" >Xóa</button >' +
-                                        '<button  class="btn btn-dark mt-2" >SL</button >';
+                                    return '<button  class="btn btn-dark" onclick="xoaSPDHCT(`' + data + '`)" ><i class="bi bi-trash"></i></button >' +
+                                        '<button  class="btn btn-dark" ><i class="bi bi-pencil-square"></i></button >';
 
                                 }
                             }
@@ -414,24 +417,24 @@
 
             })
     }
-    //
-    // function xoaSPDHCT(idSPCT) {
-    //     let options = {
-    //         method: "DELETE"
-    //     }
-    //     if (confirm("Co xoa ko")) {
-    //         fetch('http://localhost:8080/DonHangCT/api/delete/' + idSPCT, options)
-    //             .then(response => {
-    //                     console.log(response.status)
-    //                     alert("Xoa thanh cong")
-    //                     table.destroy();
-    //                     getDataAllSPCT();
-    //                     table2.destroy();
-    //                     hienThiSanPhamDonHang(idDonHang);
-    //                 }
-    //             )
-    //     }
-    // }
+
+    function xoaSPDHCT(idSPCT) {
+        let options = {
+            method: "DELETE"
+        }
+        if (confirm("Co xoa ko")) {
+            fetch('http://localhost:8080/DonHangCT/api/delete/' + idSPCT, options)
+                .then(response => {
+                        console.log(response.status)
+                        alert("Xoa thanh cong")
+                        table.destroy();
+                        getDataAllSPCT();
+                        table2.destroy();
+                        hienThiSanPhamDonHang(idDonHang);
+                    }
+                )
+        }
+    }
 
     function thongbao() {
         alert("Chỉ được tạo tối đa 5 hoá đơn");

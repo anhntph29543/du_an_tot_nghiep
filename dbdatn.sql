@@ -281,13 +281,13 @@ CREATE TABLE [dbo].[San_Pham_Chi_Tiet](
 	[ID_SanPhamChiTiet] [uniqueidentifier] DEFAULT newID() NOT NULL,
 	[ID_SanPham] [uniqueidentifier] NULL,
 	[maSPCT] [varchar](50) NULL,
-	[tenSPCT] [nvarchar](50) NULL,
 	[ID_ChatLieu] [uniqueidentifier] NULL,
 	[ID_MauSac] [uniqueidentifier] NULL,
 	[ID_KichCo] [uniqueidentifier] NULL,
 	[donGia] [money] NULL,
 	[soLuong] [int] NULL,
 	[trangThai] [bit] NULL,
+	[moTa] [nvarchar](max) NULL,
  CONSTRAINT [PK_San_Pham_Chi_Tiet] PRIMARY KEY CLUSTERED 
 (
 	[ID_SanPhamChiTiet] ASC
@@ -421,3 +421,6 @@ REFERENCES [dbo].[San_Pham] ([ID_SanPham])
 GO
 ALTER TABLE [dbo].[San_Pham_Chi_Tiet] CHECK CONSTRAINT [FK_San_Pham_Chi_Tiet_San_Pham]
 GO
+alter table San_Pham_Chi_Tiet drop column tenSPCT
+
+alter table San_Pham_Chi_Tiet ADD moTa nvarchar(max);

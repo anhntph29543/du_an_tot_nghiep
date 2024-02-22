@@ -25,6 +25,11 @@ public class DonHangServiceImpl implements DonHangService {
     }
 
     @Override
+    public List<DonHang> getCTT() {
+        return donHangRepository.getCTT();
+    }
+
+    @Override
     public Page<DonHang> getData(int page) {
         Pageable pageable= PageRequest.of(page, 5);
         return donHangRepository.findAll(pageable);
