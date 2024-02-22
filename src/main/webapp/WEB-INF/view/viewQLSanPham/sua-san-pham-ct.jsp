@@ -43,9 +43,9 @@
                             <div class="form-text"><form:errors path="ma"/></div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Tên sản phẩm</label>
-                            <form:input class="form-control" path="ten"/>
-                            <div class="form-text"><form:errors path="ten"/></div>
+                            <label class="form-label">Mô tả sản phẩm</label>
+                            <form:input class="form-control" path="moTa"/>
+                            <div class="form-text"><form:errors path="moTa"/></div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Đơn giá</label>
