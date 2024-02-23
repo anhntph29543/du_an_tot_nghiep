@@ -31,7 +31,7 @@ public class SanPhamCTTuanRestController {
 
     @GetMapping()
     public ResponseEntity<?> getAll(){
-        return ResponseEntity.ok(anhTuanService.getAll());
+        return ResponseEntity.ok(service.getAll());
     }
 
     @GetMapping("/phantrang")
@@ -45,8 +45,11 @@ public class SanPhamCTTuanRestController {
         if(sanPhamCT.getSoLuong()>0){
             sanPhamCT.setSoLuong(sanPhamCT.getSoLuong()-1);
             service.save(sanPhamCT);
+            sanPhamCT.setSoLuong(sanPhamCT.getSoLuong()+1);
+        }else {
+            return ResponseEntity.ok(sanPhamCT);
         }
-        return ResponseEntity.ok(service.detail(id));
+        return ResponseEntity.ok(sanPhamCT);
     }
 
     @PostMapping("/add")

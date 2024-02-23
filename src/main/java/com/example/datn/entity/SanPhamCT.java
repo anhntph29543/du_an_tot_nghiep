@@ -8,7 +8,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,9 +38,8 @@ public class SanPhamCT {
     @Column(name = "maSPCT")
     private String ma;
 
-    @Column(name = "tenSPCT")
-    @NotBlank(message = "Không được trống")
-    private String ten;
+    @Column(name = "moTa")
+    private String moTa;
 
     @ManyToOne
     @JoinColumn(name = "ID_ChatLieu",referencedColumnName = "ID_ChatLieu")

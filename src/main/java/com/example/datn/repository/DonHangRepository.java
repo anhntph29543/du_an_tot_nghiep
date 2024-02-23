@@ -13,4 +13,7 @@ public interface DonHangRepository extends JpaRepository<DonHang, UUID> {
     @Query("select dh.ma from DonHang dh")
     List<String> maDH();
 
+    @Query("select dh from DonHang dh where dh.trangThaiDonHang = false order by dh.ngayTao asc")
+    List<DonHang> getCTT();
+
 }
