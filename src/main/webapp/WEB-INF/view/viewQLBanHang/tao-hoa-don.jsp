@@ -2,6 +2,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <style>
     .dataTables_length {
         display: none;
@@ -110,7 +111,29 @@
                                                             return response.json();
                                                         })
                                                         .then(data => {
-
+                                                            // if (data) {
+                                                            //     // Kiểm tra nếu số lượng và đơn giá là các số hợp lệ
+                                                            //     if (!isNaN(data.soLuong) && !isNaN(data.donGia)) {
+                                                            //         // Chuyển đổi số lượng và đơn giá sang kiểu số
+                                                            //         var soLuong = parseFloat(data.soLuong);
+                                                            //         var donGia = parseFloat(data.donGia);
+                                                            //
+                                                            //         // Kiểm tra nếu số lượng và đơn giá lớn hơn 0
+                                                            //         if (soLuong > 0 && donGia > 0) {
+                                                            //             // Tính tổng tiền
+                                                            //             var tongTien = soLuong * donGia;
+                                                            //
+                                                            //             // Hiển thị tổng tiền
+                                                            //             document.getElementById("giaTT").innerText = tongTien.toFixed(2); //toFixed(2) để làm tròn đến 2 chữ số sau dấu thập phân
+                                                            //         } else {
+                                                            //             console.log("Lỗi: Số lượng hoặc đơn giá không hợp lệ.");
+                                                            //         }
+                                                            //     } else {
+                                                            //         console.log("Lỗi: Số lượng hoặc đơn giá không phải là số.");
+                                                            //     }
+                                                            // } else {
+                                                            //     console.log("Lỗi: Không có dữ liệu.");
+                                                            // }
                                                             console.log(data)
                                                             $(document).ready(function () {
                                                                 table = $('#table1').DataTable({
@@ -224,15 +247,15 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label>Tổng tiền : <samp id="giaTT"><fmt:formatNumber type="number" value="0"/></samp>
+                            <label>Tổng tiền :<samp id="giaTT"><fmt:formatNumber type="number" value=""/></samp>
                                 VND</label><br>
-                            <input type="number" id="tongTien" value="0" hidden>
+                                <%--                            <input type="number" id="tongTien" hidden>--%>
                         </div>
                         <div class="mb-3">
                             <label>Tiền khách phải trả : <samp id="giaKPT"><fmt:formatNumber type="number"
                                                                                              value="0"/></samp>
                                 VND</label><br>
-                            <input type="number" id="tienKhachPhaiTra" value="0" hidden>
+                                <%--                            <input type="number" id="tienKhachPhaiTra" value="0" hidden>--%>
                         </div>
                         <div class="mb-3 ">
                             Hình thức thanh toán :
@@ -264,7 +287,13 @@
                             <input type="number" id="tienThua " value="0" hidden>
                         </div>
                         <div class="d-flex justify-content-center mb-3">
-                            <button class="btn btn-outline-dark ">Thanh toán</button>
+
+<%--                            <input hidden value="${tienKhachDua}" name="tienKhachDua">--%>
+<%--                            <input hidden value="${giaTT}" name="giaTT">--%>
+                            <button id="pay" type="submit" class="btn btn-success"><i class="bi bi-wallet-fill"></i>
+                                Thanh Toán
+                            </button>
+
                         </div>
                     </div>
                 </div>
@@ -278,26 +307,96 @@
 
 <script>
 
-    var idDonHang= '${abc}';
+    var idDonHang = '${abc}';
     detailDataDonHang(idDonHang)
     hienThiSanPhamDonHang(idDonHang)
+    document.getElementById('pay').addEventListener('click', function Pay(event) {
+        var submitButton = document.getElementById('pay');
+        var tienKhachDua = parseFloat(document.getElementById('tienKhachDua').value);
+        var tongTien = parseFloat(document.getElementById('giaTT').innerText.replace('VND', '').trim());
+        var tienKhachPhaiTRa = parseFloat(document.getElementById('giaKPT').innerText.replace('VND', '').trim());
+        console.log(tienKhachPhaiTRa);
+        console.log("tkd" + tienKhachDua);
+        console.log("tt" + tongTien);
+        if (tienKhachPhaiTRa == 0) {
+            event.preventDefault();
+            alert("Vui Lòng Chọn Sản Phẩm");
+        } else if (tienKhachDua >= tongTien) {
+            submitButton.disabled = false;
+            alert("Thanh Toán Thành Công");
+            var donHang={
+                id:idDonHang
+            }
+            var formData = {
+                    donHang: donHang,
+                tongTien:tongTien,
+                tienKhachDua:tienKhachDua,
+                trangThai: true
+            };
+            capNhatTrangThaiDonHangDaThanhToan(idDonHang,formData);
+
+        } else {
+            event.preventDefault();
+            alert("Vui Lòng Điền Đúng Số Tiền");
+        }
+    });
+
+    function capNhatTrangThaiDonHangDaThanhToan(idDonHang,data) {
+        let options = {
+            method: "POST",
+            dataType: "json",
+            headers: {
+                'Accept': 'application/json, text/plain',
+                'Content-Type': 'application/json;charset=UTF-8'
+            },
+            body: JSON.stringify(data)
+        }
+        fetch('http://localhost:8080/DonHang/api/thanhToan1/' + idDonHang,options)
+
+            .then(function (response) {
+                return response.json();
+            })
+            .then(data => {
+                alert(data);
+                location.reload();
+            })
+
+
+    }
 
     function thongTinDonHang(id) {
         idDonHang = id
         table2.destroy();
         hienThiSanPhamDonHang(id)
         detailDataDonHang(id)
+        tinhTongTien(id)
 
     }
+
+    function tinhTongTien(idDonHang) {
+        fetch('http://localhost:8080/DonHangCT/api/thanhtoan/' + idDonHang)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById("giaTT").innerHTML = data;
+                document.getElementById("giaKPT").innerHTML = data;
+            })
+
+    }
+
 
     function themGioHangCT(data) {
         // console.log(idDonHang);
         if (idDonHang == null) {
+
             alert("Chưa chọn đơn hàng");
             return;
+
+        } else {
+
         }
         themSanPhamCTVaoGioHang(data);
-
     }
 
     function themSanPhamCTVaoGioHang(idSPCT) {
@@ -306,6 +405,7 @@
                 return response.json();
             })
             .then(data => {
+
                 var donHang = {
                     id: idDonHang
                 }
@@ -325,6 +425,7 @@
                         trangThai: true,
                     };
                     addDataThemSPGioHang(formData)
+
                 }
             })
     }
@@ -347,6 +448,8 @@
                 hienThiSanPhamDonHang(idDonHang);
                 table.destroy();
                 getDataAllSPCT();
+                tinhTongTien(idDonHang);
+
             })
     }
 
@@ -358,6 +461,8 @@
                 return response.json();
             })
             .then(data => {
+
+
                 document.getElementById("thongTinHoaDon").innerHTML = data.ma;
                 document.getElementById("tenKH").innerHTML = data.ma;
                 document.getElementById("voucher").innerHTML = data.ma;
@@ -367,6 +472,7 @@
                 document.getElementById("tienKhachDua").value = data.tienKhachDua;
                 document.getElementById("th").innerHTML = data.tienThua;
             })
+
     }
 
     var sl
@@ -378,7 +484,6 @@
                 return response.json();
             })
             .then(data => {
-
                 console.log(data)
                 $(document).ready(function () {
                     table2 = $('#table2').DataTable({
@@ -417,6 +522,7 @@
 
             })
     }
+
 
     function xoaSPDHCT(idSPCT) {
         let options = {

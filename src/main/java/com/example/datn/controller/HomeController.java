@@ -55,6 +55,16 @@ public class HomeController {
     @PostMapping("/tao-hoa-don/add")
     public String taoHoaDon(Model model){
         DonHang donHang=new DonHang();
+        donHang.setTongTien(Double.valueOf("0"));
+        donHang.setTienKhachPhaiTra(Double.valueOf("0"));
+        donHang.setTienKhachDua(Double.valueOf("0"));
+        donHang.setTienThua(Double.valueOf("0"));
+        donHang.setGiamGia(Double.valueOf("0"));
+        donHang.setGiamGia(Double.valueOf("0"));
+        donHang.setPhiVanChuyen(Double.valueOf("0"));
+        donHang.setLoaiDon("Đơn tại quầy");
+        donHang.setHinhThucThanhToan(false);
+        donHang.setTrangThaiDonHang(false);
         service.save(donHang);
         return  "redirect:/datn/ban-hang";
     }

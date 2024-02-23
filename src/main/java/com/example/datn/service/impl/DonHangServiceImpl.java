@@ -51,16 +51,16 @@ public class DonHangServiceImpl implements DonHangService {
         if (donHang.getNgayThanhToan()==null){
             donHang.setNgayThanhToan(new java.util.Date());
         }
-        donHang.setTongTien(Double.valueOf("0"));
-        donHang.setTienKhachPhaiTra(Double.valueOf("0"));
-        donHang.setTienKhachDua(Double.valueOf("0"));
-        donHang.setTienThua(Double.valueOf("0"));
-        donHang.setGiamGia(Double.valueOf("0"));
-        donHang.setGiamGia(Double.valueOf("0"));
-        donHang.setPhiVanChuyen(Double.valueOf("0"));
-        donHang.setLoaiDon("Đơn tại quầy");
-        donHang.setHinhThucThanhToan(false);
-        donHang.setTrangThaiDonHang(false);
+//        donHang.setTongTien(Double.valueOf("0"));
+//        donHang.setTienKhachPhaiTra(Double.valueOf("0"));
+//        donHang.setTienKhachDua(Double.valueOf("0"));
+//        donHang.setTienThua(Double.valueOf("0"));
+//        donHang.setGiamGia(Double.valueOf("0"));
+//        donHang.setGiamGia(Double.valueOf("0"));
+//        donHang.setPhiVanChuyen(Double.valueOf("0"));
+//        donHang.setLoaiDon("Đơn tại quầy");
+//        donHang.setHinhThucThanhToan(false);
+//        donHang.setTrangThaiDonHang(false);
         donHangRepository.save(donHang);
         return true;
     }
