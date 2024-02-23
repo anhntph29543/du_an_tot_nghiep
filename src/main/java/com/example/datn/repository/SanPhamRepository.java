@@ -14,4 +14,7 @@ public interface SanPhamRepository extends JpaRepository<SanPham, UUID> {
     @Query("select sp.ma from SanPham sp")
     List<String> maSP();
 
+    @Query("select sp from SanPham sp where sp.ten like ?1 and sp.th.id =?2 ")
+    List<SanPham> search(String ten, UUID idTH);
+
 }

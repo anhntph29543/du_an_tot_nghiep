@@ -167,10 +167,8 @@ CREATE TABLE [dbo].[Khach_Hang](
 	[maKhachHang] [varchar](50) NULL,
 	[hoTen] [nvarchar](50) NULL,
 	[gioiTinh] [bit] NULL,
-	[ngaySinh] [date] NULL,
 	[sdt] [varchar](50) NULL,
 	[email] [varchar](50) NULL,
-	[anh] [varchar](50) NULL,
 	[ngayThem] [datetime] NULL,
 	[trangThai] [bit] NULL,
  CONSTRAINT [PK_Khach_Hang] PRIMARY KEY CLUSTERED 

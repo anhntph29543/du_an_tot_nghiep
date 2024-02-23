@@ -8,45 +8,48 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
 import java.util.UUID;
 
+
 @Entity
-@Table(name = "San_Pham")
+@Table(name = "Don_Hang_Chi_Tiet")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Builder
-public class SanPham {
+public class DonHangCT {
 
     @Id
-    @Column(name = "ID_SanPham")
+    @Column(name = "ID_DonHangChiTiet")
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "maSanPham")
-    private String ma;
+    @ManyToOne
+    @JoinColumn(name = "ID_DonHang" , referencedColumnName = "ID_DonHang")
+    private DonHang donHang;
 
-    @Column(name = "tenSanPham")
-    @NotBlank(message = "Không được trống")
-    private String ten;
+    @ManyToOne
+    @JoinColumn(name = "ID_SPCT" , referencedColumnName = "ID_SanPhamChiTiet")
+    private SanPhanCTTuan sanPhanCT;
 
-    @Column(name = "ngayThem")
-    private Date ngayThem;
+    @Column(name = "tenSPCT")
+    private String tenSPCT;
+
+    @Column(name = "soLuong")
+    private Integer soLuong;
+
+    @Column(name = "giaSanPham")
+    private Double giaSanPham;
 
     @Column(name = "trangThai")
     private Boolean trangThai;
 
-    @ManyToOne
-    @JoinColumn(name = "ID_ThuongHieu" , referencedColumnName = "ID_ThuongHieu")
-    private ThuongHieu th;
 
 }
