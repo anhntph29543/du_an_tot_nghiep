@@ -110,7 +110,6 @@
                                                             return response.json();
                                                         })
                                                         .then(data => {
-
                                                             console.log(data)
                                                             $(document).ready(function () {
                                                                 table = $('#table1').DataTable({

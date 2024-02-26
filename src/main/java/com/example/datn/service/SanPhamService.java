@@ -11,6 +11,8 @@ public interface SanPhamService {
 
     List<SanPham> getAll();
 
+    List<SanPham> dangHoatDong();
+
     List<SanPham> search(String ten, UUID idTH);
 
     Page<SanPham> getData(int page);
