@@ -40,7 +40,6 @@ public class KhachHang {
     @Column(name = "ngaySinh")
     private Date ngaySinh;
 
-
     @Column(name = "sdt")
     private String sdt;
 

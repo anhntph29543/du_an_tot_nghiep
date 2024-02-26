@@ -3,6 +3,7 @@ package com.example.datn.controller.restcontroller;
 
 import com.example.datn.entity.AnhTuan;
 import com.example.datn.entity.ChatLieu;
+import com.example.datn.entity.DonHang;
 import com.example.datn.entity.DonHangCT;
 import com.example.datn.entity.DonHangCTAnh;
 import com.example.datn.entity.SanPhanCTTuan;
@@ -11,6 +12,7 @@ import com.example.datn.service.DonHangCTService;
 import com.example.datn.service.SanPhamCTTuanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,19 +43,19 @@ public class DonHangCTRestController {
     @GetMapping()
     public ResponseEntity<?> getAll() {
 
-
-
         return ResponseEntity.ok(service.getAll());
+
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getSanPhamDHCT(@PathVariable("id") UUID id) {
         List<DonHangCT> donHangCTS = service.getAll();
-        List<AnhTuan> listAnh=serviceAnh.getAll();
-        List<DonHangCTAnh> listDonHangCT=new ArrayList<>();
+        List<AnhTuan> listAnh = serviceAnh.getAll();
+        List<DonHangCTAnh> listDonHangCT = new ArrayList<>();
+
         for (DonHangCT donHangCT : donHangCTS) {
-            DonHangCTAnh donHangCTAnh=new DonHangCTAnh();
-            if (donHangCT.getDonHang().getId().equals(id) ) {
+            DonHangCTAnh donHangCTAnh = new DonHangCTAnh();
+            if (donHangCT.getDonHang().getId().equals(id)) {
                 donHangCTAnh.setId(donHangCT.getId());
                 donHangCTAnh.setIdSanPham(donHangCT.getSanPhanCT().getId());
                 donHangCTAnh.setMa(donHangCT.getSanPhanCT().getMa());
@@ -64,13 +66,13 @@ public class DonHangCTRestController {
                 donHangCTAnh.setChatLieu(donHangCT.getSanPhanCT().getChatLieu().getTen());
                 donHangCTAnh.setSoLuong(donHangCT.getSoLuong());
                 donHangCTAnh.setDonGia(donHangCT.getGiaSanPham());
-                donHangCTAnh.setTongTien(donHangCT.getSoLuong()*donHangCT.getGiaSanPham());
+                donHangCTAnh.setTongTien(donHangCT.getSoLuong() * donHangCT.getGiaSanPham());
                 listDonHangCT.add(donHangCTAnh);
             }
         }
-        for (DonHangCTAnh donHangCTAnh:listDonHangCT) {
-            for (AnhTuan anhTuan:listAnh) {
-                if(donHangCTAnh.getIdSanPham().equals(anhTuan.getSanPhanCTTuan().getId())){
+        for (DonHangCTAnh donHangCTAnh : listDonHangCT) {
+            for (AnhTuan anhTuan : listAnh) {
+                if (donHangCTAnh.getIdSanPham().equals(anhTuan.getSanPhanCTTuan().getId())) {
                     donHangCTAnh.setAnh(anhTuan.getMa());
                 }
             }
@@ -83,8 +85,22 @@ public class DonHangCTRestController {
         return ResponseEntity.ok(service.getData(page).getContent());
     }
 
+    @GetMapping("/thanhtoan/{id}")
+    public ResponseEntity<?> thanhToan(@PathVariable("id") UUID id) {
+        List<DonHangCT> listDHCT = service.getAll();
+        Double tongTien = 0.0;
+        for (DonHangCT donHangCT : listDHCT) {
+            if (donHangCT.getDonHang().getId().equals(id)) {
+                tongTien += donHangCT.getSoLuong() * donHangCT.getGiaSanPham();
+            }
+        }
+        return ResponseEntity.ok(tongTien);
+    }
+
+
     @GetMapping("/detail/{id}")
     public ResponseEntity<?> detail(@PathVariable("id") UUID id) {
+
         return ResponseEntity.ok(service.detail(id));
     }
 
@@ -103,12 +119,12 @@ public class DonHangCTRestController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") UUID id) {
-        DonHangCT donHangCT=service.detail(id);
-        int soLuongXoa= donHangCT.getSoLuong();
-        List<SanPhanCTTuan> listSPCT=serviceSPCT.getAll();
-        for (SanPhanCTTuan spct:listSPCT) {
-            if(spct.getId().equals(donHangCT.getSanPhanCT().getId())){
-                spct.setSoLuong(spct.getSoLuong()+soLuongXoa);
+        DonHangCT donHangCT = service.detail(id);
+        int soLuongXoa = donHangCT.getSoLuong();
+        List<SanPhanCTTuan> listSPCT = serviceSPCT.getAll();
+        for (SanPhanCTTuan spct : listSPCT) {
+            if (spct.getId().equals(donHangCT.getSanPhanCT().getId())) {
+                spct.setSoLuong(spct.getSoLuong() + soLuongXoa);
                 serviceSPCT.save(spct);
             }
         }
