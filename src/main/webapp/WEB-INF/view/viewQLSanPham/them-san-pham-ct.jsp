@@ -19,6 +19,112 @@
     <script defer type="text/javascript" src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script defer src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function () {
+            const spModal = new bootstrap.Modal('#sanPham');
+            const errorTenSP = document.getElementById("errorTenSP")
+            $("#quick_create_sp").submit(function (event) {
+                event.preventDefault();
+                getData();
+            });
+
+            function getData(){
+                var data;
+                $.ajax({
+                    type: "GET",
+                    url: "http://localhost:8080/sanpham/api/th/detail/"+$("#quick_create_sp #th :selected").val(),
+                    success: function (result) {
+                        data = {
+                            ten: $("#quick_create_sp #tenSP").val().trim(),
+                            th: result.data,
+                            trangThai: $("#quick_create_sp input[name='trangThai']:checked").val()
+                        };
+                        ajaxPostSP(data)
+                    },
+                    error: function (e) {
+                        console.log("ERROR: ", e);
+                    }
+                });
+            }
+
+            function ajaxPostSP(data) {
+                $.ajax({
+                    type: "GET",
+                    url: "http://localhost:8080/sanpham/api",
+                    success: function (result) {
+                        const sp = result.data
+                        errorTenSP.innerText = null
+                        if (data.ten.trim() == "" || data.ten.trim() == null) {
+                            errorTenSP.innerText = "Ten khong dc trong"
+                        } else {
+                            sp.forEach(element => {
+                                if (element.ten.trim() == data.ten.trim()) {
+                                    errorTenSP.innerText = "Ten ko dc trung";
+                                    return;
+                                }
+                            });
+                        }
+                        if (errorTenSP.innerText.length == 0) {
+                            // DO POST
+                            $.ajax({
+                                type: "POST",
+                                contentType: "application/json",
+                                url: "http://localhost:8080/sanpham/api/add",
+                                data: JSON.stringify(data),
+                                dataType: 'json',
+                                success: function (result) {
+                                    if (result.status == "success") {
+                                        console.log("-------------post---------------");
+                                        console.log(data);
+                                        spModal.hide();
+                                        alert("Success")
+                                        ajaxGetSP();
+                                    } else {
+                                        alert("Fail")
+                                        console.log("fail");
+                                    }
+                                    console.log(result);
+                                },
+                                error: function (e) {
+                                    alert("Error!")
+                                    console.log("ERROR: ", e);
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+
+            function ajaxGetSP() {
+                $.ajax({
+                    type: "GET",
+                    url: "http://localhost:8080/sanpham/api/getFirt",
+                    success: function (result) {
+                        const sp = result.data;
+                        if (result.status == "success") {
+                            if (sp.trangThai == true) {
+                                var select = document.getElementById("form_sp");
+                                var newOption = document.createElement("option");
+                                var newOptionVal = document.createTextNode(sp.ten);
+                                newOption.setAttribute("value", sp.id);
+                                newOption.appendChild(newOptionVal);
+                                select.insertBefore(newOption, select.firstChild);
+                            }
+                            console.log("-------------get---------------");
+                            console.log(result.data);
+                        } else {
+                            console.log("Fail: ", result);
+                        }
+                    },
+                    error: function (e) {
+                        console.log("ERROR: ", e);
+                    }
+                });
+            }
+        })
+    </script>
 </head>
 <body>
 <%--<div style="margin-bottom: 20px"></div>--%>
@@ -64,17 +170,17 @@
                     </div>
                         <%--                    thêm nhanh thuộc tính--%>
                     <div class="col-md-6">
-                            <%--                        sản phẩm--%>
+                            <%--sản phẩm--%>
                         <div class="mb-3">
                             <label class="form-label">Sản phẩm</label>
                             <div class="input-group">
-                                <form:select path="sp" class="form-select" id="inputGroupSelect04"
-                                             aria-label="Example select with button addon">
+                                <form:select path="sp" class="form-select" id="form_sp">
                                     <c:forEach items="${listSP}" var="sp">
                                         <form:option value="${sp}">${sp.ten}</form:option>
                                     </c:forEach>
                                 </form:select>
-                                <button class="btn btn-outline-dark" type="button">
+                                <button class="btn btn-outline-dark" type="button" data-bs-toggle="modal"
+                                        data-bs-target="#sanPham">
                                     <i class="bi bi-plus-circle"></i>
                                 </button>
                             </div>
@@ -109,7 +215,7 @@
                                 </button>
                             </div>
                         </div>
-                        <%--                        kích thước--%>
+                            <%--                        kích thước--%>
                         <div class="mb-3">
                             <label class="form-label">kích cỡ</label>
                             <div class="input-group">
@@ -131,6 +237,7 @@
         </div>
     </div>
 </div>
+<jsp:include page="san-pham-chi-tiet-modal.jsp"/>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
         integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"

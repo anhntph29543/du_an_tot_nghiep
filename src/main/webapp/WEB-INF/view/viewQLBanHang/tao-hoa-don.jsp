@@ -111,29 +111,6 @@
                                                             return response.json();
                                                         })
                                                         .then(data => {
-                                                            // if (data) {
-                                                            //     // Kiểm tra nếu số lượng và đơn giá là các số hợp lệ
-                                                            //     if (!isNaN(data.soLuong) && !isNaN(data.donGia)) {
-                                                            //         // Chuyển đổi số lượng và đơn giá sang kiểu số
-                                                            //         var soLuong = parseFloat(data.soLuong);
-                                                            //         var donGia = parseFloat(data.donGia);
-                                                            //
-                                                            //         // Kiểm tra nếu số lượng và đơn giá lớn hơn 0
-                                                            //         if (soLuong > 0 && donGia > 0) {
-                                                            //             // Tính tổng tiền
-                                                            //             var tongTien = soLuong * donGia;
-                                                            //
-                                                            //             // Hiển thị tổng tiền
-                                                            //             document.getElementById("giaTT").innerText = tongTien.toFixed(2); //toFixed(2) để làm tròn đến 2 chữ số sau dấu thập phân
-                                                            //         } else {
-                                                            //             console.log("Lỗi: Số lượng hoặc đơn giá không hợp lệ.");
-                                                            //         }
-                                                            //     } else {
-                                                            //         console.log("Lỗi: Số lượng hoặc đơn giá không phải là số.");
-                                                            //     }
-                                                            // } else {
-                                                            //     console.log("Lỗi: Không có dữ liệu.");
-                                                            // }
                                                             console.log(data)
                                                             $(document).ready(function () {
                                                                 table = $('#table1').DataTable({
