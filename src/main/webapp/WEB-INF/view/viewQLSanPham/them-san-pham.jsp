@@ -49,11 +49,17 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Thương hiệu</label>
-                    <form:select path="th" class="form-select">
-                        <c:forEach items="${listTH}" var="th">
-                            <form:option value="${th}">${th.ten}</form:option>
-                        </c:forEach>
-                    </form:select>
+                    <div class="input-group">
+                        <form:select path="th" class="form-select">
+                            <c:forEach items="${listTH}" var="th">
+                                <form:option value="${th}">${th.ten}</form:option>
+                            </c:forEach>
+                        </form:select>
+                        <button class="btn btn-outline-dark" type="button" data-bs-toggle="modal"
+                                data-bs-target="#thuongHieu">
+                            <i class="bi bi-plus-circle"></i>
+                        </button>
+                    </div>
                 </div>
                 <label class="form-label">Trạng thái</label>
                 <div class="mb-3 form-check">
@@ -64,6 +70,39 @@
             </form:form>
         </div>
     </div>
+    <%-- Modal thương hiệu --%>
+    <div class="modal fade" id="thuongHieu" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thêm thương hiệu</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id='quick_create_cl'>
+                        <div class="mb-3">
+                            <label class="col-form-label">Tên</label>
+                            <input id="tenCL" name="ten" type="text" class="form-control"/><br>
+                        </div>
+                        <label class="form-label">Trạng thái</label>
+                        <div class="mb-3 form-check">
+                            <input type="radio" name="trangThai" class="form-check-input"
+                                   value="true" id="trangThaiTH1" checked="true"/>
+                            <label class="form-check-label" for="trangThaiTH1">Hoạt động</label>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="radio" name="trangThai" class="form-check-input" value="false"
+                                   id="trangThaiTH2"/>
+                            <label class="form-check-label" for="trangThaiTH2">Không hoạt động</label>
+                        </div>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-primary">Thêm</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%--  End thương hiệu  --%>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
         integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"

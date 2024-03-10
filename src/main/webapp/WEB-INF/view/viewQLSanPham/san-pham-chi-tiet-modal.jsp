@@ -42,3 +42,103 @@
         </div>
     </div>
 </div>
+<%-- Màu sắc --%>
+<div class="modal fade" id="mauSac" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thêm màu sắc</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id='quick_create_ms'>
+                    <div class="mb-3">
+                        <label class="col-form-label">Tên</label>
+                        <input id="tenMS" name="ten" type="text" class="form-control"/><br>
+                    </div>
+                    <label class="form-label">Trạng thái</label>
+                    <div class="mb-3 form-check">
+                        <input type="radio" name="trangThai" class="form-check-input" value="true"
+                               id="trangThaiMS1"
+                               checked="true"/>
+                        <label class="form-check-label" for="trangThaiMS1">Hoạt động</label>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="radio" name="trangThai" class="form-check-input" value="false"
+                               id="trangThaiMS2"/>
+                        <label class="form-check-label" for="trangThaiMS2">Không hoạt động</label>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Thêm</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<%--  End thêm màu sắc  --%>
+<%-- Kích thước --%>
+<div class="modal fade" id="kichCo" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thêm kích cỡ</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id='quick_create_kt'>
+                    <div class="mb-3">
+                        <label class="col-form-label">Tên</label>
+                        <input id="tenKT" name="ten" type="text" class="form-control"/><br>
+                    </div>
+                    <label class="form-label">Trạng thái</label>
+                    <div class="mb-3 form-check">
+                        <input type="radio" name="trangThai" class="form-check-input" value="true"
+                               id="trangThaiKT1" checked="true"/>
+                        <label class="form-check-label" for="trangThaiKT1">Hoạt động</label>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="radio" name="trangThai" class="form-check-input" value="false"
+                               id="trangThaiKT2"/>
+                        <label class="form-check-label" for="trangThaiKT2">Không hoạt động</label>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Thêm</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<%--  End kích thước  --%>
+<%-- chất liệu --%>
+<div class="modal fade" id="chatLieu" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thêm chất liệu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id='quick_create_cl'>
+                    <div class="mb-3">
+                        <label class="col-form-label">Tên</label>
+                        <input id="tenCL" name="ten" type="text" class="form-control"/><br>
+                    </div>
+                    <label class="form-label">Trạng thái</label>
+                    <div class="mb-3 form-check">
+                        <input type="radio" name="trangThai" class="form-check-input"
+                               value="true" id="trangThaiCL1" checked="true"/>
+                        <label class="form-check-label" for="trangThaiCL1">Hoạt động</label>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="radio" name="trangThai" class="form-check-input" value="false"
+                               id="trangThaiCL2"/>
+                        <label class="form-check-label" for="trangThaiCL2">Không hoạt động</label>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Thêm</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<%--  End chất liệu  --%>
