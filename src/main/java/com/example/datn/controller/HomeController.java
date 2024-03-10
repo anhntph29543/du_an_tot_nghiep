@@ -77,18 +77,19 @@ public class HomeController {
     public String banHang(Model model){
         model.addAttribute("listHD",service.getCTT());
         if (service.getCTT().size()!=0){
-            model.addAttribute("abc", service.getCTT().get(0).getId());
+            model.addAttribute("idDHFirst", service.getCTT().get(0).getId());
         }
         return "/viewQLBanHang/ban-hang";
     }
 
     @GetMapping("/delete-don-hang/{id}")
     public String deleteDonHang(Model model,@PathVariable("id") UUID id){
-        List<DonHangCT> listDHCT=donHangCTService.getAll();
+        List<DonHangCT> listDHCT=donHangCTService.getDHCT(id);
         for (DonHangCT donHangCT:listDHCT) {
-            if(donHangCT.getDonHang().getId().equals(id)){
-                donHangCTService.delete(donHangCT.getId());
-            }
+            SanPhamCT sanPhamChiTiet = serviceSPCT.detail(donHangCT.getSanPhanCT().getId());
+            sanPhamChiTiet.setSoLuong(sanPhamChiTiet.getSoLuong() + donHangCT.getSoLuong());
+            serviceSPCT.save(sanPhamChiTiet);
+            donHangCTService.delete(donHangCT.getId());
         }
         service.delete(id);
         return "redirect:/datn/ban-hang";

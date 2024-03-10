@@ -10,6 +10,8 @@ public interface DonHangCTService {
 
     List<DonHangCT> getAll();
 
+    List<DonHangCT> getDHCT(UUID idDH);
+
     Page<DonHangCT> getData(int page);
 
     DonHangCT detail(UUID id);

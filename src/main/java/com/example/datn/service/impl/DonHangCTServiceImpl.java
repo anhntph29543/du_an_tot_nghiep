@@ -27,6 +27,11 @@ public class DonHangCTServiceImpl implements DonHangCTService {
     }
 
     @Override
+    public List<DonHangCT> getDHCT(UUID idDH) {
+        return donHangCTRepo.getDHCT(idDH);
+    }
+
+    @Override
     public Page<DonHangCT> getData(int page) {
         Pageable pageable= PageRequest.of(page, 5);
         return donHangCTRepo.findAll(pageable);
@@ -39,7 +44,6 @@ public class DonHangCTServiceImpl implements DonHangCTService {
 
     @Override
     public Boolean save(DonHangCT donHangCT) {
-
         List<DonHangCT> list= getAll();
         for (DonHangCT dhct: list){
             if(dhct.getSanPhanCT().getId().equals(donHangCT.getSanPhanCT().getId()) && donHangCT.getDonHang().getId().equals(dhct.getDonHang().getId())){
@@ -54,9 +58,6 @@ public class DonHangCTServiceImpl implements DonHangCTService {
 
     @Override
     public String tuTaoMa() {
-
-
-
         return null;
     }
 
