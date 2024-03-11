@@ -6,11 +6,15 @@ import com.example.datn.entity.ChatLieu;
 import com.example.datn.entity.DonHang;
 import com.example.datn.entity.DonHangCT;
 import com.example.datn.entity.DonHangCTAnh;
+import com.example.datn.entity.SanPhamCT;
 import com.example.datn.entity.SanPhanCTTuan;
+import com.example.datn.entity.ServiceResponse;
 import com.example.datn.service.AnhTuanService;
 import com.example.datn.service.DonHangCTService;
+import com.example.datn.service.SanPhamCTService;
 import com.example.datn.service.SanPhamCTTuanService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,6 +43,9 @@ public class DonHangCTRestController {
 
     @Autowired
     private SanPhamCTTuanService serviceSPCT;
+
+    @Autowired
+    private SanPhamCTService serviceSPCTMoi;
 
     @GetMapping()
     public ResponseEntity<?> getAll() {
@@ -100,7 +107,6 @@ public class DonHangCTRestController {
 
     @GetMapping("/detail/{id}")
     public ResponseEntity<?> detail(@PathVariable("id") UUID id) {
-
         return ResponseEntity.ok(service.detail(id));
     }
 
@@ -117,17 +123,42 @@ public class DonHangCTRestController {
 //        return ResponseEntity.ok(service.save(clCu));
 //    }
 
+    @PutMapping("/update")
+    public ResponseEntity<Object> update(@RequestBody DonHangCT donHangCT){
+        DonHangCT dhctCu= service.detail(donHangCT.getId());
+        SanPhamCT spct= serviceSPCTMoi.detail(dhctCu.getSanPhanCT().getId());
+        if (dhctCu.getSoLuong() == donHangCT.getSoLuong()){
+            ServiceResponse<DonHangCT> response = new ServiceResponse<DonHangCT>("success",dhctCu);
+            return new ResponseEntity<Object>(response, HttpStatus.OK);
+        }
+        if ((spct.getSoLuong() + dhctCu.getSoLuong()) - donHangCT.getSoLuong() >= 0) {
+            if (dhctCu.getSoLuong() < donHangCT.getSoLuong() || dhctCu.getSoLuong() > donHangCT.getSoLuong()) {
+                spct.setSoLuong((spct.getSoLuong() + dhctCu.getSoLuong()) - donHangCT.getSoLuong());
+                dhctCu.setSoLuong(donHangCT.getSoLuong()-1);
+                service.save(dhctCu);
+                serviceSPCTMoi.save(spct);
+                ServiceResponse<DonHangCT> response = new ServiceResponse<DonHangCT>("success",dhctCu);
+                return new ResponseEntity<Object>(response, HttpStatus.OK);
+            }
+        }
+        ServiceResponse<DonHangCT> response = new ServiceResponse<DonHangCT>("error",dhctCu);
+        return new ResponseEntity<Object>(response, HttpStatus.OK);
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") UUID id) {
         DonHangCT donHangCT = service.detail(id);
-        int soLuongXoa = donHangCT.getSoLuong();
-        List<SanPhanCTTuan> listSPCT = serviceSPCT.getAll();
-        for (SanPhanCTTuan spct : listSPCT) {
-            if (spct.getId().equals(donHangCT.getSanPhanCT().getId())) {
-                spct.setSoLuong(spct.getSoLuong() + soLuongXoa);
-                serviceSPCT.save(spct);
-            }
-        }
+        SanPhamCT spct= serviceSPCTMoi.detail(donHangCT.getSanPhanCT().getId());
+        spct.setSoLuong(spct.getSoLuong() + donHangCT.getSoLuong());
+        serviceSPCTMoi.save(spct);
+//        int soLuongXoa = donHangCT.getSoLuong();
+//        List<SanPhanCTTuan> listSPCT = serviceSPCT.getAll();
+//        for (SanPhanCTTuan spct : listSPCT) {
+//            if (spct.getId().equals(donHangCT.getSanPhanCT().getId())) {
+//                spct.setSoLuong(spct.getSoLuong() + soLuongXoa);
+//                serviceSPCT.save(spct);
+//            }
+//        }
         service.delete(id);
         return ResponseEntity.ok().build();
     }

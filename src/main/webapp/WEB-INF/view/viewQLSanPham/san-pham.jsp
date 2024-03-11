@@ -34,6 +34,9 @@
                         next: '<i class="bi bi-arrow-right"></i>'
                     }
                 },
+                order: [
+                    [3, 'desc'],
+                ],
                 pageLength: 4,
                 info: false,
                 searching: false,

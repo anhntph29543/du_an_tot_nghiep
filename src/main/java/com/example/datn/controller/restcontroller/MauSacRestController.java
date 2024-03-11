@@ -1,8 +1,10 @@
 package com.example.datn.controller.restcontroller;
 
 import com.example.datn.entity.MauSac;
+import com.example.datn.entity.ServiceResponse;
 import com.example.datn.service.MauSacService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,8 +41,10 @@ public class MauSacRestController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody MauSac th){
-        return ResponseEntity.ok(service.save(th));
+    public ResponseEntity<Object> add(@RequestBody MauSac ms){
+        service.save(ms);
+        ServiceResponse<MauSac> response = new ServiceResponse<MauSac>("success",ms);
+        return new ResponseEntity<Object>(response, HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")

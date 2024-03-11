@@ -25,7 +25,7 @@
                 <li class="nav-item" role="presentation">
                     <div class="d-flex border border-top-0">
                             <%--                        <a href="" style="text-decoration: none">--%>
-                        <button class="nav-link " data-bs-toggle="tab" type="button"
+                        <button class="nav-link ${hd.id==idDHFirst?'active':''}" data-bs-toggle="tab" type="button"
                                 role="tab"
                                 onclick="thongTinDonHang('${hd.id}')">
                             <samp style="color: black">
@@ -33,9 +33,9 @@
                             </samp>
                         </button>
                             <%--                        </a>--%>
-                        <a href="/datn/delete-don-hang/${hd.id}" class="pt-2 px-2"
-                           onclick="return confirm('Có muốn xóa hóa đớn không ?')">
-                            <img src='<c:url value="/getimage/Logo-Trash.png"></c:url>'/>
+                        <a class="pt-2 px-2"
+                           onclick="return xoaDH('/datn/delete-don-hang/${hd.id}')">
+                            <i class="bi bi-trash3" style="color: black"></i>
                         </a>
 
                     </div>
@@ -47,14 +47,14 @@
                 <form action="/datn/tao-hoa-don/add" method="post">
                     <button class="btn btn-while border" data-bs-toggle="tooltip" data-bs-placement="right"
                             title="Tạo hoá đơn">
-                        <img src='<c:url value="/getimage/Logo-Plus.png"></c:url>'/>
+                        <i class="bi bi-plus-lg" style="font-size: 20px"></i>
                     </button>
                 </form>
             </c:if>
             <c:if test="${listHD.size()>=5}">
                 <button class="btn btn-while border " onclick="thongbao()"
                         data-bs-toggle="tooltip" data-bs-placement="right" title="Đã tối đa">
-                    <img src='<c:url value="/getimage/Logo-Plus.png"></c:url>'/>
+                    <i class="bi bi-plus-lg" style="font-size: 20px"></i>
                 </button>
 
             </c:if>
@@ -111,29 +111,6 @@
                                                             return response.json();
                                                         })
                                                         .then(data => {
-                                                            // if (data) {
-                                                            //     // Kiểm tra nếu số lượng và đơn giá là các số hợp lệ
-                                                            //     if (!isNaN(data.soLuong) && !isNaN(data.donGia)) {
-                                                            //         // Chuyển đổi số lượng và đơn giá sang kiểu số
-                                                            //         var soLuong = parseFloat(data.soLuong);
-                                                            //         var donGia = parseFloat(data.donGia);
-                                                            //
-                                                            //         // Kiểm tra nếu số lượng và đơn giá lớn hơn 0
-                                                            //         if (soLuong > 0 && donGia > 0) {
-                                                            //             // Tính tổng tiền
-                                                            //             var tongTien = soLuong * donGia;
-                                                            //
-                                                            //             // Hiển thị tổng tiền
-                                                            //             document.getElementById("giaTT").innerText = tongTien.toFixed(2); //toFixed(2) để làm tròn đến 2 chữ số sau dấu thập phân
-                                                            //         } else {
-                                                            //             console.log("Lỗi: Số lượng hoặc đơn giá không hợp lệ.");
-                                                            //         }
-                                                            //     } else {
-                                                            //         console.log("Lỗi: Số lượng hoặc đơn giá không phải là số.");
-                                                            //     }
-                                                            // } else {
-                                                            //     console.log("Lỗi: Không có dữ liệu.");
-                                                            // }
                                                             console.log(data)
                                                             $(document).ready(function () {
                                                                 table = $('#table1').DataTable({
@@ -189,12 +166,32 @@
                         </div>
                     </div>
                     <!-- Button modal quét qr-->
-                    <button type="button" class="btn btn-dark mx-3" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal">
+                    <button type="button" class="btn btn-dark mx-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         <samp style="color: white; font-weight: bolder">
                             Quét
                         </samp>
                     </button>
+                    <!-- Modal QR-->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Quét QR</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="container">
+                                        <div class="section">
+                                            <div id="my-qr-reader">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <script src="https://unpkg.com/html5-qrcode"></script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End modal QR -->
                     <h5 id="thongTinHoaDon" class="mx-4 mt-2">
 
                     </h5>
@@ -233,7 +230,7 @@
 
                             </div>
                             <div class="mx-3 mt-1">
-                                Tên KH : <span id="tenKH">Hoangf thi ngoc han</span>
+                                Tên KH : <span id="tenKH">Khách hàng lẻ</span>
                             </div>
                         </div>
 
@@ -243,7 +240,7 @@
                                 Mã voucher : <samp id="voucher">VC1</samp>
                             </div>
                             <div class="mx-3 mt-1">
-                                Giá trị : <span id="giaTriVC">abc</span>
+                                Giá trị : <span id="giaTriVC"></span>
                             </div>
                         </div>
                         <div class="mb-3">
@@ -288,8 +285,8 @@
                         </div>
                         <div class="d-flex justify-content-center mb-3">
 
-<%--                            <input hidden value="${tienKhachDua}" name="tienKhachDua">--%>
-<%--                            <input hidden value="${giaTT}" name="giaTT">--%>
+                                <%--                            <input hidden value="${tienKhachDua}" name="tienKhachDua">--%>
+                                <%--                            <input hidden value="${giaTT}" name="giaTT">--%>
                             <button id="pay" type="submit" class="btn btn-success"><i class="bi bi-wallet-fill"></i>
                                 Thanh Toán
                             </button>
@@ -303,13 +300,37 @@
         <%--        end thanh toan--%>
     </div>
 </div>
-
-
+<div class="modal fade" id="suaSL" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel">Sửa số lượng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id='suaSLSP'>
+                    <input type="text" name="id" id="idSuaSL" class="form-control"
+                           hidden>
+                    <div class="input-group mb-3">
+                        <input class="form-control" name="soLuong"
+                               aria-describedby="button-suaSL"
+                               id="slSua" type="number" placeholder="Nhập số lượng">
+                        <button class="btn btn-outline-dark" type="submit"
+                                id="button-suaSL"><i class="bi bi-floppy"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
-
-    var idDonHang = '${abc}';
+    var idDonHang = '${idDHFirst}';
     detailDataDonHang(idDonHang)
     hienThiSanPhamDonHang(idDonHang)
+    tinhTongTien(idDonHang)
     document.getElementById('pay').addEventListener('click', function Pay(event) {
         var submitButton = document.getElementById('pay');
         var tienKhachDua = parseFloat(document.getElementById('tienKhachDua').value);
@@ -320,28 +341,196 @@
         console.log("tt" + tongTien);
         if (tienKhachPhaiTRa == 0) {
             event.preventDefault();
-            alert("Vui Lòng Chọn Sản Phẩm");
+            Swal.fire({
+                icon: "error",
+                text: "Vui Lòng Chọn Sản Phẩm",
+                showConfirmButton: false,
+                timer: 2500
+            });
         } else if (tienKhachDua >= tongTien) {
             submitButton.disabled = false;
-            alert("Thanh Toán Thành Công");
-            var donHang={
-                id:idDonHang
+            Swal.fire({
+                icon: "succes",
+                text: "Thanh Toán Thành Công",
+                showConfirmButton: false,
+                timer: 2500
+            });
+            var donHang = {
+                id: idDonHang
             }
             var formData = {
-                    donHang: donHang,
-                tongTien:tongTien,
-                tienKhachDua:tienKhachDua,
+                donHang: donHang,
+                tongTien: tongTien,
+                tienKhachDua: tienKhachDua,
                 trangThai: true
             };
-            capNhatTrangThaiDonHangDaThanhToan(idDonHang,formData);
+            capNhatTrangThaiDonHangDaThanhToan(idDonHang, formData);
 
         } else {
             event.preventDefault();
-            alert("Vui Lòng Điền Đúng Số Tiền");
+            Swal.fire({
+                icon: "warning",
+                text: "Vui Lòng Điền Đúng Số Tiền",
+                showConfirmButton: false,
+                timer: 2500
+            });
         }
     });
 
-    function capNhatTrangThaiDonHangDaThanhToan(idDonHang,data) {
+    function xoaDH(urlDH){
+        Swal.fire({
+            title: "Bạn có chắc không?",
+            text: "Bạn có chắc muốn xóa đơn hàng này không?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            cancelButtonText: "Hủy",
+            confirmButtonText: "Đúng, tôi muốn xóa!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href=(urlDH)
+            }
+        });
+    }
+    function domReady(fn) {
+        if (
+            document.readyState === "complete" ||
+            document.readyState === "interactive"
+        ) {
+            setTimeout(fn, 1000);
+        } else {
+            document.addEventListener("DOMContentLoaded", fn);
+        }
+    }
+    domReady(function () {
+
+        // If found you qr code
+        function onScanSuccess(decodeText, decodeResult) {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "http://localhost:8080/hoa-don/them-san-pham-qr",
+                data: JSON.stringify(decodeText),
+                dataType: 'json',
+                success: location.replace("http://localhost:8080/tao-hoa-don/hien-thi")
+            });
+        }
+
+        let htmlscanner = new Html5QrcodeScanner(
+            "my-qr-reader",
+            { fps: 5, qrbos: 250 }
+        );
+        htmlscanner.render(onScanSuccess);
+    });
+
+    $(document).ready(
+        function () {
+            const suaSL = new bootstrap.Modal('#suaSL');
+            $("#suaSLSP").submit(function (event) {
+                // Prevent the form from submitting via the browser.
+                event.preventDefault();
+                updateSLSP();
+            });
+
+            function updateSLSP() {
+                // PREPARE FORM DATA
+                var data = {
+                    id: $("#suaSLSP #idSuaSL").val().trim(),
+                    soLuong: $("#suaSLSP #slSua").val()
+                };
+                console.log(data);
+                if(data.soLuong < 0){
+                    Swal.fire({
+                        icon: "warning",
+                        text: "Số lượng phải lớn hơn 0",
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                }else if (data.soLuong.trim()==""){
+                    Swal.fire({
+                        icon: "warning",
+                        text: "Số lượng không được trống",
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                }else if (data.soLuong == 0) {
+                    Swal.fire({
+                        title: "Bạn có chắc không?",
+                        text: "Bạn có chắc muốn xóa sản phẩm khỏi đơn hàng không?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        cancelButtonText: "Hủy",
+                        confirmButtonText: "Đúng, tôi muốn xóa!"
+                    }).then((result) => {
+                        let options = {
+                            method: "DELETE"
+                        }
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                title: "Xóa thành công!",
+                                text: "Sản phẩm đã được xóa.",
+                                icon: "success",
+                                timer: 2500
+                            });
+                            suaSL.hide();
+                            fetch('http://localhost:8080/DonHangCT/api/delete/' + data.id, options)
+                                .then(response => {
+                                        console.log(response.status)
+                                        table.destroy();
+                                        getDataAllSPCT();
+                                        table2.destroy();
+                                        hienThiSanPhamDonHang(idDonHang);
+                                    }
+                                )
+                        }
+                    });
+                }else {
+                    $.ajax({
+                        type: "PUT",
+                        contentType: "application/json",
+                        url: "http://localhost:8080/DonHangCT/api/update",
+                        data: JSON.stringify(data),
+                        dataType: 'json',
+                        success: function (result) {
+                            if (result.status == "success") {
+                                console.log("-------------post---------------");
+                                console.log(data);
+                                suaSL.hide();
+                                Swal.fire({
+                                    title: "Sửa thành công",
+                                    icon: "success",
+                                    showConfirmButton: false,
+                                    timer: 2500
+                                });
+                                table2.destroy();
+                                hienThiSanPhamDonHang(idDonHang);
+                                table.destroy();
+                                getDataAllSPCT();
+                                tinhTongTien(idDonHang);
+                            } else {
+                                Swal.fire({
+                                    text: "Số lượng sản phẩm còn lại không đủ",
+                                    icon: "warning",
+                                    showConfirmButton: false,
+                                    timer: 2500
+                                });
+                                console.log("fail");
+                            }
+                            console.log(result);
+                        },
+                        error: function (e) {
+                            alert("Error!")
+                            console.log("ERROR: ", e);
+                        }
+                    });
+                }
+            }
+        })
+
+    function capNhatTrangThaiDonHangDaThanhToan(idDonHang, data) {
         let options = {
             method: "POST",
             dataType: "json",
@@ -351,7 +540,7 @@
             },
             body: JSON.stringify(data)
         }
-        fetch('http://localhost:8080/DonHang/api/thanhToan1/' + idDonHang,options)
+        fetch('http://localhost:8080/DonHang/api/thanhToan1/' + idDonHang, options)
 
             .then(function (response) {
                 return response.json();
@@ -414,7 +603,12 @@
                     getDataAllSPCT();
                     table2.destroy();
                     hienThiSanPhamDonHang(idDonHang);
-                    alert("Sản phẩm đã hết");
+                    Swal.fire({
+                        title: "Sản phẩm đã hết",
+                        icon: "error",
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
                     return;
                 } else {
                     var formData = {
@@ -443,7 +637,12 @@
         fetch('http://localhost:8080/DonHangCT/api/add', options)
             .then(function (response) {
                 response.json();
-                alert("Them thanh cong");
+                Swal.fire({
+                    title: "Thêm thành công",
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 2500
+                });
                 table2.destroy();
                 hienThiSanPhamDonHang(idDonHang);
                 table.destroy();
@@ -464,9 +663,9 @@
 
 
                 document.getElementById("thongTinHoaDon").innerHTML = data.ma;
-                document.getElementById("tenKH").innerHTML = data.ma;
-                document.getElementById("voucher").innerHTML = data.ma;
-                document.getElementById("giaTriVC").innerHTML = data.ma;
+                document.getElementById("tenKH").innerHTML = "khách hàng lẻ";
+                document.getElementById("voucher").innerHTML = "";
+                document.getElementById("giaTriVC").innerHTML = "";
                 document.getElementById("giaTT").innerHTML = data.tongTien;
                 document.getElementById("giaKPT").innerHTML = data.tienKhachPhaiTra;
                 document.getElementById("tienKhachDua").value = data.tienKhachDua;
@@ -476,7 +675,18 @@
     }
 
     var sl
-
+    var exampleModal = document.getElementById('suaSL')
+    if (exampleModal != null) {
+        exampleModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget
+            var slSua = button.getAttribute('data-bs-slSua')
+            var idHDCT = button.getAttribute('data-bs-idHDCT')
+            var slInput = exampleModal.querySelector('.modal-body #slSua')
+            var idInput = exampleModal.querySelector('.modal-body #idSuaSL')
+            slInput.value = slSua
+            idInput.value = idHDCT
+        })
+    }
 
     function hienThiSanPhamDonHang(idDonHang) {
         fetch('http://localhost:8080/DonHangCT/api/' + idDonHang)
@@ -508,7 +718,10 @@
                                 "data": 'id',
                                 "render": function (data, type, row, meta) {
                                     return '<button  class="btn btn-dark" onclick="xoaSPDHCT(`' + data + '`)" ><i class="bi bi-trash"></i></button >' +
-                                        '<button  class="btn btn-dark" ><i class="bi bi-pencil-square"></i></button >';
+                                        '<button class="btn btn-dark" data-bs-placement="bottom" data-bs-toggle2="suaSL" ' +
+                                        'data-bs-toggle="modal" data-bs-target="#suaSL" data-bs-slSua="' + row.soLuong + '" data-bs-idHDCT="' + data + '" title="Sửa số lượng">' +
+                                        '<i class="bi bi-pencil-square"></i>' +
+                                        '</button>';
 
                                 }
                             }
@@ -528,21 +741,43 @@
         let options = {
             method: "DELETE"
         }
-        if (confirm("Co xoa ko")) {
-            fetch('http://localhost:8080/DonHangCT/api/delete/' + idSPCT, options)
-                .then(response => {
-                        console.log(response.status)
-                        alert("Xoa thanh cong")
-                        table.destroy();
-                        getDataAllSPCT();
-                        table2.destroy();
-                        hienThiSanPhamDonHang(idDonHang);
-                    }
-                )
-        }
+        Swal.fire({
+            title: "Bạn có chắc không?",
+            text: "Bạn có chắc muốn xóa sản phẩm khỏi đơn hàng không?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            cancelButtonText: "Hủy",
+            confirmButtonText: "Đúng, tôi muốn xóa!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Xóa thành công!",
+                    text: "Sản phẩm đã được xóa.",
+                    icon: "success",
+                    timer: 2500
+                });
+                fetch('http://localhost:8080/DonHangCT/api/delete/' + idSPCT, options)
+                    .then(response => {
+                            console.log(response.status)
+                            tinhTongTien(idDonHang)
+                            table.destroy();
+                            getDataAllSPCT();
+                            table2.destroy();
+                            hienThiSanPhamDonHang(idDonHang);
+                        }
+                    )
+            }
+        });
     }
 
     function thongbao() {
-        alert("Chỉ được tạo tối đa 5 hoá đơn");
+        Swal.fire({
+            icon: "warning",
+            title: "Chỉ được tạo tối đa 5 hoá đơn",
+            showConfirmButton: false,
+            timer: 2500
+        });
     }
 </script>
