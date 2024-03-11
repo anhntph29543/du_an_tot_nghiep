@@ -114,10 +114,6 @@
                                     <h5>Additional Details</h5>
                                     <form id="additionalDetailsForm">
                                         <div class="mb-3">
-                                            <label for="ngaySinh" class="form-label">Ngày Sinh</label>
-                                            <input type="date" class="form-control" id="ngaySinh" required>
-                                        </div>
-                                        <div class="mb-3">
                                             <label for="gioiTinh" class="form-label">Giới Tính</label>
                                             <select class="form-select" id="gioiTinh" required>
                                                 <option value="true">Nam</option>
@@ -235,14 +231,12 @@
         var ten = document.getElementById("ten").value;
         var email = document.getElementById("email").value;
         var sdt = document.getElementById("sdt").value;
-        var ngaySinh = document.getElementById("ngaySinh").value;
         var gioiTinh = document.getElementById("gioiTinh").value;
 
         var formData = new FormData();
         formData.append("ten", ten);
         formData.append("email", email);
         formData.append("sdt", sdt);
-        formData.append("ngaySinh", ngaySinh);
         formData.append("gioiTinh", gioiTinh);
 
         var imageFile = document.getElementById("imageUpload").files[0];
