@@ -1,7 +1,6 @@
 package com.example.datn.service;
 
 import com.example.datn.entity.KhachHang;
-import com.example.datn.entity.NhanVien;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
