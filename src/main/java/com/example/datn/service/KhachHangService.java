@@ -16,4 +16,5 @@ public interface KhachHangService {
     void delete(UUID id);
 
     KhachHang detail(UUID id);
+    KhachHang getKHbysdt(String sdt);
 }

@@ -45,4 +45,9 @@ public class KhachHangServiceImpl implements KhachHangService {
     public KhachHang detail(UUID id) {
         return repository.findById(id).get();
     }
+
+    @Override
+    public KhachHang getKHbysdt(String sdt) {
+        return repository.getKH(sdt);
+    }
 }

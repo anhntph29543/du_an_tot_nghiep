@@ -55,67 +55,6 @@ public class KhachHangRestController {
         return ResponseEntity.ok(service.getData(page).getContent());
     }
 
-    // Update the method signature to accept MultipartFile for file upload
-    @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestPart("anh") MultipartFile anh,
-                                 @RequestPart("ten") String ten,
-                                 @RequestPart("email") String email,
-                                 @RequestPart("sdt") String sdt,
-                                 @RequestPart("ngaySinh") String ngaySinh,
-                                 @RequestPart("gioiTinh") Boolean gioiTinh) {
-        // Convert ngaySinh from String to Date
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date parsedNgaySinh = null;
-        try {
-            parsedNgaySinh = dateFormat.parse(ngaySinh);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            // Handle parsing exception
-        }
-
-        // Create a KhachHang object with the provided data
-        KhachHang kh = KhachHang.builder()
-                .id(UUID.randomUUID())  // Generate a unique ID
-                .ten(ten)
-                .gioiTinh(gioiTinh)
-                .ngaySinh(parsedNgaySinh)
-                .sdt(sdt)
-                .email(email)
-                .anh("path/to/default/image")  // You may want to save the image path in the database
-                .ngayThem(new Date())
-                .trangThai(true)  // Assuming the default status is active
-                .build();
-
-        // Save the KhachHang object to the database (you need to implement this method in your service)
-        KhachHang savedKhachHang = repository.save(kh);
-
-        // Handle file upload (save the image to a directory or storage system)
-        // Here, we save the image with the KhachHang ID as the filename, assuming the ID is a string
-        String fileName = savedKhachHang.getId().toString();
-        String uploadDir = "path/to/your/image/directory";
-        try {
-            Path path = Paths.get(uploadDir, fileName);
-            Files.copy(anh.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-            savedKhachHang.setAnh(fileName);  // Update the KhachHang object with the image path
-            service.save(savedKhachHang);  // Save the updated KhachHang object with the image path
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Handle file upload exception
-        }
-
-        return ResponseEntity.ok(savedKhachHang);
-    }
-
-
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") UUID id, @RequestBody KhachHang kh) {
-        KhachHang khc = service.detail(id);
-        khc.setMa(kh.getMa());
-        khc.setTen(kh.getTen());
-        khc.setTrangThai(kh.getTrangThai());
-        return ResponseEntity.ok(service.save(khc));
-    }
-
     @GetMapping("/detail/{id}")
     public ResponseEntity<?> detail(@PathVariable("id") UUID id) {
         return ResponseEntity.ok(service.detail(id));
