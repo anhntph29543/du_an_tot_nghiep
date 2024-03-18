@@ -38,11 +38,11 @@
             });
             $("#quick_create_cl").submit(function (event) {
                 event.preventDefault();
-                ajaxPostLoai("cl");
+                ajaxPostLoai("ChatLieu");
             });
             $("#quick_create_kc").submit(function (event) {
                 event.preventDefault();
-                ajaxPostLoai("kc");
+                ajaxPostLoai("KichCo");
             });
 
             function getData() {
@@ -69,6 +69,14 @@
                 if (loai == "MauSac") {
                     loai2[0] = "ms"
                     loai2[1] = "MS"
+                }
+                if (loai == "KichCo") {
+                    loai2[0] = "kc"
+                    loai2[1] = "KC"
+                }
+                if (loai == "ChatLieu") {
+                    loai2[0] = "cl"
+                    loai2[1] = "CL"
                 }
                 var data = {
                     ten: $("#quick_create_" + loai2[0] + " #ten" + loai2[1]).val().trim(),
@@ -254,7 +262,7 @@
                         <div class="mb-3">
                             <label class="form-label">Chất liệu</label>
                             <div class="input-group">
-                                <form:select path="cl" class="form-select" id="inputGroupSelect04"
+                                <form:select path="cl" class="form-select" id="form_cl"
                                              aria-label="Example select with button addon">
                                     <c:forEach items="${listCL}" var="cl">
                                         <form:option value="${cl}">${cl.ten}</form:option>
@@ -286,8 +294,7 @@
                         <div class="mb-3">
                             <label class="form-label">kích cỡ</label>
                             <div class="input-group">
-                                <form:select path="kc" class="form-select" id="inputGroupSelect04"
-                                             aria-label="Example select with button addon">
+                                <form:select path="kc" class="form-select" id="form_kc">
                                     <c:forEach items="${listKC}" var="kc">
                                         <form:option value="${kc}">${kc.ten}</form:option>
                                     </c:forEach>

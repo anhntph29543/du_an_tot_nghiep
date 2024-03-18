@@ -1,8 +1,11 @@
 package com.example.datn.controller.restcontroller;
 
 import com.example.datn.entity.ChatLieu;
+import com.example.datn.entity.KichCo;
+import com.example.datn.entity.ServiceResponse;
 import com.example.datn.service.ChatLieuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,8 +42,10 @@ public class ChatLieuRestController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody ChatLieu th){
-        return ResponseEntity.ok(service.save(th));
+    public ResponseEntity<Object> add(@RequestBody ChatLieu cl){
+        service.save(cl);
+        ServiceResponse<ChatLieu> response = new ServiceResponse<ChatLieu>("success",cl);
+        return new ResponseEntity<Object>(response, HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")

@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -19,7 +18,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-    <script type="text/javascript"><%@include file="../script.js" %></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" language="JavaScript">
+        <%@include file="../script.js" %>
+    </script>
 </head>
 <body>
 <div class=" d-flex">
@@ -50,7 +54,7 @@
                 <div class="mb-3">
                     <label class="form-label">Thương hiệu</label>
                     <div class="input-group">
-                        <form:select path="th" class="form-select">
+                        <form:select path="th" class="form-select" id="form_th">
                             <c:forEach items="${listTH}" var="th">
                                 <form:option value="${th}">${th.ten}</form:option>
                             </c:forEach>
@@ -79,10 +83,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id='quick_create_cl'>
+                    <form id='quick_create_th'>
                         <div class="mb-3">
                             <label class="col-form-label">Tên</label>
-                            <input id="tenCL" name="ten" type="text" class="form-control"/><br>
+                            <input id="tenTH" name="ten" type="text" class="form-control"/><br>
                         </div>
                         <label class="form-label">Trạng thái</label>
                         <div class="mb-3 form-check">

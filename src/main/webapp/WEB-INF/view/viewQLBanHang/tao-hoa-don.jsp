@@ -219,19 +219,19 @@
                     </div>
                     <div class="border rounded mx-2 col-6 p-3 ">
                         <h5 class="mb-3">Thanh toán đơn hàng</h5>
-                        <div class="d-flex">
-                            <div class="col-md-5 d-flex">
-                                <div class="input-group mb-3  ">
-                                    <input type="text" class="form-control" placeholder="SDT khách hàng  "
-                                           aria-label="Recipient's username" aria-describedby="button-addon2">
-                                    <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i
-                                            class="bi bi-search"></i></button>
+                            <div class="d-flex">
+                                <div class="col-md-5 d-flex">
+                                    <div class="input-group mb-3">
+                                        <input id="khachHangsdt" type="text" class="form-control" placeholder="SDT khách hàng"
+                                               aria-label="Recipient's username" aria-describedby="button-addon2">
+                                        <button onclick="getKH()" class="btn btn-outline-secondary" type="button" id="button-addon2">
+                                            <i class="bi bi-search"></i>
+                                        </button>
+                                    </div>
                                 </div>
-
-                            </div>
-                            <div class="mx-3 mt-1">
-                                Tên KH : <span id="tenKH">Khách hàng lẻ</span>
-                            </div>
+                                <div class="mx-3 mt-1">
+                                    Tên KH : <span id="tenKH">Khách hàng lẻ</span>
+                                </div>
                         </div>
 
                         <div class="d-flex mb-3 ">
@@ -327,6 +327,7 @@
     </div>
 </div>
 <script>
+
     var idDonHang = '${idDHFirst}';
     detailDataDonHang(idDonHang)
     hienThiSanPhamDonHang(idDonHang)
@@ -376,6 +377,30 @@
             });
         }
     });
+
+    function getKH() {
+        var sdt = $("#khachHangsdt").val().trim();
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: "http://localhost:8080/DonHang/api/getkh?sdt=" + encodeURIComponent(sdt),
+            dataType: 'json',
+            success: function (response) {
+                console.log(response.data);
+                console.log("#--------");
+                if (response && response.data) {
+                    var tenKH = response.data.ten;
+                    $("#tenKH").text(tenKH);
+                } else {
+                    $("#tenKH").text("Không tìm thấy thông tin khách hàng");
+                }
+            },
+            error: function () {
+                $("#tenKH").text("Không tìm thấy thông tin khách hàng");
+            }
+        });
+    }
+
 
     function xoaDH(urlDH){
         Swal.fire({

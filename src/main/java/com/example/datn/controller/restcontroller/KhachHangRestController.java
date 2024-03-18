@@ -1,10 +1,21 @@
 package com.example.datn.controller.restcontroller;
 
 import com.example.datn.entity.KhachHang;
-import com.example.datn.entity.NhanVien;
+
+import com.example.datn.repository.KhachHangRepository;
 import com.example.datn.service.KhachHangService;
+
+import java.io.ByteArrayInputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
+import jakarta.servlet.annotation.MultipartConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,16 +24,26 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
+@MultipartConfig
 @RestController
 @RequestMapping("/KhachHang/api")
 public class KhachHangRestController {
 
     @Autowired
     private KhachHangService service;
+    @Autowired
+    private KhachHangRepository repository;
 
     @GetMapping()
     public ResponseEntity<?> getAll() {
@@ -32,20 +53,6 @@ public class KhachHangRestController {
     @GetMapping("/phantrang")
     public ResponseEntity<?> getData(@RequestParam(value = "page", defaultValue = "0") int page) {
         return ResponseEntity.ok(service.getData(page).getContent());
-    }
-
-    @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody KhachHang kh) {
-        return ResponseEntity.ok(service.save(kh));
-    }
-
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") UUID id, @RequestBody KhachHang kh) {
-        KhachHang khc = service.detail(id);
-        khc.setMa(kh.getMa());
-        khc.setTen(kh.getTen());
-        khc.setTrangThai(kh.getTrangThai());
-        return ResponseEntity.ok(service.save(khc));
     }
 
     @GetMapping("/detail/{id}")
