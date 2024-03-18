@@ -94,6 +94,7 @@
                             var select = document.getElementById("form_"+loai2[0]);
                             var newOption = document.createElement("option");
                             var newOptionVal = document.createTextNode(result.data.ten);
+                            newOption.style.background = result.data.ten;
                             newOption.setAttribute("value", result.data.id);
                             newOption.appendChild(newOptionVal);
                             select.insertBefore(newOption, select.firstChild);
@@ -272,7 +273,7 @@
                                 <form:select path="ms" class="form-select" id="form_ms"
                                              aria-label="Example select with button addon">
                                     <c:forEach items="${listMS}" var="ms">
-                                        <form:option value="${ms}">${ms.ten}</form:option>
+                                        <form:option value="${ms}" style="background: ${ms.ten}">${ms.ten}</form:option>
                                     </c:forEach>
                                 </form:select>
                                 <button class="btn btn-outline-dark" type="button" data-bs-toggle="modal"
