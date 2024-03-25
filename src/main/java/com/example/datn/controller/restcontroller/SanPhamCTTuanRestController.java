@@ -1,9 +1,7 @@
 package com.example.datn.controller.restcontroller;
 
 
-import com.example.datn.entity.AnhTuan;
-import com.example.datn.entity.ChatLieu;
-import com.example.datn.entity.SanPhanCTTuan;
+import com.example.datn.entity.SanPhamCTTuan;
 import com.example.datn.service.AnhTuanService;
 import com.example.datn.service.SanPhamCTTuanService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +39,7 @@ public class SanPhamCTTuanRestController {
 
     @GetMapping("/detail/{id}")
     public ResponseEntity<?> detail(@PathVariable("id") UUID id){
-        SanPhanCTTuan sanPhamCT=service.detail(id);
+        SanPhamCTTuan sanPhamCT=service.detail(id);
         if(sanPhamCT.getSoLuong()>0){
             sanPhamCT.setSoLuong(sanPhamCT.getSoLuong()-1);
             service.save(sanPhamCT);
@@ -53,7 +51,7 @@ public class SanPhamCTTuanRestController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody SanPhanCTTuan sanPhanCTTuan){
+    public ResponseEntity<?> add(@RequestBody SanPhamCTTuan sanPhanCTTuan){
         return ResponseEntity.ok(service.save(sanPhanCTTuan));
     }
 

@@ -18,38 +18,23 @@ import java.util.UUID;
 
 
 @Entity
-@Table(name = "Don_Hang_Chi_Tiet")
+@Table(name = "Gio_Hang")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Builder
-public class DonHangCT {
+public class GioHangOnline {
 
     @Id
-    @Column(name = "ID_DonHangChiTiet")
+    @Column(name = "ID_GioHang")
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToOne
-    @JoinColumn(name = "ID_DonHang" , referencedColumnName = "ID_DonHang")
-    private DonHang donHang;
+    @Column(name = "maGioHang")
+    private String ma;
 
     @ManyToOne
-    @JoinColumn(name = "ID_SPCT" , referencedColumnName = "ID_SanPhamChiTiet")
-    private SanPhamCTTuan sanPhanCT;
-
-    @Column(name = "tenSPCT")
-    private String tenSPCT;
-
-    @Column(name = "soLuong")
-    private Integer soLuong;
-
-    @Column(name = "giaSanPham")
-    private Double giaSanPham;
-
-    @Column(name = "trangThai")
-    private Boolean trangThai;
-
-
+    @JoinColumn(name = "ID_KhachHang" , referencedColumnName = "ID_KhachHang")
+    private KhachHangOnline khachHangOnline;
 }
