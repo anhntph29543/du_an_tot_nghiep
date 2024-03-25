@@ -10,6 +10,8 @@ public interface MauSacService {
 
     List<MauSac> getAll();
 
+    List<MauSac> getAllDesc();
+
     Page<MauSac> getData(int page);
 
     MauSac detail(UUID id);

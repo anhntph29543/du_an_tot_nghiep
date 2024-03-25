@@ -1,16 +1,19 @@
 package com.example.datn.controller.restcontroller;
 
 
-import com.example.datn.entity.ChatLieu;
 import com.example.datn.entity.DonHang;
+import com.example.datn.entity.KhachHang;
+import com.example.datn.entity.SanPham;
+import com.example.datn.entity.ServiceResponse;
 import com.example.datn.service.DonHangService;
+import com.example.datn.service.KhachHangService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +24,8 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/DonHang/api")
 public class DonHangRestController {
-
+    @Autowired
+    private KhachHangService khachHangService;
     @Autowired
     private DonHangService service;
 
@@ -40,8 +44,15 @@ public class DonHangRestController {
         return ResponseEntity.ok(service.detail(id));
     }
 
+    @GetMapping("/getkh")
+    public ResponseEntity<Object> getkh(@RequestParam String sdt) {
+        ServiceResponse<KhachHang> response = new ServiceResponse<KhachHang>("success", khachHangService.getKHbysdt(sdt));
+        return new ResponseEntity<Object>(response, HttpStatus.OK);
+    }
+
+
     @PostMapping("/thanhToan1/{id}")
-    public ResponseEntity<?> thanhToan1(@PathVariable("id") UUID id,@RequestBody DonHang dh1) {
+    public ResponseEntity<?> thanhToan1(@PathVariable("id") UUID id, @RequestBody DonHang dh1) {
         DonHang dh = service.detail(id);
 
         dh.setTongTien(dh1.getTongTien());
@@ -49,7 +60,8 @@ public class DonHangRestController {
         dh.setTrangThaiDonHang(true);
         return ResponseEntity.ok(service.save(dh));
     }
-//, @RequestParam("giaTT") Double giaTT, @RequestParam("tienKhachDua") Double tienKhachDua
+
+    //, @RequestParam("giaTT") Double giaTT, @RequestParam("tienKhachDua") Double tienKhachDua
     @PostMapping("/tao-don-moi")
     public ResponseEntity<?> add() {
         DonHang donHang = new DonHang();

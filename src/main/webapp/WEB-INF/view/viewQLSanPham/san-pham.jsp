@@ -34,6 +34,9 @@
                         next: '<i class="bi bi-arrow-right"></i>'
                     }
                 },
+                order: [
+                    [3, 'desc'],
+                ],
                 pageLength: 4,
                 info: false,
                 searching: false,
@@ -41,23 +44,11 @@
             });
         })
     </script>
-    <script type="text/javascript">
-        <%@include file="../script.js" %>
-    </script>
 </head>
 <body>
 <div class=" d-flex">
     <div class=" col-2 ">
         <jsp:include page="../nav-bar.jsp"/>
-        <%--            <%--%>
-        <%--                 if(request.getParameter("p")!=null)--%>
-        <%--             {--%>
-        <%--                  String p = request.getParameter("p");--%>
-        <%--            %>--%>
-        <%--                <jsp:include page="<%=p+".jsp"%>"/>--%>
-        <%--             <%--%>
-        <%--                }--%>
-        <%--             %>--%>
     </div>
     <div class="col-10 border" style="height: 710px; overflow-y: scroll;overflow-x: hidden;padding: 3px 20px">
         <div style="text-align: center">
@@ -113,19 +104,18 @@
             </div>
         </div>
         <%--        //Danh sach san pham --%>
-        <div class="  my-3 ">
+        <div class="my-3">
             <h5>
                 Danh sách sản phẩm
             </h5>
-            <div class="border border-dark rounded  mx-3  " style="height: 100%">
+            <div class="border border-dark rounded  mx-3  " style="height: 100%; padding: 5px">
                 <div class=" mt-2 mx-3 d-flex justify-content-end">
                     <a class="btn btn-dark btn-sm mx-2" href="/datn/them-san-pham" role="button">Thêm sản phẩm </a>
                     <a class="btn btn-dark btn-sm " href="/datn/san-pham-chi-tiet/them" role="button">Thêm sản phảm chi tiết </a>
                 </div>
-
                 <div>
                     <table class="table" id="example">
-                        <thead>
+                        <thead class="table-dark">
                         <tr>
                             <th scope="col">Mã</th>
                             <th scope="col">Tên Sản Phẩm</th>

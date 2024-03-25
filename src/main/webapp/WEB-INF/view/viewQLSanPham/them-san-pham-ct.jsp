@@ -19,6 +19,184 @@
     <script defer type="text/javascript" src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script defer src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function () {
+            const spModal = new bootstrap.Modal('#sanPham');
+            const msModal = new bootstrap.Modal('#mauSac');
+            const clModal = new bootstrap.Modal('#chatLieu');
+            const kcModal = new bootstrap.Modal('#kichCo');
+            const errorTenSP = document.getElementById("errorTenSP")
+            $("#quick_create_sp").submit(function (event) {
+                event.preventDefault();
+                getData();
+            });
+            $("#quick_create_ms").submit(function (event) {
+                event.preventDefault();
+                ajaxPostLoai("MauSac");
+            });
+            $("#quick_create_cl").submit(function (event) {
+                event.preventDefault();
+                ajaxPostLoai("ChatLieu");
+            });
+            $("#quick_create_kc").submit(function (event) {
+                event.preventDefault();
+                ajaxPostLoai("KichCo");
+            });
+
+            function getData() {
+                var data;
+                $.ajax({
+                    type: "GET",
+                    url: "http://localhost:8080/sanpham/api/th/detail/" + $("#quick_create_sp #th :selected").val(),
+                    success: function (result) {
+                        data = {
+                            ten: $("#quick_create_sp #tenSP").val().trim(),
+                            th: result.data,
+                            trangThai: $("#quick_create_sp input[name='trangThai']:checked").val()
+                        };
+                        ajaxPostSP(data, "sanpham")
+                    },
+                    error: function (e) {
+                        console.log("ERROR: ", e);
+                    }
+                });
+            }
+
+            function ajaxPostLoai(loai) {
+                var loai2 = ["", ""]
+                if (loai == "MauSac") {
+                    loai2[0] = "ms"
+                    loai2[1] = "MS"
+                }
+                if (loai == "KichCo") {
+                    loai2[0] = "kc"
+                    loai2[1] = "KC"
+                }
+                if (loai == "ChatLieu") {
+                    loai2[0] = "cl"
+                    loai2[1] = "CL"
+                }
+                var data = {
+                    ten: $("#quick_create_" + loai2[0] + " #ten" + loai2[1]).val().trim(),
+                    trangThai: $("#quick_create_" + loai2[0] + " input[name='trangThai']:checked").val()
+                };
+                console.log(data)
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: "http://localhost:8080/"+ loai + "/api/add",
+                    data: JSON.stringify(data),
+                    dataType: 'json',
+                    success: function (result) {
+                        console.log("-------------test get data---------------");
+                        console.log(result.data)
+                        if (result.status == "success") {
+                            console.log("-------------post---------------");
+                            console.log(data);
+                            clModal.hide();
+                            kcModal.hide();
+                            msModal.hide();
+                            alert("Success")
+                            var select = document.getElementById("form_"+loai2[0]);
+                            var newOption = document.createElement("option");
+                            var newOptionVal = document.createTextNode(result.data.ten);
+                            newOption.setAttribute("value", result.data.id);
+                            newOption.appendChild(newOptionVal);
+                            select.insertBefore(newOption, select.firstChild);
+                        } else {
+                            alert("Fail")
+                            console.log("fail");
+                        }
+                        console.log(result);
+                    },
+                    error: function (e) {
+                        alert("Error!")
+                        console.log("ERROR: ", e);
+                    }
+                });
+            }
+
+            function ajaxPostSP(data, loai) {
+                $.ajax({
+                    type: "GET",
+                    url: "http://localhost:8080/" + loai + "/api",
+                    success: function (result) {
+                        const sp = result.data
+                        errorTenSP.innerText = null
+                        if (data.ten.trim() == "" || data.ten.trim() == null) {
+                            errorTenSP.innerText = "Tên không được trống"
+                            return;
+                        } else {
+                            sp.forEach(element => {
+                                if (element.ten.trim() == data.ten.trim()) {
+                                    errorTenSP.innerText = "Tên không được trùng";
+                                    return;
+                                }
+                            });
+                        }
+                        if (errorTenSP.innerText.length == 0) {
+                            // DO POST
+                            $.ajax({
+                                type: "POST",
+                                contentType: "application/json",
+                                url: "http://localhost:8080/" + loai + "/api/add",
+                                data: JSON.stringify(data),
+                                dataType: 'json',
+                                success: function (result) {
+                                    console.log("-------------test get data---------------");
+                                    console.log(result.data)
+                                    if (result.status == "success") {
+                                        console.log("-------------post---------------");
+                                        console.log(data);
+                                        spModal.hide();
+                                        alert("Success")
+                                        ajaxGetSP();
+                                    } else {
+                                        alert("Fail")
+                                        console.log("fail");
+                                    }
+                                    console.log(result);
+                                },
+                                error: function (e) {
+                                    alert("Error!")
+                                    console.log("ERROR: ", e);
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+
+            function ajaxGetSP() {
+                $.ajax({
+                    type: "GET",
+                    url: "http://localhost:8080/sanpham/api/getFirt",
+                    success: function (result) {
+                        const sp = result.data;
+                        if (result.status == "success") {
+                            if (sp.trangThai == true) {
+                                var select = document.getElementById("form_sp");
+                                var newOption = document.createElement("option");
+                                var newOptionVal = document.createTextNode(sp.ten);
+                                newOption.setAttribute("value", sp.id);
+                                newOption.appendChild(newOptionVal);
+                                select.insertBefore(newOption, select.firstChild);
+                            }
+                            console.log("-------------get---------------");
+                            console.log(result.data);
+                        } else {
+                            console.log("Fail: ", result);
+                        }
+                    },
+                    error: function (e) {
+                        console.log("ERROR: ", e);
+                    }
+                });
+            }
+        })
+    </script>
 </head>
 <body>
 <%--<div style="margin-bottom: 20px"></div>--%>
@@ -64,17 +242,17 @@
                     </div>
                         <%--                    thêm nhanh thuộc tính--%>
                     <div class="col-md-6">
-                            <%--                        sản phẩm--%>
+                            <%--sản phẩm--%>
                         <div class="mb-3">
                             <label class="form-label">Sản phẩm</label>
                             <div class="input-group">
-                                <form:select path="sp" class="form-select" id="inputGroupSelect04"
-                                             aria-label="Example select with button addon">
+                                <form:select path="sp" class="form-select" id="form_sp">
                                     <c:forEach items="${listSP}" var="sp">
                                         <form:option value="${sp}">${sp.ten}</form:option>
                                     </c:forEach>
                                 </form:select>
-                                <button class="btn btn-outline-dark" type="button">
+                                <button class="btn btn-outline-dark" type="button" data-bs-toggle="modal"
+                                        data-bs-target="#sanPham">
                                     <i class="bi bi-plus-circle"></i>
                                 </button>
                             </div>
@@ -83,13 +261,14 @@
                         <div class="mb-3">
                             <label class="form-label">Chất liệu</label>
                             <div class="input-group">
-                                <form:select path="cl" class="form-select" id="inputGroupSelect04"
+                                <form:select path="cl" class="form-select" id="form_cl"
                                              aria-label="Example select with button addon">
                                     <c:forEach items="${listCL}" var="cl">
                                         <form:option value="${cl}">${cl.ten}</form:option>
                                     </c:forEach>
                                 </form:select>
-                                <button class="btn btn-outline-dark" type="button">
+                                <button class="btn btn-outline-dark" type="button" data-bs-toggle="modal"
+                                        data-bs-target="#chatLieu">
                                     <i class="bi bi-plus-circle"></i>
                                 </button>
                             </div>
@@ -98,28 +277,29 @@
                         <div class="mb-3">
                             <label class="form-label">Màu sắc</label>
                             <div class="input-group">
-                                <form:select path="ms" class="form-select" id="inputGroupSelect04"
+                                <form:select path="ms" class="form-select" id="form_ms"
                                              aria-label="Example select with button addon">
                                     <c:forEach items="${listMS}" var="ms">
                                         <form:option value="${ms}">${ms.ten}</form:option>
                                     </c:forEach>
                                 </form:select>
-                                <button class="btn btn-outline-dark" type="button">
+                                <button class="btn btn-outline-dark" type="button" data-bs-toggle="modal"
+                                        data-bs-target="#mauSac">
                                     <i class="bi bi-plus-circle"></i>
                                 </button>
                             </div>
                         </div>
-                        <%--                        kích thước--%>
+                            <%--                        kích thước--%>
                         <div class="mb-3">
                             <label class="form-label">kích cỡ</label>
                             <div class="input-group">
-                                <form:select path="kc" class="form-select" id="inputGroupSelect04"
-                                             aria-label="Example select with button addon">
+                                <form:select path="kc" class="form-select" id="form_kc">
                                     <c:forEach items="${listKC}" var="kc">
                                         <form:option value="${kc}">${kc.ten}</form:option>
                                     </c:forEach>
                                 </form:select>
-                                <button class="btn btn-outline-dark" type="button">
+                                <button class="btn btn-outline-dark" type="button" data-bs-toggle="modal"
+                                        data-bs-target="#kichCo">
                                     <i class="bi bi-plus-circle"></i>
                                 </button>
                             </div>
@@ -131,6 +311,7 @@
         </div>
     </div>
 </div>
+<jsp:include page="san-pham-chi-tiet-modal.jsp"/>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
         integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"

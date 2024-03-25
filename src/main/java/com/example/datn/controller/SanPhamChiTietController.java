@@ -6,6 +6,7 @@ import com.example.datn.service.KichCoService;
 import com.example.datn.service.MauSacService;
 import com.example.datn.service.SanPhamCTService;
 import com.example.datn.service.SanPhamService;
+import com.example.datn.service.ThuongHieuService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,8 @@ public class SanPhamChiTietController {
     private KichCoService serviceKC;
     @Autowired
     private SanPhamCTService serviceSPCT;
+    @Autowired
+    private ThuongHieuService serviceTH;
 
     @GetMapping("/datn/san-pham-chi-tiet/them")
     public  String viewSanPhamCT(@RequestParam(value = "idSP", defaultValue = "") String id, Model model){
@@ -39,7 +42,8 @@ public class SanPhamChiTietController {
         if (!id.trim().isEmpty()){
             spct.setSp(serviceSP.detail(UUID.fromString(id)));
         }
-        model.addAttribute("listSP",serviceSP.getAll());
+        model.addAttribute("listTH",serviceTH.getAll());
+        model.addAttribute("listSP",serviceSP.dangHoatDong());
         model.addAttribute("listMS",serviceMS.getAll());
         model.addAttribute("listCL",serviceCL.getAll());
         model.addAttribute("listKC",serviceKC.getAll());
@@ -50,10 +54,11 @@ public class SanPhamChiTietController {
     @GetMapping("/datn/san-pham-chi-tiet/sua/{id}")
     public  String viewUpdateSanPhamCT(@PathVariable("id") UUID id, Model model){
         SanPhamCT spct = serviceSPCT.detail(id);
-        model.addAttribute("listSP",serviceSP.getAll());
+        model.addAttribute("listSP",serviceSP.dangHoatDong());
         model.addAttribute("listMS",serviceMS.getAll());
         model.addAttribute("listCL",serviceCL.getAll());
         model.addAttribute("listKC",serviceKC.getAll());
+        model.addAttribute("listTH",serviceTH.getAll());
         model.addAttribute("spct1",spct);
         return "/viewQLSanPham/sua-san-pham-ct";
     }
@@ -63,10 +68,11 @@ public class SanPhamChiTietController {
                       BindingResult result,
                       Model model){
         if(result.hasErrors()){
-            model.addAttribute("listSP",serviceSP.getAll());
+            model.addAttribute("listSP",serviceSP.dangHoatDong());
             model.addAttribute("listMS",serviceMS.getAll());
             model.addAttribute("listCL",serviceCL.getAll());
             model.addAttribute("listKC",serviceKC.getAll());
+            model.addAttribute("listTH",serviceTH.getAll());
             return "/viewQLSanPham/them-san-pham-ct";
         }
         spct1.setMoTa(spct1.getMoTa().replaceAll("\\s\\s+", " ").trim());
@@ -82,10 +88,11 @@ public class SanPhamChiTietController {
         spct1.setId(idCu);
         spct1.setMa(spct.getMa());
         if(result.hasErrors()){
-            model.addAttribute("listSP",serviceSP.getAll());
+            model.addAttribute("listSP",serviceSP.dangHoatDong());
             model.addAttribute("listMS",serviceMS.getAll());
             model.addAttribute("listCL",serviceCL.getAll());
             model.addAttribute("listKC",serviceKC.getAll());
+            model.addAttribute("listTH",serviceTH.getAll());
             return "/viewQLSanPham/sua-san-pham-ct";
         }
         spct1.setMoTa(spct1.getMoTa().replaceAll("\\s\\s+", " ").trim());

@@ -25,6 +25,11 @@ public class MauSacServiceImpl implements MauSacService {
     }
 
     @Override
+    public List<MauSac> getAllDesc() {
+        return repository.getAllDesc();
+    }
+
+    @Override
     public Page<MauSac> getData(int page) {
         Pageable pageable= PageRequest.of(page, 5);
         return repository.findAll(pageable);

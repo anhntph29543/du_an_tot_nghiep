@@ -11,6 +11,7 @@ import java.util.UUID;
 @Repository
 public interface DonHangCTRepo extends JpaRepository<DonHangCT, UUID> {
 
-
+    @Query("select dhct from DonHangCT dhct where dhct.donHang.id=?1")
+    List<DonHangCT> getDHCT(UUID idDH);
 
 }

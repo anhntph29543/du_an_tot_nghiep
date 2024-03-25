@@ -23,7 +23,12 @@ public class SanPhamServiceImpl implements SanPhamService {
 
     @Override
     public List<SanPham> getAll() {
-        return repository.findAll();
+        return repository.getAllDesc();
+    }
+
+    @Override
+    public List<SanPham> dangHoatDong() {
+        return repository.dangHoatDong();
     }
 
     @Override

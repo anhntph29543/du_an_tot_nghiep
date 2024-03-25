@@ -1,125 +1,144 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Xem chi tiết
-</button>
-
-<!-- Modal -->
-<div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog  modal-dialog-centered modal-xl">
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%--modal san pham--%>
+<div class="modal fade" id="sanPham" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Chi tiết sản phảm </h5>
+                <h5 class="modal-title">Thêm sản phẩm</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-<%--                Bộ lọc --%>
-                <div class="mt-1 ">
-                    <h5>
-                        Bộ Lọc
-                    </h5>
-                    <div class="d-flex border border-dark rounded  mx-3 ">
-                        <div class=" m-2 ">
-                            <samp>
-                                Tìm kiếm
-                            </samp>
-                            </br>
-                            <div class="input-group flex-nowrap">
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" placeholder="Search....." aria-label="Recipient's username" aria-describedby="button-addon2">
-                                    <button class="btn btn-outline-secondary" type="button" id="button-addon2"><img src='<c:url value="/getimage/Logo-Search.png"></c:url>' /></button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class=" m-2 ">
-                            <samp>Kích cỡ  </samp>
-                            </br>
-                            <div>
-                                <select class="form-select" >
-                                    <option selected>Choose...</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class=" m-2 ">
-                            <samp>Màu sắc  </samp>
-                            </br>
-                            <div>
-                                <select class="form-select" >
-                                    <option selected>Choose...</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
-                            </div>
-                        </div>
+                <form id='quick_create_sp'>
+                    <div class="mb-3">
+                        <label class="col-form-label">Tên</label>
+                        <input id="tenSP" name="ten" type="text" class="form-control"/><br>
+                        <div id="errorTenSP" class="form-text" style="color: red"></div>
                     </div>
-                </div>
-<%--                    Danh sách --%>
-                <div>
-                    <h5>
-                        Danh sách sản phẩm chi tiết
-                    </h5>
-                    <div class="border border-dark rounded ">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th scope="col">STT</th>
-                                <th scope="col">Mã</th>
-                                <th scope="col">Tên</th>
-                                <th scope="col">Ảnh </th>
-                                <th scope="col">Kích cỡ </th>
-                                <th scope="col">Màu sắc </th>
-                                <th scope="col">Chất liệu </th>
-                                <th scope="col">Đơn giá  </th>
-                                <th scope="col">Số Lượng </th>
-                                <th scope="col">Chức Năng  </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                <td>
-
-                                    <a class="btn btn-while border  " href="#" role="button">Sửa </a>
-                                    <a class="btn btn-dark   " href="#" role="button">Xóa  </a>
-
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                                <td>@fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td colspan="2">Larry the Bird</td>
-                                <td>@twitter</td>
-                                <td>@twitter</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                    <div class="mb-3">
+                        <select id="th" name="thuongHieu" class="form-select">
+                            <c:forEach items="${listTH}" var="th">
+                                <option value="${th.id}">${th.ten}</option>
+                            </c:forEach>
+                        </select>
                     </div>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <label class="form-label">Trạng thái</label>
+                    <div class="mb-3 form-check">
+                        <input type="radio" name="trangThai" class="form-check-input" value="true"
+                               id="trangThaiSP1"
+                               checked="true"/>
+                        <label class="form-check-label" for="trangThaiSP1">Hoạt động</label>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="radio" name="trangThai" class="form-check-input" value="true"
+                               id="trangThaiSP2"/>
+                        <label class="form-check-label" for="trangThaiSP2">Không hoạt động</label>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Thêm</button>
+                </form>
             </div>
         </div>
     </div>
 </div>
+<%-- Màu sắc --%>
+<div class="modal fade" id="mauSac" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thêm màu sắc</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id='quick_create_ms'>
+                    <div class="mb-3">
+                        <label class="col-form-label">Tên</label>
+                        <input id="tenMS" name="ten" type="text" class="form-control"/><br>
+                    </div>
+                    <label class="form-label">Trạng thái</label>
+                    <div class="mb-3 form-check">
+                        <input type="radio" name="trangThai" class="form-check-input" value="true"
+                               id="trangThaiMS1"
+                               checked="true"/>
+                        <label class="form-check-label" for="trangThaiMS1">Hoạt động</label>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="radio" name="trangThai" class="form-check-input" value="false"
+                               id="trangThaiMS2"/>
+                        <label class="form-check-label" for="trangThaiMS2">Không hoạt động</label>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Thêm</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<%--  End thêm màu sắc  --%>
+<%-- Kích thước --%>
+<div class="modal fade" id="kichCo" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thêm kích cỡ</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id='quick_create_kc'>
+                    <div class="mb-3">
+                        <label class="col-form-label">Tên</label>
+                        <input id="tenKC" name="ten" type="text" class="form-control"/><br>
+                    </div>
+                    <label class="form-label">Trạng thái</label>
+                    <div class="mb-3 form-check">
+                        <input type="radio" name="trangThai" class="form-check-input" value="true"
+                               id="trangThaiKC1" checked="true"/>
+                        <label class="form-check-label" for="trangThaiKC1">Hoạt động</label>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="radio" name="trangThai" class="form-check-input" value="false"
+                               id="trangThaiKC2"/>
+                        <label class="form-check-label" for="trangThaiKC2">Không hoạt động</label>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Thêm</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<%--  End kích thước  --%>
+<%-- chất liệu --%>
+<div class="modal fade" id="chatLieu" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thêm chất liệu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id='quick_create_cl'>
+                    <div class="mb-3">
+                        <label class="col-form-label">Tên</label>
+                        <input id="tenCL" name="ten" type="text" class="form-control"/><br>
+                    </div>
+                    <label class="form-label">Trạng thái</label>
+                    <div class="mb-3 form-check">
+                        <input type="radio" name="trangThai" class="form-check-input"
+                               value="true" id="trangThaiCL1" checked="true"/>
+                        <label class="form-check-label" for="trangThaiCL1">Hoạt động</label>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="radio" name="trangThai" class="form-check-input" value="false"
+                               id="trangThaiCL2"/>
+                        <label class="form-check-label" for="trangThaiCL2">Không hoạt động</label>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Thêm</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<%--  End chất liệu  --%>
