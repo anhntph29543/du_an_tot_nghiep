@@ -14,30 +14,29 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.UUID;
 
-
 @Entity
-@Table(name = "Don_Hang_Chi_Tiet")
+@Table(name = "Gio_Hang_Chi_Tiet")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Builder
-public class DonHangCT {
-
+public class GioHangCTOnline {
     @Id
-    @Column(name = "ID_DonHangChiTiet")
+    @Column(name = "ID_GioHangChiTiet")
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    private UUID idGioHangCT;
 
     @ManyToOne
-    @JoinColumn(name = "ID_DonHang" , referencedColumnName = "ID_DonHang")
-    private DonHang donHang;
+    @JoinColumn(name = "ID_GioHang" , referencedColumnName = "ID_GioHang")
+    private GioHangOnline gioHangOnline;
 
     @ManyToOne
-    @JoinColumn(name = "ID_SPCT" , referencedColumnName = "ID_SanPhamChiTiet")
-    private SanPhamCTTuan sanPhanCT;
+    @JoinColumn(name = "ID_SanPhamChiTiet" , referencedColumnName = "ID_SanPhamChiTiet")
+    private SanPhamCTTuan sanPhamCT;
 
     @Column(name = "tenSPCT")
     private String tenSPCT;
@@ -48,8 +47,6 @@ public class DonHangCT {
     @Column(name = "giaSanPham")
     private Double giaSanPham;
 
-    @Column(name = "trangThai")
-    private Boolean trangThai;
-
-
+    @Column(name = "ngayThem")
+    private Date ngayThem;
 }

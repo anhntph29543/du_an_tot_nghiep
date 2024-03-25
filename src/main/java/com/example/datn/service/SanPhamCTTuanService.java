@@ -1,6 +1,6 @@
 package com.example.datn.service;
 
-import com.example.datn.entity.SanPhanCTTuan;
+import com.example.datn.entity.SanPhamCTTuan;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -8,13 +8,13 @@ import java.util.UUID;
 
 public interface SanPhamCTTuanService {
 
-    List<SanPhanCTTuan> getAll();
+    List<SanPhamCTTuan> getAll();
 
-    Page<SanPhanCTTuan> getData(int page);
+    Page<SanPhamCTTuan> getData(int page);
 
-    SanPhanCTTuan detail(UUID id);
+    SanPhamCTTuan detail(UUID id);
 
-    Boolean save(SanPhanCTTuan sanPhanCTTuan);
+    Boolean save(SanPhamCTTuan sanPhanCTTuan);
 
     String tuTaoMa();
 

@@ -14,42 +14,51 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.UUID;
 
-
 @Entity
-@Table(name = "Don_Hang_Chi_Tiet")
+@Table(name = "Khach_Hang")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Builder
-public class DonHangCT {
+public class KhachHangOnline {
 
     @Id
-    @Column(name = "ID_DonHangChiTiet")
+    @Column(name = "ID_KhachHang")
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToOne
-    @JoinColumn(name = "ID_DonHang" , referencedColumnName = "ID_DonHang")
-    private DonHang donHang;
+    @Column(name = "maKhachHang")
+    private String ma;
 
-    @ManyToOne
-    @JoinColumn(name = "ID_SPCT" , referencedColumnName = "ID_SanPhamChiTiet")
-    private SanPhamCTTuan sanPhanCT;
+    @Column(name = "hoTen")
+    private String ten;
 
-    @Column(name = "tenSPCT")
-    private String tenSPCT;
+    @Column(name = "gioiTinh")
+    private Boolean gioiTinh;
 
-    @Column(name = "soLuong")
-    private Integer soLuong;
+//    @Column(name = "ngaySinh")
+//    private Date ngaySinh;
 
-    @Column(name = "giaSanPham")
-    private Double giaSanPham;
+    @Column(name = "sdt")
+    private String sdt;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "anh")
+    private String anh;
+
+    @Column(name = "ngayThem")
+    private Date ngayThem;
 
     @Column(name = "trangThai")
     private Boolean trangThai;
 
-
+    @ManyToOne
+    @JoinColumn(name = "ID_TaiKhoan" , referencedColumnName = "ID_TaiKhoan")
+    private Login login;
 }

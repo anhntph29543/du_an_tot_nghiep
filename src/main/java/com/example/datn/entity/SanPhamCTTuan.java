@@ -24,7 +24,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
-public class SanPhanCTTuan {
+public class SanPhamCTTuan {
     @Id
     @Column(name = "ID_SanPhamChiTiet")
     @GeneratedValue(strategy = GenerationType.UUID)

@@ -9,6 +9,8 @@ import java.util.UUID;
 public interface AnhTuanService {
     List<AnhTuan> getAll();
 
+    List<AnhTuan> getAllAnhSP();
+
     Page<AnhTuan> getData(int page);
 
     AnhTuan detail(UUID id);
