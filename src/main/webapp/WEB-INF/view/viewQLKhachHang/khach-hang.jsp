@@ -71,14 +71,19 @@
                                 <div class="col-md-4">
                                     <h5>Thêm hình ảnh khách hàng</h5>
                                     <form method="post" id="imageUploadForm" enctype="multipart/form-data">
-                                        <label for="imageUpload" class="form-label visually-hidden">Select Image:</label>
-                                        <input type="file" class="form-control visually-hidden" id="imageUpload" name="anh" accept="image/*" onchange="previewImage(this)">
+                                        <label for="imageUpload" class="form-label visually-hidden">Select
+                                            Image:</label>
+                                        <input type="file" class="form-control visually-hidden" id="imageUpload"
+                                               name="anh" accept="image/*" onchange="previewImage(this)">
 
                                         <div class="mb-3 position-relative text-center">
-                                            <canvas id="imageCanvas" class="img-thumbnail rounded-circle" style="width: 300px; height: 300px;"></canvas>
-                                            <label for="imageUpload" class="upload-icon-label" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); cursor: pointer; color: black; font-size: 36px;">
+                                            <canvas id="imageCanvas" class="img-thumbnail rounded-circle"
+                                                    style="width: 300px; height: 300px;"></canvas>
+                                            <label for="imageUpload" class="upload-icon-label"
+                                                   style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); cursor: pointer; color: black; font-size: 36px;">
                                                 <i class="bi bi-plus"></i> <!-- Plus icon -->
                                             </label>
+
                                         </div>
 
                                     </form>
@@ -99,7 +104,8 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="sdt" class="form-label">Số Điện Thoại</label>
-                                            <input type="tel" class="form-control" id="sdt" pattern="[0-9]{10}" required>
+                                            <input type="tel" class="form-control" id="sdt" pattern="[0-9]{10}"
+                                                   required>
                                         </div>
                                         <%--                                        <div class="mb-3">--%>
                                         <%--                                            <label for="tinh" class="form-label">Tỉnh/Thành phố</label>--%>
@@ -120,36 +126,24 @@
                                                 <option value="false">Nữ</option>
                                             </select>
                                         </div>
-                                        <%--                                        <div class="mb-3">--%>
-                                        <%--                                            <label for="quan" class="form-label">Quận/Huyện</label>--%>
-                                        <%--                                            <input type="text" class="form-control" id="quan" required>--%>
-                                        <%--                                        </div>--%>
-                                        <%--                                        <div class="mb-3">--%>
-                                        <%--                                            <label for="phuong" class="form-label">Phường/Xã</label>--%>
-                                        <%--                                            <input type="text" class="form-control" id="phuong" required>--%>
-                                        <%--                                        </div>--%>
-                                        <!-- Add other additional details fields -->
+
                                     </form>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- ... (remaining code) ... -->
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                            <button type="button" data-bs-dismiss="modal" class="btn btn-primary" onclick="themKhachHang()">Thêm</button>
+                            <button type="button" data-bs-dismiss="modal" class="btn btn-primary"
+                                    onclick="themKhachHang()">Thêm
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <%--            <label class="mx-5 my-2">--%>
-            <%--                Tên chất liệu--%>
-            <%--                <input type="text" name="ten">--%>
-            <%--            </label><br>--%>
 
-            <%--            <button class="btn btn-secondary" onclick="handlerCreateChatLieu()">ADD</button>--%>
         </div>
 
         <div class="border border-dark rounded  m-3 p-4 ">
@@ -169,56 +163,74 @@
 
     </div>
 </div>
-
-<div class="modal fade " id="khachHang" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+<div class="modal fade" id="khachHang" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Chi tiết khách hàng </h5>
+                <h5 class="modal-title" id="exampleModalLabel">Chi tiết khách hàng</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div>
-                    <label style="display: none">
-                        ID
-                        <input type="text" id="id">
-                    </label><br>
-                    <label>
-                        Mã khách hàng :
-                        <input type="text" id="maUD" disabled>
-                    </label>
-                    <div class="mb-3">
-                        <label class="col-form-label">Tên khách hàng:</label>
-                        <input id="tenUD" type="text" class="form-control"/><br>
-                        <div id="errorTen" class="form-text" style="color: #ff0000"></div>
+                <div class="row">
+                    <!-- Section for displaying customer image -->
+                    <div class="col-md-4">
+                        <h5>Ảnh khách hàng</h5>
+                        <div class="mb-3 position-relative text-center">
+                            <!-- Image frame -->
+                            <div id="imageFrame"
+                                 style= "width: 300px; height: 300px; border: 1px solid #ced4da; overflow: hidden; position: relative;">
+                                <!-- Customer image -->
+                                <img id="anhKhachHang" src="/anhduan/' + data.anh'" alt="Ảnh khách hàng"
+                                     style="max-width: 100%; max-height: 100%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                            </div>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="col-form-label">Email:</label>
-                        <input id="emailUD" type="text" class="form-control"/><br>
-                        <div id="errorEmail" class="form-text" style="color: red"></div>
+
+                    <!-- Section for entering personal information -->
+                    <div class="col-md-4">
+                        <!-- Personal information form -->
+                        <div class="mb-3">
+                            <input id="idUD" type="text" class="form-control" style="display: none">
+                        </div>
+                        <div class="mb-3">
+                            <label class="col-form-label">Mã khách hàng:</label>
+                            <input id="maUD" type="text" class="form-control" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label class="col-form-label">Tên khách hàng:</label>
+                            <input id="tenUD" type="text" class="form-control"/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="col-form-label">Email:</label>
+                            <input id="emailUD" type="text" class="form-control"/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="col-form-label">Số điện thoại:</label>
+                            <input id="sdtUD" type="text" class="form-control"/>
+                        </div>
+                        <label class="col-form-label">Trạng thái:</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="trangThai">
+                            <label class="form-check-label" for="trangThai">Hoạt động</label>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="col-form-label">Sdt:</label>
-                        <input id="sdtUD" type="text" class="form-control"/><br>
-                        <div id="errorSdt" class="form-text" style="color: red"></div>
+
+                    <!-- Section for additional details -->
+                    <div class="col-md-4">
+                        <!-- Additional details form -->
+                        <!-- ... -->
                     </div>
-                    <label class="mt-3">
-                        Ngày thêm :
-                        <p id="ngayThem"></p>
-                    </label><br>
-                    <label class="mb-3">
-                        Trạng thái :
-                        <input type="checkbox" id="trangThai"> Hoạt động
-                    </label><br>
-                    <button class="btn btn-secondary" onclick="handlerUpdateChatLieu()">Update</button>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" onclick="capNhatKhachHang()">Cập nhật</button>
+
             </div>
         </div>
     </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
         integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"
         crossorigin="anonymous"></script>
@@ -228,40 +240,50 @@
 </body>
 <script defer>
     function themKhachHang() {
-        var ten = document.getElementById("ten").value;
-        var email = document.getElementById("email").value;
-        var sdt = document.getElementById("sdt").value;
-        var gioiTinh = document.getElementById("gioiTinh").value;
-
         var formData = new FormData();
-        formData.append("ten", ten);
-        formData.append("email", email);
-        formData.append("sdt", sdt);
-        formData.append("gioiTinh", gioiTinh);
+        formData.append("anh", document.getElementById("imageUpload").files[0]);
+        formData.append("ten", document.getElementById("ten").value);
+        formData.append("email", document.getElementById("email").value);
+        formData.append("sdt", document.getElementById("sdt").value);
+        formData.append("gioiTinh", document.getElementById("gioiTinh").value);
 
-        var imageFile = document.getElementById("imageUpload").files[0];
-        formData.append("anh", imageFile);
-
-        addData(formData);
+        fetch('http://localhost:8080/KhachHang/api/add', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert("Thêm khách hàng thành công!");
+                    $('#themKhachHangModal').modal('hide');
+                    getData(); // Reload data after adding a new customer
+                } else {
+                    throw new Error('Thêm khách hàng thất bại.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Có lỗi xảy ra khi thêm khách hàng.");
+            });
     }
 
     function previewImage(input) {
-        var canvas = document.getElementById("imageCanvas");
-        var ctx = canvas.getContext("2d");
-
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            var img = new Image();
-            img.src = e.target.result;
-
-            img.onload = function () {
-                canvas.width = img.width;
-                canvas.height = img.height;
-                ctx.drawImage(img, 0, 0, img.width, img.height);
+        var canvas = document.getElementById('imageCanvas');
+        var context = canvas.getContext('2d');
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var img = new Image();
+                img.onload = function () {
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    context.drawImage(img, 0, 0);
+                };
+                img.src = e.target.result;
             };
-        };
-        reader.readAsDataURL(input.files[0]);
+            reader.readAsDataURL(input.files[0]);
+        }
     }
+
 
     function openThemKhachHangModal() {
         var myModal = new bootstrap.Modal(document.getElementById('themKhachHangModal'), {
@@ -271,99 +293,83 @@
     }
 
     start();
-
-    var errorTen = document.getElementById("errorTen");
-    var errorTenADD = document.getElementById("errorTenADD");
-    var errorEmail = document.getElementById("errorEmail");
-    var errorTenADD = document.getElementById("errorTenADD");
-    var errorTen = document.getElementById("errorTen");
-    var errorTenADD = document.getElementById("errorTenADD");
     const clModal = new bootstrap.Modal('#khachHang');
 
     function start() {
         getData();
     }
-
-
-    function addData(data) {
-        let options = {
-            method: "POST",
-            dataType: "json",
-            headers: {
-                'Accept': 'application/json, text/plain',
-                'Content-Type': 'application/json;charset=UTF-8'
-            },
-            body: JSON.stringify(data)
-        }
-        fetch('http://localhost:8080/KhachHang/api/add', options)
-            .then(function (response) {
-                response.json();
-                alert("Them thanh cong");
-                errorTenADD.innerHTML = "";
-                table.destroy();
-                getData()
-            })
-    }
-
-    function handlerUpdateChatLieu() {
-        var id = document.querySelector('input[id="id"]').value;
-        var ten = document.querySelector('input[id="tenUD"]').value;
-        var ma = document.querySelector('input[id="maUD"]').value;
-        var ngayThem = new Date();
-        var trangThai = document.querySelector('input[id="trangThai"]').checked;
-        console.log(trangThai)
-        if (ten.trim() == null || ten.trim() == "") {
-            errorTen.innerHTML = "Tên trống";
-            return;
-        }
-
-        var formData = {
-            ma: ma,
-            ten: ten,
-            ngayThem: ngayThem,
-            trangThai: trangThai,
-        };
-        udateChatLieu(id, formData);
-
-    }
-
-    function udateChatLieu(id, data) {
-        let options = {
-            method: "PUT",
-            dataType: "json",
-            headers: {
-                'Accept': 'application/json, text/plain',
-                'Content-Type': 'application/json;charset=UTF-8'
-            },
-            body: JSON.stringify(data)
-        }
-        fetch('http://localhost:8080/KhachHang/api/update/' + id, options)
-            .then(function (response) {
-                response.json();
-                alert("Update thanh cong");
-                clModal.hide();
-                table.destroy();
-                getData()
-            })
-    }
-
     function detailData(id) {
-        errorTen.innerText = null
         fetch('http://localhost:8080/KhachHang/api/detail/' + id)
             .then(function (response) {
+                if (!response.ok) {
+                    throw new Error('Lỗi khi lấy thông tin khách hàng.');
+                }
                 return response.json();
             })
             .then(data => {
-                console.log(data)
-                document.getElementById("maUD").value = data.ma;
-                document.getElementById("tenUD").value = data.ten;
-                document.getElementById("id").value = data.id;
-                document.getElementById("ngayThem").innerHTML = data.ngayThem;
-                let trangThai = document.getElementById("trangThai");
-                trangThai.checked = data.trangThai;
+                $('#idUD').val(data.id);
+                $('#maUD').val(data.ma);
+                $('#tenUD').val(data.ten);
+                $('#emailUD').val(data.email);
+                $('#sdtUD').val(data.sdt);
+                $('#trangThai').prop('checked', data.trangThai);
+                // Hiển thị ảnh khách hàng
+                $('#anhKhachHang').attr('src', '/anhduan/' + data.anh);
+                // Mở modal chi tiết khách hàng
+                $('#khachHang').modal('show');
+                // Open modal
+                clModal.show();
             })
+            .catch(function (err) {
+                alert(err.message); // Hiển thị thông báo lỗi
+            });
     }
+    function capNhatKhachHang() {
+        var id= $('#idUD').val();
+        var ma = $('#maUD').val(); // Get customer ID
+        var ten = $('#tenUD').val(); // Get updated name
+        var email = $('#emailUD').val(); // Get updated email
+        var sdt = $('#sdtUD').val(); // Get updated phone number
+        var trangThai = $('#trangThai').prop('checked'); // Get updated status
+
+        // Prepare data to be sent for update
+        var data = {
+            ten: ten,
+            email: email,
+            sdt: sdt,
+            trangThai: trangThai
+        };
+
+        // Send a PUT request to update customer information
+
+        fetch('http://localhost:8080/KhachHang/api/update/' + id, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert("Cập nhật thông tin khách hàng thành công!");
+                    // Close the modal
+                    $('#khachHang').modal('hide');
+                    // Reload data after updating customer information
+                    getData();
+                } else {
+                    throw new Error('Cập nhật thông tin khách hàng thất bại.');
+                }
+            })
+            console.log(id)
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Có lỗi xảy ra khi cập nhật thông tin khách hàng.");
+            });
+    }
+
+
     var table;
+
     function getData() {
         fetch('http://localhost:8080/KhachHang/api')
             .then(function (response) {

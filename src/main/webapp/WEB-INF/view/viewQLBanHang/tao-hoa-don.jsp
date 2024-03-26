@@ -16,6 +16,10 @@
         display: none;
     }
 
+    .dataTables_filter {
+        display: none;
+    }
+
 </style>
 <div class="container" style="margin-top: 10px">
     <br>
@@ -305,7 +309,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalToggleLabel">Sửa số lượng</h5>
+                <h5 class="modal-title" id="exampleModalToggleLabel">Sửa số lượng(số lượng còn:<span id="slSPCTCon"></span>)</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                         aria-label="Close"></button>
             </div>
@@ -330,8 +334,8 @@
 
     var idDonHang = '${idDHFirst}';
     detailDataDonHang(idDonHang)
-    hienThiSanPhamDonHang(idDonHang)
     tinhTongTien(idDonHang)
+    hienThiSanPhamDonHang(idDonHang)
     document.getElementById('pay').addEventListener('click', function Pay(event) {
         var submitButton = document.getElementById('pay');
         var tienKhachDua = parseFloat(document.getElementById('tienKhachDua').value);
@@ -392,11 +396,21 @@
                     var tenKH = response.data.ten;
                     $("#tenKH").text(tenKH);
                 } else {
-                    $("#tenKH").text("Không tìm thấy thông tin khách hàng");
+                    Swal.fire({
+                        icon: "warning",
+                        text: "Không tìm thấy thông tin khách hàng",
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
                 }
             },
             error: function () {
-                $("#tenKH").text("Không tìm thấy thông tin khách hàng");
+                Swal.fire({
+                    icon: "warning",
+                    text: "Không tìm thấy thông tin khách hàng",
+                    showConfirmButton: false,
+                    timer: 2500
+                });
             }
         });
     }
@@ -429,22 +443,81 @@
         }
     }
     domReady(function () {
-
         // If found you qr code
         function onScanSuccess(decodeText, decodeResult) {
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                url: "http://localhost:8080/hoa-don/them-san-pham-qr",
-                data: JSON.stringify(decodeText),
-                dataType: 'json',
-                success: location.replace("http://localhost:8080/tao-hoa-don/hien-thi")
-            });
-        }
+            // $.ajax({
+            //     type: "POST",
+            //     contentType: "application/json",
+            //     url: 'http://localhost:8080/SPCT/api/detail/' + decodeText,
+            //     data: JSON.stringify(decodeText),
+            //     dataType: 'json',
+            //     success: function (data){
+            //         var donHang = {
+            //             id: idDonHang
+            //         }
+            //         if (data.soLuong == 0) {
+            //             table.destroy();
+            //             getDataAllSPCT();
+            //             table2.destroy();
+            //             hienThiSanPhamDonHang(idDonHang);
+            //             Swal.fire({
+            //                 title: "Sản phẩm đã hết",
+            //                 icon: "error",
+            //                 showConfirmButton: false,
+            //                 timer: 2500
+            //             });
+            //             return;
+            //         } else {
+            //             var formData = {
+            //                 donHang: donHang,
+            //                 sanPhanCT: data,
+            //                 soLuong: 1,
+            //                 giaSanPham: data.donGia,
+            //                 trangThai: true,
+            //             };
+            //             addDataThemSPGioHang(formData)
+            //
+            //         }
+            //     }
+            // });
+            fetch('http://localhost:8080/SPCT/api/detail/' + decodeText)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(data => {
+                    var donHang = {
+                        id: idDonHang
+                    }
+                    if (data.soLuong == 0) {
+                        table.destroy();
+                        getDataAllSPCT();
+                        table2.destroy();
+                        hienThiSanPhamDonHang(idDonHang);
+                        Swal.fire({
+                            title: "Sản phẩm đã hết",
+                            icon: "error",
+                            showConfirmButton: false,
+                            timer: 2500
+                        });
+                        return;
+                    } else {
+                        var formData = {
+                            donHang: donHang,
+                            sanPhanCT: data,
+                            soLuong: 1,
+                            giaSanPham: data.donGia,
+                            trangThai: true,
+                        };
+                        $('#exampleModal').modal('hide');
+                        addDataThemSPGioHang(formData)
+                        document.getElementById("html5-qrcode-button-camera-stop").click();
+                    }
 
+                })
+        }
         let htmlscanner = new Html5QrcodeScanner(
             "my-qr-reader",
-            { fps: 5, qrbos: 250 }
+            { fps: 1, qrbos: 250 }
         );
         htmlscanner.render(onScanSuccess);
     });
@@ -668,12 +741,11 @@
                     showConfirmButton: false,
                     timer: 2500
                 });
-                table2.destroy();
-                hienThiSanPhamDonHang(idDonHang);
                 table.destroy();
                 getDataAllSPCT();
-                tinhTongTien(idDonHang);
-
+                table2.destroy();
+                hienThiSanPhamDonHang(idDonHang);
+                tinhTongTien(idDonHang)
             })
     }
 
@@ -743,7 +815,7 @@
                                 "data": 'id',
                                 "render": function (data, type, row, meta) {
                                     return '<button  class="btn btn-dark" onclick="xoaSPDHCT(`' + data + '`)" ><i class="bi bi-trash"></i></button >' +
-                                        '<button class="btn btn-dark" data-bs-placement="bottom" data-bs-toggle2="suaSL" ' +
+                                        '<button class="btn btn-dark" data-bs-placement="bottom" data-bs-toggle2="suaSL" onclick="detailSPCT(`' + data + '`)"' +
                                         'data-bs-toggle="modal" data-bs-target="#suaSL" data-bs-slSua="' + row.soLuong + '" data-bs-idHDCT="' + data + '" title="Sửa số lượng">' +
                                         '<i class="bi bi-pencil-square"></i>' +
                                         '</button>';
@@ -761,6 +833,15 @@
             })
     }
 
+    function detailSPCT(idDHCT){
+        fetch('http://localhost:8080/DonHangCT/api/detailSPCT/' + idDHCT)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById("slSPCTCon").innerHTML = data.soLuong;
+            })
+    }
 
     function xoaSPDHCT(idSPCT) {
         let options = {

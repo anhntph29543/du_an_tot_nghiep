@@ -12,43 +12,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Khach_Hang")
+@Table(name = "Dia_Chi")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Builder
-public class KhachHang {
+public class DiaChi {
+
     @Id
-    @Column(name = "ID_KhachHang")
+    @Column(name = "ID_DiaChi")
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "maKhachHang")
-    private String ma;
-
-    @Column(name = "hoTen")
-    private String ten;
-
-    @Column(name = "gioiTinh")
-    private Boolean gioiTinh;
-
-    @Column(name = "sdt")
-    private String sdt;
-
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "anh")
-    private String anh;
-
-    @Column(name = "ngayThem")
-    private Date ngayThem;
-
-    @Column(name = "trangThai")
-    private Boolean trangThai;
 }

@@ -1,6 +1,9 @@
 package com.example.datn.service.impl;
 
 import com.example.datn.entity.DonHang;
+import com.example.datn.entity.SanPhamCT;
+import com.example.datn.entity.SanPhanCTTuan;
+import com.example.datn.repository.DonHangCTRepo;
 import com.example.datn.repository.DonHangRepository;
 import com.example.datn.service.DonHangService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -18,6 +22,8 @@ public class DonHangServiceImpl implements DonHangService {
 
     @Autowired
     private DonHangRepository donHangRepository;
+    @Autowired
+    private DonHangCTRepo donHangCTRepo;
     private String prefix= "HD";
     @Override
     public List<DonHang> getAll() {
@@ -27,6 +33,40 @@ public class DonHangServiceImpl implements DonHangService {
     @Override
     public List<DonHang> getCTT() {
         return donHangRepository.getCTT("chưa thanh toán");
+
+    }
+
+    @Override
+    public List<DonHang> getDHTT(String trangThai) {
+        if(trangThai.equalsIgnoreCase("all")){
+            return getAll();
+        }
+        return donHangRepository.getDHTT(trangThai);
+    }
+
+    @Override
+    public List<DonHang> search(String loai,String trangThai) {
+        Boolean trangThai1 = true;
+        if(trangThai.equalsIgnoreCase("0")){
+            trangThai1=false;
+        }
+        List<DonHang> listSearch = new ArrayList<>();
+        if(loai.equalsIgnoreCase("") & trangThai.equalsIgnoreCase("3")){
+            listSearch= this.getAll();
+        }else if(!loai.equalsIgnoreCase("") & trangThai.equalsIgnoreCase("3")){
+            listSearch=donHangRepository.searhByLoai("%"+loai+"%");
+        }else if(!loai.equalsIgnoreCase("") & !trangThai.equalsIgnoreCase("3")){
+            listSearch=donHangRepository.searhByAll("%"+loai+"%",trangThai1);
+        }else{
+            listSearch=donHangRepository.searhByTrangThai(trangThai1);
+        }
+        return listSearch;
+    }
+
+    @Override
+    public List<SanPhanCTTuan> getSPCT(UUID idDH) {
+        return donHangCTRepo.getSPCT(idDH);
+
     }
 
     @Override

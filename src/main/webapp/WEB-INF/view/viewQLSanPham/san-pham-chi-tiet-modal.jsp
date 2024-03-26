@@ -54,7 +54,7 @@
                 <form id='quick_create_ms'>
                     <div class="mb-3">
                         <label class="col-form-label">Tên</label>
-                        <input id="tenMS" name="ten" type="text" class="form-control"/><br>
+                        <input id="tenMS" name="ten" type="color" class="form-control"/><br>
                     </div>
                     <label class="form-label">Trạng thái</label>
                     <div class="mb-3 form-check">

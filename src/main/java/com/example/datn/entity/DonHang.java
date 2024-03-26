@@ -39,6 +39,10 @@ public class DonHang {
     @JoinColumn(name = "ID_NhanVien" , referencedColumnName = "ID_NhanVien")
     private NhanVien nhanVien;
 
+    @ManyToOne
+    @JoinColumn(name = "ID_KhachHang" , referencedColumnName = "ID_KhachHang")
+    private KhachHang kh;
+
     @Column(name = "loaiDon")
     private String loaiDon;
 
@@ -71,5 +75,9 @@ public class DonHang {
 
     @Column(name = "trangThaiDonHang")
     private String trangThaiDonHang;
+
+    @Column(name = "ghiChu")
+    private String ghiChu;
+
 
 }
