@@ -1,6 +1,6 @@
 package com.example.datn.service.impl;
 
-import com.example.datn.entity.SanPhanCTTuan;
+import com.example.datn.entity.SanPhamCTTuan;
 import com.example.datn.repository.SanPhamCTTuanRepo;
 import com.example.datn.service.SanPhamCTTuanService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,23 +21,23 @@ public class SanPhamCTTuanServiceImpl implements SanPhamCTTuanService {
     private String prefix= "SPCT";
 
     @Override
-    public List<SanPhanCTTuan> getAll() {
+    public List<SanPhamCTTuan> getAll() {
         return sanPhamCTTuanRepo.findAll();
     }
 
     @Override
-    public Page<SanPhanCTTuan> getData(int page) {
+    public Page<SanPhamCTTuan> getData(int page) {
         Pageable pageable= PageRequest.of(page, 5);
         return sanPhamCTTuanRepo.findAll(pageable);
     }
 
     @Override
-    public SanPhanCTTuan detail(UUID id) {
+    public SanPhamCTTuan detail(UUID id) {
         return sanPhamCTTuanRepo.findById(id).get();
     }
 
     @Override
-    public Boolean save(SanPhanCTTuan sanPhanCTTuan) {
+    public Boolean save(SanPhamCTTuan sanPhanCTTuan) {
         if (sanPhanCTTuan.getMa()==null){
             sanPhanCTTuan.setMa(tuTaoMa());
         }

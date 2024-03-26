@@ -37,9 +37,6 @@ public class KhachHang {
     @Column(name = "gioiTinh")
     private Boolean gioiTinh;
 
-//    @Column(name = "ngaySinh")
-//    private Date ngaySinh;
-
     @Column(name = "sdt")
     private String sdt;
 

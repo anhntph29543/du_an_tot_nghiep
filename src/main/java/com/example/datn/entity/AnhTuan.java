@@ -36,7 +36,7 @@ public class AnhTuan {
 
     @ManyToOne
     @JoinColumn(name = "ID_SPCT" , referencedColumnName = "ID_SanPhamChiTiet")
-    private SanPhanCTTuan sanPhanCTTuan;
+    private SanPhamCTTuan sanPhanCTTuan;
 
 
 

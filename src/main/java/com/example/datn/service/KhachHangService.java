@@ -13,6 +13,7 @@ public interface KhachHangService {
 
     Boolean save(KhachHang kh);
 
+    String tuTaoMa();
     void delete(UUID id);
 
     KhachHang detail(UUID id);

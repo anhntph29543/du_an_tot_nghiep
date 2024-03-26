@@ -2,14 +2,13 @@ package com.example.datn.controller.restcontroller;
 
 
 import com.example.datn.entity.AnhTuan;
-import com.example.datn.entity.ChatLieu;
-import com.example.datn.entity.DonHang;
 import com.example.datn.entity.DonHangCT;
 import com.example.datn.entity.DonHangCTAnh;
 import com.example.datn.entity.KhachHang;
 import com.example.datn.entity.SanPhamCT;
 import com.example.datn.entity.SanPhanCTTuan;
 import com.example.datn.entity.ServiceResponse;
+
 import com.example.datn.service.AnhTuanService;
 import com.example.datn.service.DonHangCTService;
 import com.example.datn.service.DonHangService;
@@ -18,12 +17,10 @@ import com.example.datn.service.SanPhamCTTuanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -210,14 +207,6 @@ public class DonHangCTRestController {
         SanPhamCT spct = serviceSPCTMoi.detail(donHangCT.getSanPhanCT().getId());
         spct.setSoLuong(spct.getSoLuong() + donHangCT.getSoLuong());
         serviceSPCTMoi.save(spct);
-//        int soLuongXoa = donHangCT.getSoLuong();
-//        List<SanPhanCTTuan> listSPCT = serviceSPCT.getAll();
-//        for (SanPhanCTTuan spct : listSPCT) {
-//            if (spct.getId().equals(donHangCT.getSanPhanCT().getId())) {
-//                spct.setSoLuong(spct.getSoLuong() + soLuongXoa);
-//                serviceSPCT.save(spct);
-//            }
-//        }
         service.delete(id);
         return ResponseEntity.ok().build();
     }

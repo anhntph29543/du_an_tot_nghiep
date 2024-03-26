@@ -18,4 +18,5 @@ public interface NhanVienService {
     void delete(UUID id);
 
     NhanVien detail(UUID id);
+    String tuTaoMa();
 }

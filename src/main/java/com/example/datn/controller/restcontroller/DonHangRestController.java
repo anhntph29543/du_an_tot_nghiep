@@ -62,6 +62,7 @@ public class DonHangRestController {
     public ResponseEntity<?> thanhToan1(@PathVariable("id") UUID id, @RequestBody DonHang dh1) {
         DonHang dh = service.detail(id);
         dh.setTongTien(dh1.getTongTien());
+
         dh.setTienKhachDua(dh1.getTienKhachDua());
         dh.setTrangThaiDonHang("đã thanh toán");
         return ResponseEntity.ok(service.save(dh));

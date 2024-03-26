@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
+
 @Service
 public class KhachHangServiceImpl implements KhachHangService {
     @Autowired
@@ -20,7 +22,7 @@ public class KhachHangServiceImpl implements KhachHangService {
     public List<KhachHang> getAll() {
         return repository.findAll();
     }
-
+    private String prefix= "KH";
     @Override
     public Page<KhachHang> getData(int page) {
         Pageable pageable= PageRequest.of(page, 5);
@@ -37,6 +39,14 @@ public class KhachHangServiceImpl implements KhachHangService {
     }
 
     @Override
+    public String tuTaoMa() {
+        Stream<String> ma= repository.maKH().stream();
+        Integer max= ma.map(o -> o.replace(prefix, "")).mapToInt(Integer::parseInt).max().orElse(0);
+        return prefix+(String.format("%d", max+1));
+    }
+
+
+    @Override
     public void delete(UUID id) {
         repository.deleteById(id);
     }
@@ -50,4 +60,5 @@ public class KhachHangServiceImpl implements KhachHangService {
     public KhachHang getKHbysdt(String sdt) {
         return repository.getKH(sdt);
     }
+
 }
