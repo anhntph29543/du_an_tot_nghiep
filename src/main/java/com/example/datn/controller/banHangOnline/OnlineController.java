@@ -40,6 +40,8 @@ public class OnlineController {
 
     private String idGioHang="123";
 
+    private String idKhacHang="123";
+
     private String name="Tuansiretert";
 
     @GetMapping("/trang-chu")
@@ -52,10 +54,12 @@ public class OnlineController {
     @GetMapping("/trang-chu/{id}")
     public String trangChu(@PathVariable("id") String id, Model model){
         idLogin=id;
+
         List<GioHangOnline> listGh=gioHangOnlineService.getAll();
         for (GioHangOnline gioHangOnline: listGh) {
             if(String.valueOf(gioHangOnline.getKhachHangOnline().getLogin().getId()).equals(idLogin)){
                 idGioHang=String.valueOf(gioHangOnline.getId());
+                idKhacHang=String.valueOf(gioHangOnline.getKhachHangOnline().getId());
             }
         }
         return "redirect:/ban-hang-online/datn/trang-chu";
@@ -121,6 +125,7 @@ public class OnlineController {
     public String thanhToan(Model model){
         model.addAttribute("idLogin",idLogin);
         model.addAttribute("idGioHang",idGioHang);
+        model.addAttribute("idKhachHang",idKhacHang);
 
         return "/viewBanHangOnline/viewThanhToan/thanhToan";
 

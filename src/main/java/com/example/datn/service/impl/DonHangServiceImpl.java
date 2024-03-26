@@ -33,6 +33,7 @@ public class DonHangServiceImpl implements DonHangService {
     @Override
     public List<DonHang> getCTT() {
         return donHangRepository.getCTT("chưa thanh toán");
+
     }
 
     @Override
@@ -65,6 +66,7 @@ public class DonHangServiceImpl implements DonHangService {
     @Override
     public List<SanPhanCTTuan> getSPCT(UUID idDH) {
         return donHangCTRepo.getSPCT(idDH);
+
     }
 
     @Override

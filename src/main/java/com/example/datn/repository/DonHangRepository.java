@@ -28,4 +28,5 @@ public interface DonHangRepository extends JpaRepository<DonHang, UUID> {
     @Query("select dh from DonHang dh where dh.loaiDon like ?1 and dh.trangThaiDonHang=?2")
     List<DonHang> searhByAll(String loai,Boolean trangThai);
 
+
 }

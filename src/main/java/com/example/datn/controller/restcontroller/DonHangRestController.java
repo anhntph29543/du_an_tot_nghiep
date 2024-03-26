@@ -64,7 +64,9 @@ public class DonHangRestController {
         dh.setTongTien(dh1.getTongTien());
 
         dh.setTienKhachDua(dh1.getTienKhachDua());
+
         dh.setTrangThaiDonHang("đã thanh toán");
+
         return ResponseEntity.ok(service.save(dh));
     }
 

@@ -1,6 +1,5 @@
 package com.example.datn.entity;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,13 +18,13 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Don_Hang")
+@Table(name = "Dia_Chi")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Builder
-public class DonHang {
+public class DonHangOnilne {
 
     @Id
     @Column(name = "ID_DonHang")
@@ -36,12 +35,16 @@ public class DonHang {
     private String ma;
 
     @ManyToOne
-    @JoinColumn(name = "ID_NhanVien" , referencedColumnName = "ID_NhanVien")
-    private NhanVien nhanVien;
+    @JoinColumn(name = "ID_DIaChi" , referencedColumnName = "ID_DIaChi")
+    private DiaChiOnline diaChiOnline;
 
     @ManyToOne
     @JoinColumn(name = "ID_KhachHang" , referencedColumnName = "ID_KhachHang")
-    private KhachHang kh;
+    private KhachHangOnline khachHangOnline;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_NhanVien" , referencedColumnName = "ID_NhanVien")
+    private NhanVien nhanVien;
 
     @Column(name = "loaiDon")
     private String loaiDon;
@@ -75,9 +78,4 @@ public class DonHang {
 
     @Column(name = "trangThaiDonHang")
     private String trangThaiDonHang;
-
-    @Column(name = "ghiChu")
-    private String ghiChu;
-
-
 }
