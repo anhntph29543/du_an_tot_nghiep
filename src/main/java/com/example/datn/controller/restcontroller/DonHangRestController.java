@@ -54,8 +54,8 @@ public class DonHangRestController {
     @PostMapping("/thanhToan1/{id}")
     public ResponseEntity<?> thanhToan1(@PathVariable("id") UUID id, @RequestBody DonHang dh1) {
         DonHang dh = service.detail(id);
-
         dh.setTongTien(dh1.getTongTien());
+
         dh.setTienKhachDua(dh1.getTienKhachDua());
         dh.setTrangThaiDonHang(true);
         return ResponseEntity.ok(service.save(dh));
