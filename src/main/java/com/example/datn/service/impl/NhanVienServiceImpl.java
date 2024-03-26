@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
+
 @Service
 public class NhanVienServiceImpl implements NhanVienService {
     @Autowired
@@ -19,7 +21,7 @@ public class NhanVienServiceImpl implements NhanVienService {
     public List<NhanVien> getAll() {
         return repository.findAll();
     }
-
+    private String prefix= "NV";
     @Override
     public Page<NhanVien> getData(int page) {
         Pageable pageable= PageRequest.of(page, 5);
@@ -43,5 +45,13 @@ public class NhanVienServiceImpl implements NhanVienService {
     @Override
     public NhanVien detail(UUID id) {
         return repository.findById(id).get();
+    }
+
+
+    @Override
+    public String tuTaoMa() {
+        Stream<String> ma= repository.maNV().stream();
+        Integer max= ma.map(o -> o.replace(prefix, "")).mapToInt(Integer::parseInt).max().orElse(0);
+        return prefix+(String.format("%d", max+1));
     }
 }
