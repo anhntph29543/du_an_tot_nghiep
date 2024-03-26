@@ -72,9 +72,11 @@
                 </thead>
             </table>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="huyDon()">Hủy đơn</button>
+                <button type="button" id="huyDon" class="btn btn-secondary" onclick="huyDon()">Hủy đơn</button>
                 <button type="button" id="btnXacNhan" class="btn btn-primary" onclick="xacNhan()">Xác nhận</button>
                 <button type="button" id="btnGiaoHang" class="btn btn-success" onclick="giaoHang()">Giao hàng</button>
+                <button type="button" id="btnGiaoHangTB" class="btn btn-warning" onclick="xnGiaoHang('thất bại')">Giao hàng thất bại</button>
+                <button type="button" id="btnGiaoHangTC" class="btn btn-success" onclick="xnGiaoHang('thành công')">Giao hàng thành công</button>
             </div>
         </div>
     </div>
