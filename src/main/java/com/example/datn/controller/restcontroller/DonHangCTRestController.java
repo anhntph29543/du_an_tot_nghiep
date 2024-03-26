@@ -93,16 +93,16 @@ public class DonHangCTRestController {
     }
 
     @GetMapping("/xacNhan/{loai}")
-    public ResponseEntity<Object> xacNhan(@PathVariable("loai") String loai,@RequestParam(value = "ghiChu",defaultValue = "") String ghiChu) {
+    public ResponseEntity<Object> xacNhan(@PathVariable("loai") String loai, @RequestParam(value = "ghiChu", defaultValue = "") String ghiChu) {
         DonHang dh = serviceDH.detail(idDHSelect);
         idDHSelect = null;
         if (dh.getTrangThaiDonHang().equalsIgnoreCase("chưa thanh toán") || dh.getTrangThaiDonHang().equalsIgnoreCase("đã thanh toán")) {
             ServiceResponse<String> response = new ServiceResponse<String>("success", "không áp dụng cho đơn tại quầy");
             return new ResponseEntity<Object>(response, HttpStatus.OK);
-        }else if(dh.getTrangThaiDonHang().equalsIgnoreCase("đã hủy")){
+        } else if (dh.getTrangThaiDonHang().equalsIgnoreCase("đã hủy")) {
             ServiceResponse<String> response = new ServiceResponse<String>("success", "đơn hàng đã hủy");
             return new ResponseEntity<Object>(response, HttpStatus.OK);
-        }else if(loai.equalsIgnoreCase("huyDon")){
+        } else if (loai.equalsIgnoreCase("huyDon")) {
             dh.setTrangThaiDonHang("đã hủy");
             dh.setGhiChu(ghiChu);
             serviceDH.save(dh);
@@ -116,28 +116,42 @@ public class DonHangCTRestController {
     }
 
     @GetMapping("/giaoHang/{loai}")
-    public ResponseEntity<Object> giaoHang(@PathVariable("loai") String loai,
-                                           @RequestParam(value = "ghiChu",defaultValue = "") String ghiChu,
-                                           @RequestParam(value = "phiVC",defaultValue = "0") Double phiVC) {
+    public ResponseEntity<Object> giaoHang(@RequestParam(value = "phiVC", defaultValue = "0") Double phiVC) {
         DonHang dh = serviceDH.detail(idDHSelect);
         idDHSelect = null;
         if (dh.getTrangThaiDonHang().equalsIgnoreCase("chưa thanh toán") || dh.getTrangThaiDonHang().equalsIgnoreCase("đã thanh toán")) {
             ServiceResponse<String> response = new ServiceResponse<String>("success", "không áp dụng cho đơn tại quầy");
             return new ResponseEntity<Object>(response, HttpStatus.OK);
-        }else if(dh.getTrangThaiDonHang().equalsIgnoreCase("đã hủy")){
+        } else if (dh.getTrangThaiDonHang().equalsIgnoreCase("đã hủy")) {
             ServiceResponse<String> response = new ServiceResponse<String>("success", "đơn hàng đã hủy");
-            return new ResponseEntity<Object>(response, HttpStatus.OK);
-        }else if(loai.equalsIgnoreCase("huyDon")){
-            dh.setTrangThaiDonHang("đã hủy");
-            dh.setGhiChu(ghiChu);
-            serviceDH.save(dh);
-            ServiceResponse<String> response = new ServiceResponse<String>("success", "hủy đơn hàng thành công");
             return new ResponseEntity<Object>(response, HttpStatus.OK);
         }
         dh.setTrangThaiDonHang("đang giao hàng");
         dh.setPhiVanChuyen(phiVC);
         serviceDH.save(dh);
         ServiceResponse<String> response = new ServiceResponse<String>("success", "đã giao cho đơn vị vận chuyển");
+        return new ResponseEntity<Object>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/xnGiaoHang/{loai}")
+    public ResponseEntity<Object> xnGiaoHang(@PathVariable("loai") String loai) {
+        DonHang dh = serviceDH.detail(idDHSelect);
+        idDHSelect = null;
+        if (dh.getTrangThaiDonHang().equalsIgnoreCase("chưa thanh toán") || dh.getTrangThaiDonHang().equalsIgnoreCase("đã thanh toán")) {
+            ServiceResponse<String> response = new ServiceResponse<String>("success", "không áp dụng cho đơn tại quầy");
+            return new ResponseEntity<Object>(response, HttpStatus.OK);
+        } else if (dh.getTrangThaiDonHang().equalsIgnoreCase("đã hủy")) {
+            ServiceResponse<String> response = new ServiceResponse<String>("success", "đơn hàng đã hủy");
+            return new ResponseEntity<Object>(response, HttpStatus.OK);
+        }
+        if (loai.equalsIgnoreCase("thất bại")) {
+            dh.setTrangThaiDonHang("đã hủy");
+            serviceDH.save(dh);
+        }else {
+            dh.setTrangThaiDonHang("thành công");
+            serviceDH.save(dh);
+        }
+        ServiceResponse<String> response = new ServiceResponse<String>("success", "xác nhận thành công");
         return new ResponseEntity<Object>(response, HttpStatus.OK);
     }
 

@@ -183,11 +183,23 @@
                 document.getElementById("trangThaiDH").innerHTML = data.trangThaiDonHang;
                 document.getElementById("ghiChu").value = data.ghiChu;
                 if (data.trangThaiDonHang.toString() == "chuẩn bị hàng") {
+                    document.getElementById("huyDon").style.display = "block";
                     document.getElementById("btnXacNhan").style.display = 'none';
                     document.getElementById("btnGiaoHang").style.display = "block";
+                    document.getElementById("btnGiaoHangTB").style.display = "none";
+                    document.getElementById("btnGiaoHangTC").style.display = "none";
+                } else if (data.trangThaiDonHang.toString() == "đang giao hàng") {
+                    document.getElementById("btnXacNhan").style.display = 'none';
+                    document.getElementById("huyDon").style.display = "none";
+                    document.getElementById("btnGiaoHang").style.display = "none";
+                    document.getElementById("btnGiaoHangTB").style.display = "block";
+                    document.getElementById("btnGiaoHangTC").style.display = "block";
                 } else {
+                    document.getElementById("huyDon").style.display = "block";
                     document.getElementById("btnGiaoHang").style.display = "none";
                     document.getElementById("btnXacNhan").style.display = 'block';
+                    document.getElementById("btnGiaoHangTB").style.display = "none";
+                    document.getElementById("btnGiaoHangTC").style.display = "none";
                 }
             })
     }
@@ -337,6 +349,43 @@
                 }
             });
         }
+    }
+
+    function xnGiaoHang(loaiXN) {
+        var ghiChu = document.getElementById("ghiChu").value;
+        var phiVC = document.getElementById("phiVanChuyen").value;
+        console.log("------------------------")
+        console.log(ghiChu)
+        Swal.fire({
+            title: "Bạn có chắc không?",
+            text: "Bạn có chắc chắn đơn hàng đã giao "+loaiXN+"?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            cancelButtonText: "Hủy",
+            confirmButtonText: "Đúng, tôi muốn xác nhận!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch('http://localhost:8080/DonHangCT/api/xnGiaoHang/'+loaiXN)
+                    .then(function (response) {
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.data)
+                        if (data.data == "xác nhận thành công") {
+                            Swal.fire({
+                                icon: "success",
+                                text: data.data,
+                                showConfirmButton: false,
+                                timer: 2500
+                            });
+                        }
+                        hienThiDH(loaiDon)
+                        $('#xacNhanModal').modal('hide');
+                    })
+            }
+        });
     }
 
     function hienThiDH(trangThai) {
