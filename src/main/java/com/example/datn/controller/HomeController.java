@@ -1,9 +1,11 @@
 package com.example.datn.controller;
 
 
+import com.example.datn.entity.KhachHang;
 import com.example.datn.entity.SanPham;
 import com.example.datn.entity.SanPhamCT;
 import com.example.datn.service.ChatLieuService;
+import com.example.datn.service.KhachHangService;
 import com.example.datn.service.KichCoService;
 import com.example.datn.service.MauSacService;
 import com.example.datn.service.SanPhamCTService;
@@ -45,6 +47,8 @@ public class HomeController {
     private DonHangService service;
     @Autowired
     private DonHangCTService donHangCTService;
+    @Autowired
+    private KhachHangService khachHangService;
 
     List<String> listHD=new ArrayList<>();
 
@@ -54,6 +58,7 @@ public class HomeController {
     }
     @PostMapping("/tao-hoa-don/add")
     public String taoHoaDon(Model model){
+        UUID idKH = UUID.fromString("F0971580-061F-4629-A4E0-573C79D0829B");
         DonHang donHang=new DonHang();
         donHang.setTongTien(Double.valueOf("0"));
         donHang.setTienKhachPhaiTra(Double.valueOf("0"));
@@ -64,7 +69,11 @@ public class HomeController {
         donHang.setPhiVanChuyen(Double.valueOf("0"));
         donHang.setLoaiDon("Đơn tại quầy");
         donHang.setHinhThucThanhToan(false);
-        donHang.setTrangThaiDonHang(false);
+        donHang.setTrangThaiDonHang("chưa thanh toán");
+        KhachHang kh = khachHangService.detail(idKH);
+        donHang.setKh(kh);
+        System.out.println("-----------------------");
+        System.out.println(kh.getTen());
         service.save(donHang);
         return  "redirect:/datn/ban-hang";
     }
@@ -96,7 +105,8 @@ public class HomeController {
     }
 
     @GetMapping("/don-hang")
-    public String donHang(){
+    public String getAll(Model model){
+        model.addAttribute("listDH",service.getAll());
         return "/viewQLDonHang/don-hang";
     }
 
@@ -162,8 +172,6 @@ public class HomeController {
     public String kichCo(){
         return "/viewQLSanPham/viewQLKichCo/kich-co";
     }
-
-
 
     @GetMapping("/anh")
     public String anh(){

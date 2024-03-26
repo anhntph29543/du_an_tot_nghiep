@@ -33,6 +33,9 @@ public class SanPhamServiceImpl implements SanPhamService {
 
     @Override
     public List<SanPham> search(String ten, UUID idTH) {
+        if (idTH==null){
+            return repository.searchTen("%"+ten+"%");
+        }
         return repository.search("%"+ten+"%", idTH);
     }
 

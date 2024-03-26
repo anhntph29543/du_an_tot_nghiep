@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -50,6 +51,12 @@ public class DonHangRestController {
         return new ResponseEntity<Object>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/getDonHang/trangThai/{trangThai}")
+    public ResponseEntity<Object> getDHTT(@PathVariable("trangThai") String trangThai) {
+        ServiceResponse<List<DonHang>> response = new ServiceResponse<List<DonHang>>("success", service.getDHTT(trangThai));
+        return new ResponseEntity<Object>(response, HttpStatus.OK);
+    }
+
 
     @PostMapping("/thanhToan1/{id}")
     public ResponseEntity<?> thanhToan1(@PathVariable("id") UUID id, @RequestBody DonHang dh1) {
@@ -57,7 +64,7 @@ public class DonHangRestController {
         dh.setTongTien(dh1.getTongTien());
 
         dh.setTienKhachDua(dh1.getTienKhachDua());
-        dh.setTrangThaiDonHang(true);
+        dh.setTrangThaiDonHang("đã thanh toán");
         return ResponseEntity.ok(service.save(dh));
     }
 
@@ -74,7 +81,7 @@ public class DonHangRestController {
         donHang.setPhiVanChuyen(Double.valueOf("0"));
         donHang.setLoaiDon("Đơn tại quầy");
         donHang.setHinhThucThanhToan(false);
-        donHang.setTrangThaiDonHang(false);
+        donHang.setTrangThaiDonHang("chưa thanh toán");
         return ResponseEntity.ok(service.save(donHang));
     }
 
