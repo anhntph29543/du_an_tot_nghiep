@@ -57,7 +57,7 @@ public class DonHangRestController {
 
         dh.setTongTien(dh1.getTongTien());
         dh.setTienKhachDua(dh1.getTienKhachDua());
-        dh.setTrangThaiDonHang(true);
+        dh.setTrangThaiDonHang("true");
         return ResponseEntity.ok(service.save(dh));
     }
 
@@ -74,7 +74,7 @@ public class DonHangRestController {
         donHang.setPhiVanChuyen(Double.valueOf("0"));
         donHang.setLoaiDon("Đơn tại quầy");
         donHang.setHinhThucThanhToan(false);
-        donHang.setTrangThaiDonHang(false);
+        donHang.setTrangThaiDonHang("chưa thanh toán ");
         return ResponseEntity.ok(service.save(donHang));
     }
 

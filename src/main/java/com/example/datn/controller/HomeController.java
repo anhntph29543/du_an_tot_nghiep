@@ -64,7 +64,7 @@ public class HomeController {
         donHang.setPhiVanChuyen(Double.valueOf("0"));
         donHang.setLoaiDon("Đơn tại quầy");
         donHang.setHinhThucThanhToan(false);
-        donHang.setTrangThaiDonHang(false);
+        donHang.setTrangThaiDonHang("chưa thanh toán ");
         service.save(donHang);
         return  "redirect:/datn/ban-hang";
     }

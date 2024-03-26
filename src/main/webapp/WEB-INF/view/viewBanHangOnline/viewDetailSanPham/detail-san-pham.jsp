@@ -246,6 +246,8 @@
 
     idSP='${idSP}'
 
+    idLogin = '${idLogin}'
+
     idMauSac =null
 
     idKichCo =null
@@ -622,25 +624,29 @@
     }
 
     function addSPCTVaoGioHang(){
-        if(idSPCTMua==null){
-            alert("Khách hàng chưa chọn sản phẩm ")
+        if(idGioHang==123){
+            alert("Khách hàng chưa đang nhập chưa thể thêm sản phẩm vào giỏ hàng")
         }else {
-            var ngayThem = new Date();
-            var gioHang={
-                id:idGioHang
-            };
-            var spct={
-                id:idSPCTMua
-            };
-            var formData = {
-                gioHangOnline: gioHang,
-                sanPhamCT: spct,
-                tenSPCT: tenSPCT,
-                soLuong: soLuongSPMua,
-                giaSanPham:giaSPCTMua,
-                ngayThem:ngayThem
-            };
-            addSPCTGH(formData)
+            if(idSPCTMua==null){
+                alert("Khách hàng chưa chọn sản phẩm ")
+            }else {
+                var ngayThem = new Date();
+                var gioHang={
+                    id:idGioHang
+                };
+                var spct={
+                    id:idSPCTMua
+                };
+                var formData = {
+                    gioHangOnline: gioHang,
+                    sanPhamCT: spct,
+                    tenSPCT: tenSPCT,
+                    soLuong: soLuongSPMua,
+                    giaSanPham:giaSPCTMua,
+                    ngayThem:ngayThem
+                };
+                addSPCTGH(formData)
+            }
         }
 
     }
