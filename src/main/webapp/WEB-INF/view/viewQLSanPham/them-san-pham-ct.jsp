@@ -236,6 +236,10 @@
                             <form:input class="form-control" path="soLuong"/>
                             <div class="form-text"><form:errors path="soLuong"/></div>
                         </div>
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="inputGroupFile01">Ảnh</label>
+                            <input class="form-control" id="inputGroupFile01" type="file" name="photo" accept="image/gif, image/png, image/jpeg"/>
+                        </div>
                         <div class="mb-3 form-check">
                             <form:checkbox class="form-check-input" id="exampleCheck1" path="trangThai" checked="true"/>
                             <label class="form-check-label" for="exampleCheck1">Hoạt động</label>

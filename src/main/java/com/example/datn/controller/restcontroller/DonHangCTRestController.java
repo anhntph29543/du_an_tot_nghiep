@@ -6,11 +6,13 @@ import com.example.datn.entity.ChatLieu;
 import com.example.datn.entity.DonHang;
 import com.example.datn.entity.DonHangCT;
 import com.example.datn.entity.DonHangCTAnh;
+import com.example.datn.entity.KhachHang;
 import com.example.datn.entity.SanPhamCT;
 import com.example.datn.entity.SanPhanCTTuan;
 import com.example.datn.entity.ServiceResponse;
 import com.example.datn.service.AnhTuanService;
 import com.example.datn.service.DonHangCTService;
+import com.example.datn.service.DonHangService;
 import com.example.datn.service.SanPhamCTService;
 import com.example.datn.service.SanPhamCTTuanService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,9 @@ public class DonHangCTRestController {
     private DonHangCTService service;
 
     @Autowired
+    private DonHangService serviceDH;
+
+    @Autowired
     private AnhTuanService serviceAnh;
 
     @Autowired
@@ -47,11 +52,11 @@ public class DonHangCTRestController {
     @Autowired
     private SanPhamCTService serviceSPCTMoi;
 
+    private UUID idDHSelect;
+
     @GetMapping()
     public ResponseEntity<?> getAll() {
-
         return ResponseEntity.ok(service.getAll());
-
     }
 
     @GetMapping("/{id}")
@@ -59,7 +64,6 @@ public class DonHangCTRestController {
         List<DonHangCT> donHangCTS = service.getAll();
         List<AnhTuan> listAnh = serviceAnh.getAll();
         List<DonHangCTAnh> listDonHangCT = new ArrayList<>();
-
         for (DonHangCT donHangCT : donHangCTS) {
             DonHangCTAnh donHangCTAnh = new DonHangCTAnh();
             if (donHangCT.getDonHang().getId().equals(id)) {
@@ -84,7 +88,57 @@ public class DonHangCTRestController {
                 }
             }
         }
+        idDHSelect = id;
         return ResponseEntity.ok(listDonHangCT);
+    }
+
+    @GetMapping("/xacNhan/{loai}")
+    public ResponseEntity<Object> xacNhan(@PathVariable("loai") String loai,@RequestParam(value = "ghiChu",defaultValue = "") String ghiChu) {
+        DonHang dh = serviceDH.detail(idDHSelect);
+        idDHSelect = null;
+        if (dh.getTrangThaiDonHang().equalsIgnoreCase("chưa thanh toán") || dh.getTrangThaiDonHang().equalsIgnoreCase("đã thanh toán")) {
+            ServiceResponse<String> response = new ServiceResponse<String>("success", "không áp dụng cho đơn tại quầy");
+            return new ResponseEntity<Object>(response, HttpStatus.OK);
+        }else if(dh.getTrangThaiDonHang().equalsIgnoreCase("đã hủy")){
+            ServiceResponse<String> response = new ServiceResponse<String>("success", "đơn hàng đã hủy");
+            return new ResponseEntity<Object>(response, HttpStatus.OK);
+        }else if(loai.equalsIgnoreCase("huyDon")){
+            dh.setTrangThaiDonHang("đã hủy");
+            dh.setGhiChu(ghiChu);
+            serviceDH.save(dh);
+            ServiceResponse<String> response = new ServiceResponse<String>("success", "hủy đơn hàng thành công");
+            return new ResponseEntity<Object>(response, HttpStatus.OK);
+        }
+        dh.setTrangThaiDonHang("chuẩn bị hàng");
+        serviceDH.save(dh);
+        ServiceResponse<String> response = new ServiceResponse<String>("success", "xác nhận thành công");
+        return new ResponseEntity<Object>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/giaoHang/{loai}")
+    public ResponseEntity<Object> giaoHang(@PathVariable("loai") String loai,
+                                           @RequestParam(value = "ghiChu",defaultValue = "") String ghiChu,
+                                           @RequestParam(value = "phiVC",defaultValue = "0") Double phiVC) {
+        DonHang dh = serviceDH.detail(idDHSelect);
+        idDHSelect = null;
+        if (dh.getTrangThaiDonHang().equalsIgnoreCase("chưa thanh toán") || dh.getTrangThaiDonHang().equalsIgnoreCase("đã thanh toán")) {
+            ServiceResponse<String> response = new ServiceResponse<String>("success", "không áp dụng cho đơn tại quầy");
+            return new ResponseEntity<Object>(response, HttpStatus.OK);
+        }else if(dh.getTrangThaiDonHang().equalsIgnoreCase("đã hủy")){
+            ServiceResponse<String> response = new ServiceResponse<String>("success", "đơn hàng đã hủy");
+            return new ResponseEntity<Object>(response, HttpStatus.OK);
+        }else if(loai.equalsIgnoreCase("huyDon")){
+            dh.setTrangThaiDonHang("đã hủy");
+            dh.setGhiChu(ghiChu);
+            serviceDH.save(dh);
+            ServiceResponse<String> response = new ServiceResponse<String>("success", "hủy đơn hàng thành công");
+            return new ResponseEntity<Object>(response, HttpStatus.OK);
+        }
+        dh.setTrangThaiDonHang("đang giao hàng");
+        dh.setPhiVanChuyen(phiVC);
+        serviceDH.save(dh);
+        ServiceResponse<String> response = new ServiceResponse<String>("success", "đã giao cho đơn vị vận chuyển");
+        return new ResponseEntity<Object>(response, HttpStatus.OK);
     }
 
     @GetMapping("/phantrang")
@@ -110,6 +164,11 @@ public class DonHangCTRestController {
         return ResponseEntity.ok(service.detail(id));
     }
 
+    @GetMapping("/detailSPCT/{id}")
+    public ResponseEntity<?> detailSPCT(@PathVariable("id") UUID id) {
+        return ResponseEntity.ok(serviceSPCTMoi.detail(service.detail(id).getSanPhanCT().getId()));
+    }
+
     @PostMapping("/add")
     public ResponseEntity<?> add(@RequestBody DonHangCT donHangCT) {
         return ResponseEntity.ok(service.save(donHangCT));
@@ -124,31 +183,31 @@ public class DonHangCTRestController {
 //    }
 
     @PutMapping("/update")
-    public ResponseEntity<Object> update(@RequestBody DonHangCT donHangCT){
-        DonHangCT dhctCu= service.detail(donHangCT.getId());
-        SanPhamCT spct= serviceSPCTMoi.detail(dhctCu.getSanPhanCT().getId());
-        if (dhctCu.getSoLuong() == donHangCT.getSoLuong()){
-            ServiceResponse<DonHangCT> response = new ServiceResponse<DonHangCT>("success",dhctCu);
+    public ResponseEntity<Object> update(@RequestBody DonHangCT donHangCT) {
+        DonHangCT dhctCu = service.detail(donHangCT.getId());
+        SanPhamCT spct = serviceSPCTMoi.detail(dhctCu.getSanPhanCT().getId());
+        if (dhctCu.getSoLuong() == donHangCT.getSoLuong()) {
+            ServiceResponse<DonHangCT> response = new ServiceResponse<DonHangCT>("success", dhctCu);
             return new ResponseEntity<Object>(response, HttpStatus.OK);
         }
         if ((spct.getSoLuong() + dhctCu.getSoLuong()) - donHangCT.getSoLuong() >= 0) {
             if (dhctCu.getSoLuong() < donHangCT.getSoLuong() || dhctCu.getSoLuong() > donHangCT.getSoLuong()) {
                 spct.setSoLuong((spct.getSoLuong() + dhctCu.getSoLuong()) - donHangCT.getSoLuong());
-                dhctCu.setSoLuong(donHangCT.getSoLuong()-1);
+                dhctCu.setSoLuong(donHangCT.getSoLuong() - 1);
                 service.save(dhctCu);
                 serviceSPCTMoi.save(spct);
-                ServiceResponse<DonHangCT> response = new ServiceResponse<DonHangCT>("success",dhctCu);
+                ServiceResponse<DonHangCT> response = new ServiceResponse<DonHangCT>("success", dhctCu);
                 return new ResponseEntity<Object>(response, HttpStatus.OK);
             }
         }
-        ServiceResponse<DonHangCT> response = new ServiceResponse<DonHangCT>("error",dhctCu);
+        ServiceResponse<DonHangCT> response = new ServiceResponse<DonHangCT>("error", dhctCu);
         return new ResponseEntity<Object>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") UUID id) {
         DonHangCT donHangCT = service.detail(id);
-        SanPhamCT spct= serviceSPCTMoi.detail(donHangCT.getSanPhanCT().getId());
+        SanPhamCT spct = serviceSPCTMoi.detail(donHangCT.getSanPhanCT().getId());
         spct.setSoLuong(spct.getSoLuong() + donHangCT.getSoLuong());
         serviceSPCTMoi.save(spct);
 //        int soLuongXoa = donHangCT.getSoLuong();
