@@ -2,7 +2,7 @@ package com.example.datn.service;
 
 import com.example.datn.entity.DonHang;
 import com.example.datn.entity.SanPhamCT;
-import com.example.datn.entity.SanPhanCTTuan;
+import com.example.datn.entity.SanPhamCTTuan;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public interface DonHangService {
 
     List<DonHang> search(String loai,String trangThai);
 
-    List<SanPhanCTTuan> getSPCT(UUID idDH);
+    List<SanPhamCTTuan> getSPCT(UUID idDH);
 
     Page<DonHang> getData(int page);
 

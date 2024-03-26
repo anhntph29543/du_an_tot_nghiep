@@ -1,7 +1,7 @@
 package com.example.datn.repository;
 
 import com.example.datn.entity.DonHangCT;
-import com.example.datn.entity.SanPhanCTTuan;
+import com.example.datn.entity.SanPhamCTTuan;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -16,6 +16,6 @@ public interface DonHangCTRepo extends JpaRepository<DonHangCT, UUID> {
     List<DonHangCT> getDHCT(UUID idDH);
 
     @Query("select dhct.sanPhanCT from DonHangCT dhct where dhct.donHang.id=?1")
-    List<SanPhanCTTuan> getSPCT(UUID idDH);
+    List<SanPhamCTTuan> getSPCT(UUID idDH);
 
 }

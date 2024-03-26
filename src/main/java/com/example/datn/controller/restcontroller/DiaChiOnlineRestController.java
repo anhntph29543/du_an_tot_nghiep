@@ -3,8 +3,10 @@ package com.example.datn.controller.restcontroller;
 
 import com.example.datn.entity.ChatLieu;
 import com.example.datn.entity.DiaChiOnline;
+import com.example.datn.entity.KhachHangOnline;
 import com.example.datn.entity.ServiceResponse;
 import com.example.datn.service.DiaChiOnlineService;
+import com.example.datn.service.KhachHangOnlineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +30,25 @@ public class DiaChiOnlineRestController {
     @Autowired
     private DiaChiOnlineService diaChiOnlineService;
 
+    @Autowired
+    private KhachHangOnlineService khachHangOnlineService;
+
     @GetMapping()
     public ResponseEntity<?> getAll(){
         return ResponseEntity.ok(diaChiOnlineService.getAll());
+    }
+
+    @GetMapping("/dia-chi-mac-dinh/{idKhachHang}")
+    public ResponseEntity<?> getDiaChiMD(@PathVariable("idKhachHang") UUID idKhachHang){
+        KhachHangOnline khachHangOnline=khachHangOnlineService.detail(idKhachHang);
+        DiaChiOnline diaChiMacDinh=new DiaChiOnline();
+        List<DiaChiOnline> listAllDiaChi=diaChiOnlineService.getAll();
+        for (DiaChiOnline diaChiOnline:listAllDiaChi) {
+            if(diaChiOnline.getKhachHangOnline().getId().equals(khachHangOnline.getId())&&diaChiOnline.getTrangThai().equals(true)){
+                diaChiMacDinh=diaChiOnline;
+            }
+        }
+        return ResponseEntity.ok(diaChiMacDinh);
     }
 
     @GetMapping("/detail/{id}")

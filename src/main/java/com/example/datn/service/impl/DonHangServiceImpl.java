@@ -2,7 +2,7 @@ package com.example.datn.service.impl;
 
 import com.example.datn.entity.DonHang;
 import com.example.datn.entity.SanPhamCT;
-import com.example.datn.entity.SanPhanCTTuan;
+import com.example.datn.entity.SanPhamCTTuan;
 import com.example.datn.repository.DonHangCTRepo;
 import com.example.datn.repository.DonHangRepository;
 import com.example.datn.service.DonHangService;
@@ -64,7 +64,7 @@ public class DonHangServiceImpl implements DonHangService {
     }
 
     @Override
-    public List<SanPhanCTTuan> getSPCT(UUID idDH) {
+    public List<SanPhamCTTuan> getSPCT(UUID idDH) {
         return donHangCTRepo.getSPCT(idDH);
 
     }

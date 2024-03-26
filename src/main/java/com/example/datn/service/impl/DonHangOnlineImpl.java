@@ -38,10 +38,10 @@ public class DonHangOnlineImpl implements DonHangOnlineService {
     }
 
     @Override
-    public Boolean save(DonHangOnilne donHangOnilne) {
-//        if (donHangOnilne.getMa()==null){
-//            donHangOnilne.setMa(tuTaoMa());
-//        }
+    public DonHangOnilne save(DonHangOnilne donHangOnilne) {
+        if (donHangOnilne.getMa()==null){
+            donHangOnilne.setMa(tuTaoMa());
+        }
         if (donHangOnilne.getNgayTao()==null){
             donHangOnilne.setNgayTao(new java.util.Date());
         }
@@ -49,8 +49,8 @@ public class DonHangOnlineImpl implements DonHangOnlineService {
             donHangOnilne.setNgayThanhToan(new java.util.Date());
         }
 
-        donHangOnlineRepo.save(donHangOnilne);
-        return true;
+
+        return donHangOnlineRepo.save(donHangOnilne);
     }
 
     @Override

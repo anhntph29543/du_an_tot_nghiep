@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Dia_Chi")
+@Table(name = "Don_Hang")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -35,16 +35,17 @@ public class DonHangOnilne {
     private String ma;
 
     @ManyToOne
-    @JoinColumn(name = "ID_DIaChi" , referencedColumnName = "ID_DIaChi")
+    @JoinColumn(name = "ID_NhanVien" , referencedColumnName = "ID_NhanVien")
+    private NhanVien nhanVien;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_DiaChi" , referencedColumnName = "ID_DiaChi")
     private DiaChiOnline diaChiOnline;
+
 
     @ManyToOne
     @JoinColumn(name = "ID_KhachHang" , referencedColumnName = "ID_KhachHang")
     private KhachHangOnline khachHangOnline;
-
-    @ManyToOne
-    @JoinColumn(name = "ID_NhanVien" , referencedColumnName = "ID_NhanVien")
-    private NhanVien nhanVien;
 
     @Column(name = "loaiDon")
     private String loaiDon;
@@ -78,4 +79,7 @@ public class DonHangOnilne {
 
     @Column(name = "trangThaiDonHang")
     private String trangThaiDonHang;
+
+    @Column(name = "ghiChu")
+    private String ghiChu;
 }

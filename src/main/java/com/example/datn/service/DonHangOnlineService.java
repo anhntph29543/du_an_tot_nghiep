@@ -15,7 +15,7 @@ public interface DonHangOnlineService {
 
     DonHangOnilne detail(UUID id);
 
-    Boolean save(DonHangOnilne donHangOnilne);
+    DonHangOnilne save(DonHangOnilne donHangOnilne);
 
     String tuTaoMa();
 
