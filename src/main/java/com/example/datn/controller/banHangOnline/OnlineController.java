@@ -42,6 +42,7 @@ public class OnlineController {
 
     private String idKhacHang="123";
 
+
     private String name="Tuansiretert";
 
     @GetMapping("/trang-chu")
@@ -126,6 +127,7 @@ public class OnlineController {
         model.addAttribute("idLogin",idLogin);
         model.addAttribute("idGioHang",idGioHang);
         model.addAttribute("idKhachHang",idKhacHang);
+
 
         return "/viewBanHangOnline/viewThanhToan/thanhToan";
 

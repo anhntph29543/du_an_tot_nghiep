@@ -167,7 +167,7 @@
                                             <button type="button" class="btn btn-outline-dark" onclick="chonDiaChiMuaHang()">
                                                 Chọn
                                             </button>
-                                            <button type="button" class="btn btn-dark" onclick="diaChiMacDinh()">
+                                            <button type="button" class="btn btn-dark" onclick="updataDiaChiMacDinh()">
                                                 Chọn mặc định
                                             </button>
                                         </div>
@@ -325,6 +325,10 @@
     var tongTien = 0
 
     sanPhamCTTrongGioHang()
+
+    apiTinh()
+    apiTinh1()
+
 
     function gioHangOnline() {
 
@@ -612,6 +616,34 @@
             });
     }
 
+    function diaChiMacDinh(){
+        fetch('http://localhost:8080/DiaChi/api/dia-chi-mac-dinh/' + idKhachHang)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(data => {
+
+                document.getElementById("hoTenKH").value = data.hoTen;
+                document.getElementById("diaChi").value = data.diaChi;
+                document.getElementById("soDienThoai").value = data.sdt;
+                document.getElementById("email").value = data.email;
+                document.getElementById("ghiChu").value = data.ghiChu;
+                document.getElementById("province").options.namedItem(data.tinhThanhPho).selected = true;
+                var huyen = "<option value='" + data.huyen + "' id='" + data.huyen + "'>" + data.huyen + "</option>"
+                ;
+                document.getElementById("district").innerHTML = huyen;
+                var xa = "<option value='" + data.phuong + "' id='" + data.phuong + "'>" + data.phuong + "</option>"
+                ;
+                document.getElementById("ward").innerHTML = xa;
+
+
+            })
+
+            .catch(function (err) {
+                alert("Lõi" + err);
+            });
+    }
+
     function chonDiaChiMuaHang() {
         fetch('http://localhost:8080/DiaChi/api/detail/' + idDC)
             .then(function (response) {
@@ -693,7 +725,7 @@
             });
     }
 
-    function diaChiMacDinh() {
+    function updataDiaChiMacDinh() {
 
         let options = {
             method: "PUT",
@@ -723,8 +755,6 @@
     tinhChon = null
     huyenChon = null
     xaChon = null
-    apiTinh()
-    apiTinh1()
 
 
     function apiTinh() {
@@ -1076,9 +1106,9 @@
             if (result.isConfirmed) {
                 themDonHangOnline()
 
-                Swal.fire("Thanh toán thành công ", "", "success");
+
             } else if (result.isDenied) {
-                Swal.fire("Changes are not saved", "", "info");
+
             }
         });
     }
@@ -1112,11 +1142,58 @@
         }
         fetch('http://localhost:8080/DonHangOnline/api/tao-don-hang-online-moi', options)
             .then(function (response) {
+                 return response.json();
+
+
+            })
+            .then(data =>{
+                addSPGHVaoDonHangCT(data)
+                Swal.fire("Thanh toán thành công ", "", "success");
+            })
+    }
+
+    function addSPGHVaoDonHangCT(data){
+        let options = {
+            method: "POST",
+            dataType: "json",
+            headers: {
+                'Accept': 'application/json, text/plain',
+                'Content-Type': 'application/json;charset=UTF-8'
+            },
+            body: JSON.stringify(data)
+        }
+        fetch('http://localhost:8080/DonHangCTOnline/api/add-san-pham-dhct/'+idGioHang, options)
+            .then(function (response) {
                 response.json();
-                alert("Them thanh cong");
+                xoaAllSanPhamGioHang()
 
             })
     }
+
+    function xoaAllSanPhamGioHang(){
+
+
+        let options = {
+            method: "DELETE"
+        }
+        fetch('http://localhost:8080/DonHangCTOnline/api/xoa-san-pham-gio-hang/'+idGioHang, options)
+            .then(function (response) {
+                response.json();
+
+                setTimeout(traCuuHoaDon,4000)
+            })
+
+
+            .catch(function (err) {
+                alert("Lõi");
+            });
+    }
+
+    function traCuuHoaDon(){
+        location.assign("http://localhost:8080/ban-hang-online/datn/tra-cuu-don-hang")
+    }
+
+    setTimeout(diaChiMacDinh,2000)
 </script>
 
 </body>

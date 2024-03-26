@@ -58,7 +58,7 @@ public class HomeController {
     }
     @PostMapping("/tao-hoa-don/add")
     public String taoHoaDon(Model model){
-        UUID idKH = UUID.fromString("F0971580-061F-4629-A4E0-573C79D0829B");
+        UUID idKH = UUID.fromString("127DC100-1761-4B01-AAE3-CA005E215D7D");
         DonHang donHang=new DonHang();
         donHang.setTongTien(Double.valueOf("0"));
         donHang.setTienKhachPhaiTra(Double.valueOf("0"));
